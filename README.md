@@ -64,7 +64,12 @@
 
 > Activate the new environment and install the following required Python packages: 
 ```
->> conda install numpy scipy matplotlib pandas jupyter seaborn pymc3 arviz 
+>> conda install numpy scipy matplotlib pandas jupyter seaborn pymc3
+```
+
+> Install the Arviz library:
+```
+>> conda install -c conda-forge arviz
 ```
 
 ### Run Jupyter Notebook
