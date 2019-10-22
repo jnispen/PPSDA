@@ -3,10 +3,6 @@
 >
 > To use the software, first setup your system by creating a virtual Python environment containing the required packages.
 
-# System Setup on Linux/Windows
-
-> The setup instructions have been tested on Ubuntu 18.04 LTS and Windows 10.
-
 ## 1. Linux System Setup (Ubuntu 18.04)
 
 ### Install virtualenv
