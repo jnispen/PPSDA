@@ -2,13 +2,12 @@
 > This repository contains IPython notebooks for probabilistic modeling of vibrational spectroscopic datasets. All models have been implemented using the Python probabilistic programming library PyMC3.
 >
 > To use the software, first setup your system by creating a virtual Python environment containing the required packages.
->
 
-## System Setup on Linux/Windows
+# System Setup on Linux/Windows
 
 > The setup instructions have been tested on Ubuntu 18.04 LTS and Windows 10.
 
-## 1. Linux system setup (Ubuntu 18.04)
+## 1. Linux System Setup (Ubuntu 18.04)
 
 ### Install virtualenv
 
@@ -48,7 +47,7 @@
 >> jupyter notebook
 ```
 
-## 2. Windows system setup (Windows 10)
+## 2. Windows System Setup (Windows 10)
 
 ### Install Miniconda
 
