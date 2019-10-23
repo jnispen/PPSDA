@@ -29,7 +29,7 @@
 
 ### Install required Python packages
 
-> Activate and cd into the created virtual environment. Install the following required Python packages:
+> Activate and cd into the created virtual environment. Install the following Python packages:
 ```
 >> pip install numpy scipy matplotlib pandas jupyter seaborn pymc3 arviz
 ```
@@ -62,7 +62,7 @@
 
 ### Install required Python packages
 
-> Activate the new environment and install the following required Python packages: 
+> Activate the new environment and install the following Python packages: 
 ```
 >> conda install numpy scipy matplotlib pandas jupyter seaborn pymc3
 ```
