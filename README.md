@@ -67,9 +67,9 @@
 >> conda install numpy scipy matplotlib pandas jupyter seaborn pymc3
 ```
 
-> Install the Arviz library:
+> Install the arviz and graphviz libraries:
 ```
->> conda install -c conda-forge arviz
+>> conda install -c conda-forge arviz python-graphviz
 ```
 
 ### Run Jupyter Notebook
