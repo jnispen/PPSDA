@@ -22,14 +22,14 @@
 >> source PPSDA/bin/activate
 ```
 
-> To deactivate the virtual environment, run:
+> To deactivate the virtual environment:
 ```
 >> deactivate
 ```
 
 ### Install required Python packages
 
-> cd into the created virtual environment and install the following required Python packages:
+> Activate and cd into the created virtual environment. Install the following required Python packages:
 ```
 >> pip install numpy scipy matplotlib pandas jupyter seaborn pymc3 arviz
 ```
@@ -55,7 +55,7 @@
 >> conda activate PPSDA
 ```
 
-> To exit the new environment type:
+> To exit the new environment enter:
 ```
 >> conda deactivate
 ```
