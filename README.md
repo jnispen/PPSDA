@@ -31,7 +31,7 @@
 
 > Activate and cd into the created virtual environment. Install the following Python packages:
 ```
->> pip install numpy scipy matplotlib pandas jupyter seaborn pymc3 arviz
+>> pip install numpy scipy matplotlib pandas jupyter seaborn pymc3 arviz graphviz
 ```
 
 ### Run Jupyter Notebook
