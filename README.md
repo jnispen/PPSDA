@@ -1,4 +1,4 @@
-# Probabilistic Programming for Spectroscopic Data Analysis (PPSDA)
+# Probabilistic Programming for Spectroscopic Data Analysis
 > This repository contains IPython notebooks for probabilistic modeling of vibrational spectroscopic datasets. All models have been implemented using the Python probabilistic programming library PyMC3. To use the software, first setup your system by creating a virtual environment containing the required Python packages.
 
 # System preparation
