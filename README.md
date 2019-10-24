@@ -43,7 +43,7 @@
 >> jupyter notebook
 ```
 
-## 2. Windows System Setup (Windows 10)
+## 2. Windows System Setup (Windows 7/10)
 
 ### Install Miniconda
 
