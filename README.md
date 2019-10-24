@@ -1,6 +1,8 @@
 # Probabilistic Programming for Spectroscopic Data Analysis (PPSDA)
 > This repository contains IPython notebooks for probabilistic modeling of vibrational spectroscopic datasets. All models have been implemented using the Python probabilistic programming library PyMC3. To use the software, first setup your system by creating a virtual environment containing the required Python packages.
 
+## System preparation
+
 ## 1. Linux System Setup (Ubuntu 18.04)
 
 ### Install virtualenv
@@ -78,4 +80,9 @@
 ```
 >> jupyter notebook
 ```
+
+## Dataset Sources
+
+### Coffee
+> The coffees dataset contains 56 FTIR samples of two coffee species (Arabica and Robusta, resp. 29 and 27 of each). The spectra were truncated to 800-2000 cm<sup>-1</sup>. The dataset was obtained from: [https://csr.quadram.ac.uk/example-datasets-for-download/](https://csr.quadram.ac.uk/example-datasets-for-download/)
 
