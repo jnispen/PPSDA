@@ -33,8 +33,7 @@
 
 > Activate and cd into the created virtual environment. Install the following Python packages:
 ```
->> pip install --upgrade numpy scipy scikit-learn matplotlib pandas
-jupyter seaborn pymc3 arviz graphviz
+>> pip install --upgrade numpy scipy scikit-learn matplotlib pandas jupyter seaborn pymc3 arviz graphviz
 ```
 
 ### Run Jupyter Notebook
@@ -67,8 +66,7 @@ jupyter seaborn pymc3 arviz graphviz
 
 > Activate the new environment and install the following Python packages: 
 ```
->> conda install numpy scipy scikit-learn matplotlib pandas jupyter
-   seaborn pymc3
+>> conda install numpy scipy scikit-learn matplotlib pandas jupyter seaborn pymc3
 ```
 
 > Install the arviz and graphviz libraries:
