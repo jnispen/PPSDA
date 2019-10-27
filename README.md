@@ -33,7 +33,8 @@
 
 > Activate and cd into the created virtual environment. Install the following Python packages:
 ```
->> pip install numpy scipy matplotlib pandas jupyter seaborn pymc3 arviz graphviz
+>> pip install --upgrade numpy scipy scikit-learn matplotlib pandas
+jupyter seaborn pymc3 arviz graphviz
 ```
 
 ### Run Jupyter Notebook
@@ -66,7 +67,8 @@
 
 > Activate the new environment and install the following Python packages: 
 ```
->> conda install numpy scipy matplotlib pandas jupyter seaborn pymc3
+>> conda install numpy scipy scikit-learn matplotlib pandas jupyter
+   seaborn pymc3
 ```
 
 > Install the arviz and graphviz libraries:
@@ -84,11 +86,11 @@
 # Datasets
 
 ## Coffees
-> The coffees dataset contains 56 FTIR samples of two coffee species, Arabica and Robusta. The spectra were truncated to 800-2000 cm<sup>-1</sup>. The dataset was obtained from: [https://csr.quadram.ac.uk/example-datasets-for-download/](https://csr.quadram.ac.uk/example-datasets-for-download/)
+> The coffees dataset contains 56 FTIR samples of two coffee species, Arabica (29) and Robusta (27). The spectra were truncated to 800-2000 cm<sup>-1</sup>. The dataset was obtained from: [https://csr.quadram.ac.uk/example-datasets-for-download/](https://csr.quadram.ac.uk/example-datasets-for-download/)
 
 ## Olive Oils
-> The olive oils dataset contains 120 FTIR samples originating from four different countries (Greece, Italy, Portugal and Spain) corresponding to four different classes. The spectra were truncated to 799-1897 cm<sup>-1</sup>. The dataset was obtained from: [https://csr.quadram.ac.uk/example-datasets-for-download/](https://csr.quadram.ac.uk/example-datasets-for-download/)
+> The olive oils dataset contains 120 FTIR samples originating from Spain (50), Italy (34), Greece (20) and Portugal (16), corresponding to four different classes. The spectra were truncated to 799-1897 cm<sup>-1</sup>. The dataset was obtained from: [https://csr.quadram.ac.uk/example-datasets-for-download/](https://csr.quadram.ac.uk/example-datasets-for-download/)
 
 ## Juices
-> This dataset contains 983 FTIR samples originating from two classes of fresh fruit juices, strawberry and non-strawberry. The spectra were truncated to 899-1802 cm<sup>-1</sup>. The dataset was obtained from: [https://csr.quadram.ac.uk/example-datasets-for-download/](https://csr.quadram.ac.uk/example-datasets-for-download/)
+> This dataset contains 983 FTIR samples originating from two classes of fresh fruit juices, non-strawberry (632) and strawberry (351). The spectra were truncated to 899-1802 cm<sup>-1</sup>. The dataset was obtained from: [https://csr.quadram.ac.uk/example-datasets-for-download/](https://csr.quadram.ac.uk/example-datasets-for-download/)
 >
