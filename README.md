@@ -87,7 +87,7 @@
 > The coffees dataset contains 56 FTIR samples of two coffee species, Arabica (29) and Robusta (27). The spectra were truncated to 800-2000 cm<sup>-1</sup>. The dataset was obtained from: [https://csr.quadram.ac.uk/example-datasets-for-download/](https://csr.quadram.ac.uk/example-datasets-for-download/)
 
 ## Juices
-> This dataset contains 983 FTIR samples originating from two classes of fresh fruit juices, non-strawberry (632) and strawberry (351). The spectra were truncated to 899-1802 cm<sup>-1</sup>. The dataset was obtained from: [https://csr.quadram.ac.uk/example-datasets-for-download/](https://csr.quadram.ac.uk/example-datasets-for-download/)
+> The juices dataset contains 983 FTIR samples originating from two classes of fresh fruit juices, non-strawberry (632) and strawberry (351). The spectra were truncated to 899-1802 cm<sup>-1</sup>. The dataset was obtained from: [https://csr.quadram.ac.uk/example-datasets-for-download/](https://csr.quadram.ac.uk/example-datasets-for-download/)
 
 ## Olive Oils
 > The olive oils dataset contains 120 FTIR samples originating from Spain (50), Italy (34), Greece (20) and Portugal (16), corresponding to four different classes. The spectra were truncated to 799-1897 cm<sup>-1</sup>. The dataset was obtained from: [https://csr.quadram.ac.uk/example-datasets-for-download/](https://csr.quadram.ac.uk/example-datasets-for-download/)
