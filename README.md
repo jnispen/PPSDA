@@ -91,3 +91,7 @@
 
 ## Olive Oils
 > The olive oils dataset contains 120 FTIR samples originating from Spain (50), Italy (34), Greece (20) and Portugal (16), corresponding to four different classes. The spectra were truncated to 799-1897 cm<sup>-1</sup>. The dataset was obtained from: [https://csr.quadram.ac.uk/example-datasets-for-download/](https://csr.quadram.ac.uk/example-datasets-for-download/)
+
+## Wines
+> The wines dataset contains 44 FTIR samples originating from wines produced from the same grape (100% Cabernet Sauvignon), but harvested in different geographical areas, Chile (15), Australia (12), South Africa (11) and Argentina (6). The dataset was obtained from: [http://www.models.life.ku.dk/Wine_GCMS_FTIR](http://www.models.life.ku.dk/Wine_GCMS_FTIR)
+>
