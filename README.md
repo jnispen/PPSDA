@@ -7,38 +7,38 @@ This repository contains Jupyter notebooks for probabilistic modeling of vibrati
 
 ### Install virtualenv
 
-> To avoid messing up your existing Python installation, first install virtualenv [(https://virtualenv.pypa.io/en/stable)](https://virtualenv.pypa.io/en/stable/):
->
+To avoid messing up your existing Python installation, first install virtualenv [(https://virtualenv.pypa.io/en/stable)](https://virtualenv.pypa.io/en/stable/):
+
 ```
 >> pip install virtualenv
 ```
 
-> Once installed, create a new virtual enviroment by running the command:
+Once installed, create a new virtual enviroment by running the command:
 
 ```
 >> virtualenv PPSDA
 ```
 
-> You can activate the virtual environment by running:
+You can activate the virtual environment by running:
 ```
 >> source PPSDA/bin/activate
 ```
 
-> To deactivate the virtual environment:
+To deactivate the virtual environment:
 ```
 >> deactivate
 ```
 
 ### Install required Python packages
 
-> Activate and cd into the created virtual environment. Install the following Python packages:
+Activate and cd into the created virtual environment. Install the following Python packages:
 ```
 >> pip install --upgrade numpy scipy scikit-learn matplotlib pandas jupyter seaborn pymc3 arviz graphviz
 ```
 
 ### Run Jupyter Notebook
 
-> To run and experiment with the models, start a Jupyter Notebook server and open the .ipynb files containing the models inside the PPSDA/code/ directories:
+To run and experiment with the models, start a Jupyter Notebook server and open the .ipynb files containing the models inside the PPSDA/code/ directories:
 ```
 >> jupyter notebook
 ```
@@ -47,36 +47,36 @@ This repository contains Jupyter notebooks for probabilistic modeling of vibrati
 
 ### Install Miniconda
 
-> For Windows it is advised to first install the Miniconda environment ([https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html)). After Miniconda installation, open a shell and create a new environment:
+For Windows it is advised to first install the Miniconda environment ([https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html)). After Miniconda installation, open a shell and create a new environment:
 ```
 >> conda create --name PPSDA
 ```
 
-> Enter the new environment by running:
+Enter the new environment by running:
 ```
 >> conda activate PPSDA
 ```
 
-> To exit the new environment enter:
+To exit the new environment enter:
 ```
 >> conda deactivate
 ```
 
 ### Install required Python packages
 
-> Activate the new environment and install the following Python packages: 
+Activate the new environment and install the following Python packages: 
 ```
 >> conda install numpy scipy scikit-learn matplotlib pandas jupyter seaborn pymc3
 ```
 
-> Install the arviz and graphviz libraries:
+Install the arviz and graphviz libraries:
 ```
 >> conda install -c conda-forge arviz python-graphviz
 ```
 
 ### Run Jupyter Notebook
 
-> To run and experiment with the models, start a Jupyter Notebook server and open the .ipynb files containing the models inside the PPSDA/code/ directories:
+To run and experiment with the models, start a Jupyter Notebook server and open the .ipynb files containing the models inside the PPSDA/code/ directories:
 ```
 >> jupyter notebook
 ```
