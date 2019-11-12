@@ -2,6 +2,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
+def get_color(key):
+    """ return a color for class """
+    color_dict = {0: "blue", 1: "red", 2: "green", 3: "orange", 4: "black"}
+    return color_dict[key]
+
 def plot_data(data, non_data_columns, label_column='label', nrows=50):
     """ plot the dataframe """
     # header data = x-values
@@ -14,13 +19,41 @@ def plot_data(data, non_data_columns, label_column='label', nrows=50):
     ax.xaxis.set_major_locator(plt.MaxNLocator(10))
     ax.set(xlabel='Wavenumber ($cm^{-1}$)')
 
-    # map label codes to colors
+    # used to map label codes to colors
     label_codes = pd.Categorical(data[label_column]).codes
-    color_dict = {0: "blue", 1: "red", 2: "green", 3: "orange", 4: "black"}
+
+    # list of class labels
+    clabels = list({lbl for lbl in data.iloc[:, data.columns.to_list().index(label_column)].tolist()})
+    clabels.sort()
+    for i in range(len(clabels)):
+        print(str(clabels[i]) + ": " + get_color(i))
 
     for i in range(nrows):
         y_val = data.values[i]
-        plt.plot(x_val, y_val[:non_data_columns], '-', color=color_dict[label_codes[i]])
+        plt.plot(x_val, y_val[:non_data_columns], '-', color=get_color(label_codes[i]))
+
+def plot_real_vs_ppc(data, ppc_class_lst, non_data_columns, class_labels, label_column='label', nrows=10):
+    """ plot real data vs. posterior samples """
+    # header data = x-values
+    cols = data.columns.to_list()
+    x_val = np.array(cols[:non_data_columns], dtype='float32')
+
+    plt.figure(figsize=(12, 8))
+    plt.axes()
+
+    # plot some samples from the posterior
+    for i in range(5):
+        for z in range(len(ppc_class_lst)):
+            plt.plot(x_val, ppc_class_lst[z][i, 0, :], 'o-', color="gray", alpha=.3)
+
+    # plot mean data for classes (raw data)
+    df = []
+    for i in range(len(class_labels)):
+        df.append(data.loc[data[label_column] == class_labels[i]].sample(frac=1))
+
+    for i in range(nrows):
+        for z in range(len(df)):
+            plt.plot(x_val, df[z].values[i,:non_data_columns], '--', color=get_color(z), linewidth=1)
 
 def display_predictions(trace, test_data, non_data_columns, class_labels):
     """ displays predicted labels next to the real labels """
@@ -87,3 +120,22 @@ def softmax_score(data, trace, label_column):
 def standardize(x):
     """ standardizes the data X, substracts the mean and normalizes the variance """
     return (x - x.mean(axis=0)) / x.std(axis=0)
+
+def save_traces(filename, samples_per_class, file_header, class_labels, ppc_class_lst):
+    """ saves the trace to a .csv file """
+    import csv
+
+    # create header row
+    header = np.array(np.around(file_header, 3), dtype='str')
+    header = header.tolist()
+    header.append("label")
+
+    with open(filename, mode='w') as fp:
+        ppc_writer = csv.writer(fp, delimiter=',')
+        ppc_writer.writerow(header)
+
+        for i in range(samples_per_class):
+            for z in range(len(ppc_class_lst)):
+                row = np.array(ppc_class_lst[z][i, 0, :], dtype='str').tolist()
+                row.append(class_labels[z])
+                ppc_writer.writerow(row)
