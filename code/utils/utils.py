@@ -1,17 +1,33 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import arviz as az
 
 def get_color(key):
-    """ return a color for class """
+    """ return color for class key"""
     color_dict = {0: "blue", 1: "red", 2: "green", 3: "orange", 4: "black"}
     return color_dict[key]
+
+def get_color_mean(key):
+    """ return mean color for class key"""
+    color_dict = {0: "yellow", 1: "black", 2: "green", 3: "orange", 4: "white"}
+    return color_dict[key]
+
+def get_data_x_value_header(data, non_data_columns):
+    """ returns a ndarray of the data x values """
+    cols = data.columns.to_list()
+    return np.array(cols[:non_data_columns], dtype='float32')
+
+def get_class_labels(data, label_column):
+    """ returns a sorted list of class labels """
+    class_labels = list({lbl for lbl in data.iloc[:, data.columns.to_list().index(label_column)].tolist()})
+    class_labels.sort()
+    return class_labels
 
 def plot_data(data, non_data_columns, label_column='label', nrows=50):
     """ plot the dataframe """
     # header data = x-values
-    cols = data.columns.to_list()
-    x_val = np.array(cols[:non_data_columns], dtype='float32')
+    x_val = get_data_x_value_header(data, non_data_columns)
 
     # plot rows (== observations) in a single figure
     plt.figure(figsize=(12, 6))
@@ -23,8 +39,8 @@ def plot_data(data, non_data_columns, label_column='label', nrows=50):
     label_codes = pd.Categorical(data[label_column]).codes
 
     # list of class labels
-    clabels = list({lbl for lbl in data.iloc[:, data.columns.to_list().index(label_column)].tolist()})
-    clabels.sort()
+    clabels = get_class_labels(data, label_column)
+
     for i in range(len(clabels)):
         print(str(clabels[i]) + ": " + get_color(i))
 
@@ -32,25 +48,61 @@ def plot_data(data, non_data_columns, label_column='label', nrows=50):
         y_val = data.values[i]
         plt.plot(x_val, y_val[:non_data_columns], '-', color=get_color(label_codes[i]))
 
-def plot_real_vs_ppc(data, ppc_class_lst, non_data_columns, class_labels, label_column='label', nrows=10):
-    """ plot real data vs. posterior samples """
+def plot_mean_vs_ppc(data, ppc_class_lst, non_data_columns, label_column='label'):
+    """ plot data mean vs. posterior samples """
     # header data = x-values
-    cols = data.columns.to_list()
-    x_val = np.array(cols[:non_data_columns], dtype='float32')
+    x_val = get_data_x_value_header(data, non_data_columns)
 
     plt.figure(figsize=(12, 8))
-    plt.axes()
+    ax = plt.axes()
+    ax.set(xlabel='Wavenumber ($cm^{-1}$)')
+
+    # plot a sample from the posterior (for each class)
+    for i in range(1):
+        for z in range(len(ppc_class_lst)):
+           plt.plot(x_val, ppc_class_lst[z][i, 0, :], '-', color=get_color(z), alpha=.6)
+
+    # list of class labels
+    class_labels = get_class_labels(data, label_column)
+
+    # plot the posterior mean
+    for z in range(len(ppc_class_lst)):
+        cls_label = str(class_labels[z]) + " ppc mean"
+        plt.plot(x_val, ppc_class_lst[z][:, 0].mean(axis=0), '-', color=get_color(z), alpha=.6, label=cls_label)
+
+    # plot mean data for classes (raw data)
+    df = [ data.loc[data[label_column] == class_labels[k]] for k in range(len(class_labels)) ]
+    for z in range(len(df)):
+        cls_label = str(class_labels[z]) + " real mean"
+        plt.plot(x_val, df[z].iloc[:,:non_data_columns].mean(), '--', color=get_color_mean(z),
+             label=cls_label, linewidth=1)
+
+    # plot 94% HPD interval
+    for z in range(len(ppc_class_lst)):
+        col = "C" + str(z+1)
+        az.plot_hpd(x_val, ppc_class_lst[z], smooth=False, color=col)
+
+    plt.legend(loc='best')
+
+def plot_real_vs_ppc(data,  ppc_class_lst, non_data_columns, label_column='label', nrows=10):
+    """ plot real data vs. posterior samples """
+    # header data = x-values
+    x_val = get_data_x_value_header(data, non_data_columns)
+
+    plt.figure(figsize=(12, 8))
+    ax = plt.axes()
+    ax.set(xlabel='Wavenumber ($cm^{-1}$)')
 
     # plot some samples from the posterior
     for i in range(5):
         for z in range(len(ppc_class_lst)):
             plt.plot(x_val, ppc_class_lst[z][i, 0, :], 'o-', color="gray", alpha=.3)
 
-    # plot mean data for classes (raw data)
-    df = []
-    for i in range(len(class_labels)):
-        df.append(data.loc[data[label_column] == class_labels[i]].sample(frac=1))
+    # list of class labels
+    class_labels = get_class_labels(data, label_column)
 
+    # plot raw data for classes
+    df = [ data.loc[data[label_column] == class_labels[i]].sample(frac=1) for i in range(len(class_labels)) ]
     for i in range(nrows):
         for z in range(len(df)):
             plt.plot(x_val, df[z].values[i,:non_data_columns], '--', color=get_color(z), linewidth=1)
