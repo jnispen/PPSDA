@@ -13481,14 +13481,11 @@ Name: label, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># store data values for class A and B</span>
-<span class="n">df_a</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;label ==  @class_labels[0]&quot;</span><span class="p">)</span>
-<span class="n">df_b</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;label ==  @class_labels[1]&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># store the data values for all different classes</span>
+<span class="n">df</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;label ==  @class_labels[@i]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">class_labels</span><span class="p">))]</span>
 
 <span class="n">x_n</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="n">non_data_cols</span><span class="p">]</span>
-
-<span class="n">x_sa</span> <span class="o">=</span> <span class="n">df_a</span><span class="p">[</span><span class="n">x_n</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-<span class="n">x_sb</span> <span class="o">=</span> <span class="n">df_b</span><span class="p">[</span><span class="n">x_n</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">x_s</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">x_n</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))]</span>
 </pre></div>
 
     </div>
@@ -13530,8 +13527,8 @@ X_{a,b} \sim \mathcal{N}(\mu,\sigma^{2})
     <span class="n">sigma_s</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s1">&#39;sigma_s&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s1">&#39;sigma&#39;</span><span class="p">,</span> <span class="n">sigma_s</span><span class="p">)</span>
     
-    <span class="n">class_a</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;class_a&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sd</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">x_sa</span><span class="p">[:</span><span class="n">ntrain</span><span class="p">])</span>
-    <span class="n">class_b</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;class_b&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sd</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">x_sb</span><span class="p">[:</span><span class="n">ntrain</span><span class="p">])</span>
+    <span class="n">class_a</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;class_a&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sd</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">x_s</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="n">ntrain</span><span class="p">])</span>
+    <span class="n">class_b</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;class_b&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sd</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">x_s</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="n">ntrain</span><span class="p">])</span>
     
     <span class="n">trace_gm</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
@@ -13554,7 +13551,7 @@ X_{a,b} \sim \mathcal{N}(\mu,\sigma^{2})
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (2 chains in 2 jobs)
 NUTS: [sigma, sigma_s, mu, sigma_mu, sigma_ab, mu_m]
-Sampling 2 chains: 100%|██████████| 5000/5000 [01:15&lt;00:00, 66.07draws/s] 
+Sampling 2 chains: 100%|██████████| 5000/5000 [01:17&lt;00:00, 64.11draws/s] 
 The acceptance probability does not match the target. It is 0.9713659707194832, but should be close to 0.8. Try to increase the number of tuning steps.
 The acceptance probability does not match the target. It is 0.9451764886266965, but should be close to 0.8. Try to increase the number of tuning steps.
 </pre>
@@ -13622,13 +13619,55 @@ The acceptance probability does not match the target. It is 0.9451764886266965, 
 <text text-anchor="middle" x="258.643" y="-136.3" font-family="Times,serif" font-size="14.00" fill="#000000">mu ~ Normal</text>
 </g>
 <!-- sigma_mu&#45;&gt;mu -->
-<g id="edge3" class="edge">
+<g id="edge2" class="edge">
 <title>sigma_mu&#45;&gt;mu</title>
 <path fill="none" stroke="#000000" d="M415.3103,-195.8418C383.1584,-184.3817 340.0615,-169.0205 307.2075,-157.3101"/>
 <polygon fill="#000000" stroke="#000000" points="307.9584,-153.8621 297.3638,-153.8015 305.6082,-160.4558 307.9584,-153.8621"/>
 </g>
-<!-- sigma_ab -->
+<!-- mu_m -->
 <g id="node2" class="node">
+<title>mu_m</title>
+<ellipse fill="none" stroke="#000000" cx="258.643" cy="-212" rx="83.3857" ry="18"/>
+<text text-anchor="middle" x="258.643" y="-208.3" font-family="Times,serif" font-size="14.00" fill="#000000">mu_m ~ Lognormal</text>
+</g>
+<!-- mu_m&#45;&gt;mu -->
+<g id="edge3" class="edge">
+<title>mu_m&#45;&gt;mu</title>
+<path fill="none" stroke="#000000" d="M258.643,-193.8314C258.643,-186.131 258.643,-176.9743 258.643,-168.4166"/>
+<polygon fill="#000000" stroke="#000000" points="262.1431,-168.4132 258.643,-158.4133 255.1431,-168.4133 262.1431,-168.4132"/>
+</g>
+<!-- sigma -->
+<g id="node3" class="node">
+<title>sigma</title>
+<ellipse fill="none" stroke="#000000" cx="93.643" cy="-140" rx="85.2851" ry="18"/>
+<text text-anchor="middle" x="93.643" y="-136.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma ~ HalfNormal</text>
+</g>
+<!-- class_a -->
+<g id="node7" class="node">
+<title>class_a</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="258.643" cy="-57" rx="73.387" ry="18"/>
+<text text-anchor="middle" x="258.643" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_a ~ Normal</text>
+</g>
+<!-- sigma&#45;&gt;class_a -->
+<g id="edge5" class="edge">
+<title>sigma&#45;&gt;class_a</title>
+<path fill="none" stroke="#000000" d="M124.8915,-123.0993C142.8563,-113.493 165.9064,-101.3528 186.643,-91 195.7334,-86.4616 205.5391,-81.7265 214.8999,-77.2818"/>
+<polygon fill="#000000" stroke="#000000" points="216.5213,-80.3868 224.0694,-72.952 213.5324,-74.057 216.5213,-80.3868"/>
+</g>
+<!-- class_b -->
+<g id="node8" class="node">
+<title>class_b</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="93.643" cy="-57" rx="73.387" ry="18"/>
+<text text-anchor="middle" x="93.643" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_b ~ Normal</text>
+</g>
+<!-- sigma&#45;&gt;class_b -->
+<g id="edge7" class="edge">
+<title>sigma&#45;&gt;class_b</title>
+<path fill="none" stroke="#000000" d="M93.643,-121.9902C93.643,-111.2963 93.643,-97.4994 93.643,-85.3706"/>
+<polygon fill="#000000" stroke="#000000" points="97.1431,-85.2612 93.643,-75.2612 90.1431,-85.2613 97.1431,-85.2612"/>
+</g>
+<!-- sigma_ab -->
+<g id="node4" class="node">
 <title>sigma_ab</title>
 <ellipse fill="none" stroke="#000000" cx="460.643" cy="-284" rx="83.3857" ry="18"/>
 <text text-anchor="middle" x="460.643" y="-280.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma_ab ~ Gamma</text>
@@ -13640,16 +13679,10 @@ The acceptance probability does not match the target. It is 0.9451764886266965, 
 <polygon fill="#000000" stroke="#000000" points="464.1431,-240.4132 460.643,-230.4133 457.1431,-240.4133 464.1431,-240.4132"/>
 </g>
 <!-- sigma_s -->
-<g id="node3" class="node">
+<g id="node5" class="node">
 <title>sigma_s</title>
 <ellipse fill="none" stroke="#000000" cx="78.643" cy="-212" rx="78.7863" ry="18"/>
 <text text-anchor="middle" x="78.643" y="-208.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma_s ~ Gamma</text>
-</g>
-<!-- sigma -->
-<g id="node5" class="node">
-<title>sigma</title>
-<ellipse fill="none" stroke="#000000" cx="93.643" cy="-140" rx="85.2851" ry="18"/>
-<text text-anchor="middle" x="93.643" y="-136.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma ~ HalfNormal</text>
 </g>
 <!-- sigma_s&#45;&gt;sigma -->
 <g id="edge4" class="edge">
@@ -13657,51 +13690,15 @@ The acceptance probability does not match the target. It is 0.9451764886266965, 
 <path fill="none" stroke="#000000" d="M82.4282,-193.8314C84.0324,-186.131 85.94,-176.9743 87.7229,-168.4166"/>
 <polygon fill="#000000" stroke="#000000" points="91.1937,-168.9169 89.8069,-158.4133 84.3409,-167.4892 91.1937,-168.9169"/>
 </g>
-<!-- mu_m -->
-<g id="node4" class="node">
-<title>mu_m</title>
-<ellipse fill="none" stroke="#000000" cx="258.643" cy="-212" rx="83.3857" ry="18"/>
-<text text-anchor="middle" x="258.643" y="-208.3" font-family="Times,serif" font-size="14.00" fill="#000000">mu_m ~ Lognormal</text>
-</g>
-<!-- mu_m&#45;&gt;mu -->
-<g id="edge2" class="edge">
-<title>mu_m&#45;&gt;mu</title>
-<path fill="none" stroke="#000000" d="M258.643,-193.8314C258.643,-186.131 258.643,-176.9743 258.643,-168.4166"/>
-<polygon fill="#000000" stroke="#000000" points="262.1431,-168.4132 258.643,-158.4133 255.1431,-168.4133 262.1431,-168.4132"/>
-</g>
-<!-- class_b -->
-<g id="node7" class="node">
-<title>class_b</title>
-<ellipse fill="#d3d3d3" stroke="#000000" cx="258.643" cy="-57" rx="73.387" ry="18"/>
-<text text-anchor="middle" x="258.643" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_b ~ Normal</text>
-</g>
-<!-- sigma&#45;&gt;class_b -->
-<g id="edge7" class="edge">
-<title>sigma&#45;&gt;class_b</title>
-<path fill="none" stroke="#000000" d="M124.8915,-123.0993C142.8563,-113.493 165.9064,-101.3528 186.643,-91 195.7334,-86.4616 205.5391,-81.7265 214.8999,-77.2818"/>
-<polygon fill="#000000" stroke="#000000" points="216.5213,-80.3868 224.0694,-72.952 213.5324,-74.057 216.5213,-80.3868"/>
-</g>
-<!-- class_a -->
-<g id="node8" class="node">
-<title>class_a</title>
-<ellipse fill="#d3d3d3" stroke="#000000" cx="93.643" cy="-57" rx="73.387" ry="18"/>
-<text text-anchor="middle" x="93.643" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_a ~ Normal</text>
-</g>
-<!-- sigma&#45;&gt;class_a -->
-<g id="edge5" class="edge">
-<title>sigma&#45;&gt;class_a</title>
-<path fill="none" stroke="#000000" d="M93.643,-121.9902C93.643,-111.2963 93.643,-97.4994 93.643,-85.3706"/>
-<polygon fill="#000000" stroke="#000000" points="97.1431,-85.2612 93.643,-75.2612 90.1431,-85.2613 97.1431,-85.2612"/>
+<!-- mu&#45;&gt;class_a -->
+<g id="edge6" class="edge">
+<title>mu&#45;&gt;class_a</title>
+<path fill="none" stroke="#000000" d="M258.643,-121.9902C258.643,-111.2963 258.643,-97.4994 258.643,-85.3706"/>
+<polygon fill="#000000" stroke="#000000" points="262.1431,-85.2612 258.643,-75.2612 255.1431,-85.2613 262.1431,-85.2612"/>
 </g>
 <!-- mu&#45;&gt;class_b -->
 <g id="edge8" class="edge">
 <title>mu&#45;&gt;class_b</title>
-<path fill="none" stroke="#000000" d="M258.643,-121.9902C258.643,-111.2963 258.643,-97.4994 258.643,-85.3706"/>
-<polygon fill="#000000" stroke="#000000" points="262.1431,-85.2612 258.643,-75.2612 255.1431,-85.2613 262.1431,-85.2612"/>
-</g>
-<!-- mu&#45;&gt;class_a -->
-<g id="edge6" class="edge">
-<title>mu&#45;&gt;class_a</title>
 <path fill="none" stroke="#000000" d="M237.1774,-123.0189C223.5462,-112.7961 205.2188,-100.0514 187.643,-91 175.7173,-84.8584 162.4235,-79.3258 149.6751,-74.5945"/>
 <polygon fill="#000000" stroke="#000000" points="150.6586,-71.2288 140.0642,-71.1358 148.2883,-77.8152 150.6586,-71.2288"/>
 </g>
@@ -13994,7 +13991,7 @@ The acceptance probability does not match the target. It is 0.9451764886266965, 
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 250/250 [00:01&lt;00:00, 226.89it/s]
+<pre>100%|██████████| 250/250 [00:01&lt;00:00, 196.93it/s]
 </pre>
 </div>
 </div>
@@ -14056,7 +14053,7 @@ arviz.data.io_pymc3 - WARNING - posterior predictive shape not compatible with n
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">x_sa</span><span class="p">[:</span><span class="n">ntrain</span><span class="p">],</span> <span class="n">ppc</span><span class="p">[</span><span class="s1">&#39;class_a&#39;</span><span class="p">]))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">x_s</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="n">ntrain</span><span class="p">],</span> <span class="n">ppc</span><span class="p">[</span><span class="s1">&#39;class_a&#39;</span><span class="p">]))</span>
 </pre></div>
 
     </div>
@@ -14089,7 +14086,7 @@ dtype: float64
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">x_sb</span><span class="p">[:</span><span class="n">ntrain</span><span class="p">],</span> <span class="n">ppc</span><span class="p">[</span><span class="s1">&#39;class_b&#39;</span><span class="p">]))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">x_s</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="n">ntrain</span><span class="p">],</span> <span class="n">ppc</span><span class="p">[</span><span class="s1">&#39;class_b&#39;</span><span class="p">]))</span>
 </pre></div>
 
     </div>
