@@ -13139,10 +13139,11 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># import local utility functions</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># import local utility functions and classes</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../utils&#39;</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">utils</span> <span class="k">as</span> <span class="nn">utl</span>
+<span class="kn">from</span> <span class="nn">data</span> <span class="k">import</span> <span class="n">Data</span>
 </pre></div>
 
     </div>
@@ -13162,8 +13163,9 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># read .csv file into Dataframe</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../data/tablets/NIR_tablets.csv&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># init data object</span>
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">Data</span><span class="p">(</span><span class="s1">&#39;../../data/tablets/NIR_tablets.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">data</span>
 <span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 
@@ -13225,124 +13227,124 @@ div#notebook {
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>1.314189</td>
-      <td>1.251776</td>
-      <td>1.191130</td>
-      <td>1.133382</td>
-      <td>1.080259</td>
-      <td>1.031387</td>
-      <td>0.986337</td>
-      <td>0.945453</td>
-      <td>0.907986</td>
-      <td>0.872446</td>
+      <th>289</th>
+      <td>2.572047</td>
+      <td>2.498731</td>
+      <td>2.428412</td>
+      <td>2.356931</td>
+      <td>2.282689</td>
+      <td>2.209981</td>
+      <td>2.151194</td>
+      <td>2.101929</td>
+      <td>2.057656</td>
+      <td>2.015547</td>
       <td>...</td>
-      <td>-0.124510</td>
-      <td>-0.126171</td>
-      <td>-0.124901</td>
-      <td>-0.125070</td>
-      <td>-0.129110</td>
-      <td>-0.132152</td>
-      <td>-0.130857</td>
-      <td>5.479603</td>
+      <td>0.650329</td>
+      <td>0.650653</td>
+      <td>0.651336</td>
+      <td>0.647486</td>
+      <td>0.641394</td>
+      <td>0.638580</td>
+      <td>0.640229</td>
+      <td>6.742454</td>
+      <td>4</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1.583093</td>
+      <td>1.515095</td>
+      <td>1.451080</td>
+      <td>1.388981</td>
+      <td>1.330715</td>
+      <td>1.277480</td>
+      <td>1.229091</td>
+      <td>1.184784</td>
+      <td>1.143174</td>
+      <td>1.104095</td>
+      <td>...</td>
+      <td>0.024254</td>
+      <td>0.023456</td>
+      <td>0.024929</td>
+      <td>0.023138</td>
+      <td>0.017037</td>
+      <td>0.013706</td>
+      <td>0.015856</td>
+      <td>4.715084</td>
       <td>1</td>
       <td>0</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>1.418517</td>
-      <td>1.354198</td>
-      <td>1.292556</td>
-      <td>1.233600</td>
-      <td>1.179345</td>
-      <td>1.129443</td>
-      <td>1.083619</td>
-      <td>1.041672</td>
-      <td>1.002716</td>
-      <td>0.966060</td>
+      <th>57</th>
+      <td>2.016680</td>
+      <td>1.946117</td>
+      <td>1.874702</td>
+      <td>1.803991</td>
+      <td>1.742159</td>
+      <td>1.688226</td>
+      <td>1.636593</td>
+      <td>1.588659</td>
+      <td>1.543846</td>
+      <td>1.501165</td>
       <td>...</td>
-      <td>-0.059346</td>
-      <td>-0.060028</td>
-      <td>-0.058698</td>
-      <td>-0.060552</td>
-      <td>-0.066295</td>
-      <td>-0.069032</td>
-      <td>-0.066877</td>
-      <td>5.482797</td>
+      <td>0.355099</td>
+      <td>0.353461</td>
+      <td>0.354036</td>
+      <td>0.353581</td>
+      <td>0.348225</td>
+      <td>0.343167</td>
+      <td>0.344053</td>
+      <td>4.903017</td>
       <td>1</td>
-      <td>0</td>
+      <td>2</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>1.599241</td>
-      <td>1.532634</td>
-      <td>1.469086</td>
-      <td>1.407317</td>
-      <td>1.350641</td>
-      <td>1.298261</td>
-      <td>1.249429</td>
-      <td>1.205471</td>
-      <td>1.165011</td>
-      <td>1.125740</td>
+      <th>60</th>
+      <td>1.904061</td>
+      <td>1.830663</td>
+      <td>1.763045</td>
+      <td>1.696163</td>
+      <td>1.633614</td>
+      <td>1.577859</td>
+      <td>1.529258</td>
+      <td>1.483274</td>
+      <td>1.437879</td>
+      <td>1.395768</td>
       <td>...</td>
-      <td>0.012248</td>
-      <td>0.011139</td>
-      <td>0.012459</td>
-      <td>0.010324</td>
-      <td>0.004168</td>
-      <td>0.001039</td>
-      <td>0.003172</td>
-      <td>5.477778</td>
+      <td>0.236508</td>
+      <td>0.235539</td>
+      <td>0.238280</td>
+      <td>0.237819</td>
+      <td>0.231869</td>
+      <td>0.228644</td>
+      <td>0.230370</td>
+      <td>6.065574</td>
       <td>1</td>
-      <td>0</td>
+      <td>2</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>1.339236</td>
-      <td>1.277382</td>
-      <td>1.217709</td>
-      <td>1.160600</td>
-      <td>1.108079</td>
-      <td>1.059867</td>
-      <td>1.015320</td>
-      <td>0.974589</td>
-      <td>0.936828</td>
-      <td>0.901571</td>
+      <th>25</th>
+      <td>1.929048</td>
+      <td>1.849429</td>
+      <td>1.771257</td>
+      <td>1.703300</td>
+      <td>1.639994</td>
+      <td>1.578846</td>
+      <td>1.525357</td>
+      <td>1.478586</td>
+      <td>1.434354</td>
+      <td>1.391885</td>
       <td>...</td>
-      <td>-0.085780</td>
-      <td>-0.086316</td>
-      <td>-0.084981</td>
-      <td>-0.086594</td>
-      <td>-0.091895</td>
-      <td>-0.094733</td>
-      <td>-0.093018</td>
-      <td>5.384615</td>
+      <td>0.280392</td>
+      <td>0.280312</td>
+      <td>0.283773</td>
+      <td>0.281763</td>
+      <td>0.273798</td>
+      <td>0.270479</td>
+      <td>0.274728</td>
+      <td>5.341279</td>
       <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1.493325</td>
-      <td>1.429678</td>
-      <td>1.368466</td>
-      <td>1.309522</td>
-      <td>1.254920</td>
-      <td>1.204737</td>
-      <td>1.158200</td>
-      <td>1.115872</td>
-      <td>1.077138</td>
-      <td>1.040555</td>
-      <td>...</td>
-      <td>-0.009153</td>
-      <td>-0.010739</td>
-      <td>-0.009463</td>
-      <td>-0.011218</td>
-      <td>-0.016961</td>
-      <td>-0.019661</td>
-      <td>-0.017702</td>
-      <td>5.373134</td>
       <td>1</td>
-      <td>0</td>
     </tr>
   </tbody>
 </table>
@@ -13361,31 +13363,17 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># shuffle data rows</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># name of column containing the labels</span>
-<span class="n">label_col</span> <span class="o">=</span> <span class="s1">&#39;label&#39;</span>
+<span class="n">label_col</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">label_column</span>
 
 <span class="c1"># number of non-data columns at right of dataframe</span>
-<span class="n">non_data_cols</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">non_data_cols</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">non_data_columns</span>
 
 <span class="c1"># list of class labels</span>
-<span class="n">class_labels</span> <span class="o">=</span> <span class="n">utl</span><span class="o">.</span><span class="n">get_class_labels</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span>
+<span class="n">class_labels</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">get_class_labels</span><span class="p">()</span>
 
 <span class="c1"># plot dataframe</span>
-<span class="n">utl</span><span class="o">.</span><span class="n">plot_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">non_data_cols</span><span class="p">,</span> <span class="n">label_col</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">utl</span><span class="o">.</span><span class="n">plot_data</span><span class="p">(</span><span class="n">data_obj</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13431,20 +13419,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#data.describe()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># number of samples from each class</span>
@@ -13461,7 +13436,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[7]:</div>
+    <div class="prompt output_prompt">Out[5]:</div>
 
 
 
@@ -13482,7 +13457,7 @@ Name: label, dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># store the data values for all different classes</span>
@@ -13515,7 +13490,7 @@ X_{a..d} \sim \mathcal{N}(\mu,\sigma^{2})
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_gm</span><span class="p">:</span>
@@ -13554,7 +13529,7 @@ X_{a..d} \sim \mathcal{N}(\mu,\sigma^{2})
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (2 chains in 2 jobs)
 NUTS: [sigma, sigma_s, mu, sigma_mu, sigma_ab, mu_m]
-Sampling 2 chains: 100%|██████████| 5000/5000 [02:49&lt;00:00, 29.56draws/s]
+Sampling 2 chains: 100%|██████████| 5000/5000 [02:53&lt;00:00, 28.83draws/s]
 </pre>
 </div>
 </div>
@@ -13565,7 +13540,7 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:49&lt;00:0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">model_gm</span><span class="p">)</span>
@@ -13581,7 +13556,7 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:49&lt;00:0
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[10]:</div>
+    <div class="prompt output_prompt">Out[8]:</div>
 
 
 
@@ -13612,80 +13587,14 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:49&lt;00:0
 <path fill="none" stroke="#000000" d="M190,-8C190,-8 658,-8 658,-8 664,-8 670,-14 670,-20 670,-20 670,-71 670,-71 670,-77 664,-83 658,-83 658,-83 190,-83 190,-83 184,-83 178,-77 178,-71 178,-71 178,-20 178,-20 178,-14 184,-8 190,-8"/>
 <text text-anchor="middle" x="637.5" y="-15.8" font-family="Times,serif" font-size="14.00" fill="#000000">80 x 404</text>
 </g>
-<!-- sigma -->
-<g id="node1" class="node">
-<title>sigma</title>
-<ellipse fill="none" stroke="#000000" cx="259" cy="-140" rx="85.2851" ry="18"/>
-<text text-anchor="middle" x="259" y="-136.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma ~ HalfNormal</text>
-</g>
-<!-- class_a -->
-<g id="node7" class="node">
-<title>class_a</title>
-<ellipse fill="#d3d3d3" stroke="#000000" cx="89" cy="-57" rx="73.387" ry="18"/>
-<text text-anchor="middle" x="89" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_a ~ Normal</text>
-</g>
-<!-- sigma&#45;&gt;class_a -->
-<g id="edge5" class="edge">
-<title>sigma&#45;&gt;class_a</title>
-<path fill="none" stroke="#000000" d="M225.0065,-123.4032C197.9898,-110.2127 160.0637,-91.6958 131.1224,-77.5656"/>
-<polygon fill="#000000" stroke="#000000" points="132.5886,-74.3866 122.0668,-73.1444 129.5174,-80.677 132.5886,-74.3866"/>
-</g>
-<!-- class_c -->
-<g id="node8" class="node">
-<title>class_c</title>
-<ellipse fill="#d3d3d3" stroke="#000000" cx="424" cy="-57" rx="73.387" ry="18"/>
-<text text-anchor="middle" x="424" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_c ~ Normal</text>
-</g>
-<!-- sigma&#45;&gt;class_c -->
-<g id="edge9" class="edge">
-<title>sigma&#45;&gt;class_c</title>
-<path fill="none" stroke="#000000" d="M290.2485,-123.0993C308.2133,-113.493 331.2634,-101.3528 352,-91 361.0904,-86.4616 370.896,-81.7265 380.2568,-77.2818"/>
-<polygon fill="#000000" stroke="#000000" points="381.8783,-80.3868 389.4264,-72.952 378.8893,-74.057 381.8783,-80.3868"/>
-</g>
-<!-- class_d -->
-<g id="node9" class="node">
-<title>class_d</title>
-<ellipse fill="#d3d3d3" stroke="#000000" cx="259" cy="-57" rx="73.387" ry="18"/>
-<text text-anchor="middle" x="259" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_d ~ Normal</text>
-</g>
-<!-- sigma&#45;&gt;class_d -->
-<g id="edge11" class="edge">
-<title>sigma&#45;&gt;class_d</title>
-<path fill="none" stroke="#000000" d="M259,-121.9902C259,-111.2963 259,-97.4994 259,-85.3706"/>
-<polygon fill="#000000" stroke="#000000" points="262.5001,-85.2612 259,-75.2612 255.5001,-85.2613 262.5001,-85.2612"/>
-</g>
-<!-- class_b -->
-<g id="node10" class="node">
-<title>class_b</title>
-<ellipse fill="#d3d3d3" stroke="#000000" cx="589" cy="-57" rx="73.387" ry="18"/>
-<text text-anchor="middle" x="589" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_b ~ Normal</text>
-</g>
-<!-- sigma&#45;&gt;class_b -->
-<g id="edge7" class="edge">
-<title>sigma&#45;&gt;class_b</title>
-<path fill="none" stroke="#000000" d="M284.5841,-122.6224C302.5894,-111.396 327.717,-97.679 352,-91 418.0827,-72.8241 438.543,-95.1174 506,-83 516.6962,-81.0786 527.9381,-78.1827 538.5736,-75.012"/>
-<polygon fill="#000000" stroke="#000000" points="539.6247,-78.3506 548.1373,-72.043 537.5492,-71.6653 539.6247,-78.3506"/>
-</g>
-<!-- sigma_s -->
-<g id="node2" class="node">
-<title>sigma_s</title>
-<ellipse fill="none" stroke="#000000" cx="244" cy="-212" rx="78.7863" ry="18"/>
-<text text-anchor="middle" x="244" y="-208.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma_s ~ Gamma</text>
-</g>
-<!-- sigma_s&#45;&gt;sigma -->
-<g id="edge4" class="edge">
-<title>sigma_s&#45;&gt;sigma</title>
-<path fill="none" stroke="#000000" d="M247.7851,-193.8314C249.3894,-186.131 251.297,-176.9743 253.0799,-168.4166"/>
-<polygon fill="#000000" stroke="#000000" points="256.5507,-168.9169 255.1639,-158.4133 249.6979,-167.4892 256.5507,-168.9169"/>
-</g>
 <!-- sigma_ab -->
-<g id="node3" class="node">
+<g id="node1" class="node">
 <title>sigma_ab</title>
 <ellipse fill="none" stroke="#000000" cx="626" cy="-284" rx="83.3857" ry="18"/>
 <text text-anchor="middle" x="626" y="-280.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma_ab ~ Gamma</text>
 </g>
 <!-- sigma_mu -->
-<g id="node4" class="node">
+<g id="node2" class="node">
 <title>sigma_mu</title>
 <ellipse fill="none" stroke="#000000" cx="626" cy="-212" rx="100.9827" ry="18"/>
 <text text-anchor="middle" x="626" y="-208.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma_mu ~ HalfNormal</text>
@@ -13709,7 +13618,7 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:49&lt;00:0
 <polygon fill="#000000" stroke="#000000" points="473.3154,-153.8621 462.7207,-153.8015 470.9651,-160.4558 473.3154,-153.8621"/>
 </g>
 <!-- mu_m -->
-<g id="node5" class="node">
+<g id="node3" class="node">
 <title>mu_m</title>
 <ellipse fill="none" stroke="#000000" cx="424" cy="-212" rx="83.3857" ry="18"/>
 <text text-anchor="middle" x="424" y="-208.3" font-family="Times,serif" font-size="14.00" fill="#000000">mu_m ~ Lognormal</text>
@@ -13720,27 +13629,93 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:49&lt;00:0
 <path fill="none" stroke="#000000" d="M424,-193.8314C424,-186.131 424,-176.9743 424,-168.4166"/>
 <polygon fill="#000000" stroke="#000000" points="427.5001,-168.4132 424,-158.4133 420.5001,-168.4133 427.5001,-168.4132"/>
 </g>
+<!-- sigma -->
+<g id="node4" class="node">
+<title>sigma</title>
+<ellipse fill="none" stroke="#000000" cx="259" cy="-140" rx="85.2851" ry="18"/>
+<text text-anchor="middle" x="259" y="-136.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma ~ HalfNormal</text>
+</g>
+<!-- class_a -->
+<g id="node7" class="node">
+<title>class_a</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="89" cy="-57" rx="73.387" ry="18"/>
+<text text-anchor="middle" x="89" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_a ~ Normal</text>
+</g>
+<!-- sigma&#45;&gt;class_a -->
+<g id="edge5" class="edge">
+<title>sigma&#45;&gt;class_a</title>
+<path fill="none" stroke="#000000" d="M225.0065,-123.4032C197.9898,-110.2127 160.0637,-91.6958 131.1224,-77.5656"/>
+<polygon fill="#000000" stroke="#000000" points="132.5886,-74.3866 122.0668,-73.1444 129.5174,-80.677 132.5886,-74.3866"/>
+</g>
+<!-- class_d -->
+<g id="node8" class="node">
+<title>class_d</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="424" cy="-57" rx="73.387" ry="18"/>
+<text text-anchor="middle" x="424" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_d ~ Normal</text>
+</g>
+<!-- sigma&#45;&gt;class_d -->
+<g id="edge11" class="edge">
+<title>sigma&#45;&gt;class_d</title>
+<path fill="none" stroke="#000000" d="M290.2485,-123.0993C308.2133,-113.493 331.2634,-101.3528 352,-91 361.0904,-86.4616 370.896,-81.7265 380.2568,-77.2818"/>
+<polygon fill="#000000" stroke="#000000" points="381.8783,-80.3868 389.4264,-72.952 378.8893,-74.057 381.8783,-80.3868"/>
+</g>
+<!-- class_b -->
+<g id="node9" class="node">
+<title>class_b</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="259" cy="-57" rx="73.387" ry="18"/>
+<text text-anchor="middle" x="259" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_b ~ Normal</text>
+</g>
+<!-- sigma&#45;&gt;class_b -->
+<g id="edge7" class="edge">
+<title>sigma&#45;&gt;class_b</title>
+<path fill="none" stroke="#000000" d="M259,-121.9902C259,-111.2963 259,-97.4994 259,-85.3706"/>
+<polygon fill="#000000" stroke="#000000" points="262.5001,-85.2612 259,-75.2612 255.5001,-85.2613 262.5001,-85.2612"/>
+</g>
+<!-- class_c -->
+<g id="node10" class="node">
+<title>class_c</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="589" cy="-57" rx="73.387" ry="18"/>
+<text text-anchor="middle" x="589" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_c ~ Normal</text>
+</g>
+<!-- sigma&#45;&gt;class_c -->
+<g id="edge9" class="edge">
+<title>sigma&#45;&gt;class_c</title>
+<path fill="none" stroke="#000000" d="M284.5841,-122.6224C302.5894,-111.396 327.717,-97.679 352,-91 418.0827,-72.8241 438.543,-95.1174 506,-83 516.6962,-81.0786 527.9381,-78.1827 538.5736,-75.012"/>
+<polygon fill="#000000" stroke="#000000" points="539.6247,-78.3506 548.1373,-72.043 537.5492,-71.6653 539.6247,-78.3506"/>
+</g>
+<!-- sigma_s -->
+<g id="node5" class="node">
+<title>sigma_s</title>
+<ellipse fill="none" stroke="#000000" cx="244" cy="-212" rx="78.7863" ry="18"/>
+<text text-anchor="middle" x="244" y="-208.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma_s ~ Gamma</text>
+</g>
+<!-- sigma_s&#45;&gt;sigma -->
+<g id="edge4" class="edge">
+<title>sigma_s&#45;&gt;sigma</title>
+<path fill="none" stroke="#000000" d="M247.7851,-193.8314C249.3894,-186.131 251.297,-176.9743 253.0799,-168.4166"/>
+<polygon fill="#000000" stroke="#000000" points="256.5507,-168.9169 255.1639,-158.4133 249.6979,-167.4892 256.5507,-168.9169"/>
+</g>
 <!-- mu&#45;&gt;class_a -->
 <g id="edge6" class="edge">
 <title>mu&#45;&gt;class_a</title>
 <path fill="none" stroke="#000000" d="M405.4298,-122.8081C391.9684,-111.5107 372.7323,-97.6349 353,-91 315.2589,-78.3097 213.2384,-89.766 174,-83 162.939,-81.0927 151.3017,-78.1704 140.3086,-74.9638"/>
 <polygon fill="#000000" stroke="#000000" points="141.0147,-71.5204 130.429,-71.96 138.9784,-78.2177 141.0147,-71.5204"/>
 </g>
-<!-- mu&#45;&gt;class_c -->
-<g id="edge10" class="edge">
-<title>mu&#45;&gt;class_c</title>
-<path fill="none" stroke="#000000" d="M424,-121.9902C424,-111.2963 424,-97.4994 424,-85.3706"/>
-<polygon fill="#000000" stroke="#000000" points="427.5001,-85.2612 424,-75.2612 420.5001,-85.2613 427.5001,-85.2612"/>
-</g>
 <!-- mu&#45;&gt;class_d -->
 <g id="edge12" class="edge">
 <title>mu&#45;&gt;class_d</title>
-<path fill="none" stroke="#000000" d="M402.5343,-123.0189C388.9032,-112.7961 370.5757,-100.0514 353,-91 341.0743,-84.8584 327.7805,-79.3258 315.032,-74.5945"/>
-<polygon fill="#000000" stroke="#000000" points="316.0156,-71.2288 305.4212,-71.1358 313.6452,-77.8152 316.0156,-71.2288"/>
+<path fill="none" stroke="#000000" d="M424,-121.9902C424,-111.2963 424,-97.4994 424,-85.3706"/>
+<polygon fill="#000000" stroke="#000000" points="427.5001,-85.2612 424,-75.2612 420.5001,-85.2613 427.5001,-85.2612"/>
 </g>
 <!-- mu&#45;&gt;class_b -->
 <g id="edge8" class="edge">
 <title>mu&#45;&gt;class_b</title>
+<path fill="none" stroke="#000000" d="M402.5343,-123.0189C388.9032,-112.7961 370.5757,-100.0514 353,-91 341.0743,-84.8584 327.7805,-79.3258 315.032,-74.5945"/>
+<polygon fill="#000000" stroke="#000000" points="316.0156,-71.2288 305.4212,-71.1358 313.6452,-77.8152 316.0156,-71.2288"/>
+</g>
+<!-- mu&#45;&gt;class_c -->
+<g id="edge10" class="edge">
+<title>mu&#45;&gt;class_c</title>
 <path fill="none" stroke="#000000" d="M455.0352,-124.3883C481.2326,-111.2102 518.9576,-92.2334 547.7034,-77.7734"/>
 <polygon fill="#000000" stroke="#000000" points="549.3343,-80.871 556.6949,-73.2504 546.1887,-74.6176 549.3343,-80.871"/>
 </g>
@@ -13757,7 +13732,7 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:49&lt;00:0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_gm</span><span class="p">)</span>
@@ -13773,7 +13748,7 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:49&lt;00:0
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[11]:</div>
+    <div class="prompt output_prompt">Out[9]:</div>
 
 
 
@@ -13978,7 +13953,7 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:49&lt;00:0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_energy</span><span class="p">(</span><span class="n">trace_gm</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">));</span>
@@ -14013,7 +13988,7 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:49&lt;00:0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_gm</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_gm</span><span class="p">)</span>
@@ -14033,7 +14008,7 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:49&lt;00:0
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 250/250 [00:03&lt;00:00, 69.58it/s]
+<pre>100%|██████████| 250/250 [00:03&lt;00:00, 71.71it/s]
 </pre>
 </div>
 </div>
@@ -14044,7 +14019,7 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:49&lt;00:0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_ppc</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_pymc3</span><span class="p">(</span><span class="n">trace</span><span class="o">=</span><span class="n">trace_gm</span><span class="p">,</span> <span class="n">posterior_predictive</span><span class="o">=</span><span class="n">ppc</span><span class="p">)</span>
@@ -14094,7 +14069,7 @@ arviz.data.io_pymc3 - WARNING - posterior predictive shape not compatible with n
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">x_s</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="nb">len</span><span class="p">(</span><span class="n">x_s</span><span class="p">[</span><span class="mi">0</span><span class="p">])],</span> <span class="n">ppc</span><span class="p">[</span><span class="s1">&#39;class_a&#39;</span><span class="p">]))</span>
@@ -14127,7 +14102,7 @@ dtype: float64
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">x_s</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="nb">len</span><span class="p">(</span><span class="n">x_s</span><span class="p">[</span><span class="mi">1</span><span class="p">])],</span> <span class="n">ppc</span><span class="p">[</span><span class="s1">&#39;class_b&#39;</span><span class="p">]))</span>
@@ -14160,7 +14135,7 @@ dtype: float64
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">x_s</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="nb">len</span><span class="p">(</span><span class="n">x_s</span><span class="p">[</span><span class="mi">2</span><span class="p">])],</span> <span class="n">ppc</span><span class="p">[</span><span class="s1">&#39;class_c&#39;</span><span class="p">]))</span>
@@ -14193,7 +14168,7 @@ dtype: float64
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">x_s</span><span class="p">[</span><span class="mi">3</span><span class="p">][:</span><span class="nb">len</span><span class="p">(</span><span class="n">x_s</span><span class="p">[</span><span class="mi">3</span><span class="p">])],</span> <span class="n">ppc</span><span class="p">[</span><span class="s1">&#39;class_d&#39;</span><span class="p">]))</span>
@@ -14226,7 +14201,7 @@ dtype: float64
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">bfmi</span><span class="p">(</span><span class="n">trace_gm</span><span class="p">))</span>
@@ -14264,7 +14239,7 @@ dtype: float64
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># class samples from the posterior</span>
@@ -14283,10 +14258,10 @@ dtype: float64
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">utl</span><span class="o">.</span><span class="n">plot_mean_vs_ppc</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ppc_class_lst</span><span class="p">,</span> <span class="n">non_data_cols</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">utl</span><span class="o">.</span><span class="n">plot_mean_vs_ppc</span><span class="p">(</span><span class="n">data_obj</span><span class="p">,</span> <span class="n">ppc_class_lst</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14325,10 +14300,10 @@ dtype: float64
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">utl</span><span class="o">.</span><span class="n">plot_real_vs_ppc</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ppc_class_lst</span><span class="p">,</span> <span class="n">non_data_cols</span><span class="p">,</span> <span class="n">label_col</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">utl</span><span class="o">.</span><span class="n">plot_real_vs_ppc</span><span class="p">(</span><span class="n">data_obj</span><span class="p">,</span> <span class="n">ppc_class_lst</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14367,27 +14342,10 @@ dtype: float64
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x_val</span> <span class="o">=</span> <span class="n">utl</span><span class="o">.</span><span class="n">get_data_x_value_header</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">non_data_cols</span><span class="p">)</span>
-<span class="n">samples_per_class</span> <span class="o">=</span> <span class="mi">50</span>
-<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;./ppc_samples_nir_tablets.csv&#39;</span> 
-
-<span class="n">utl</span><span class="o">.</span><span class="n">save_traces</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">samples_per_class</span><span class="p">,</span> <span class="n">x_val</span><span class="p">,</span> <span class="n">class_labels</span><span class="p">,</span> <span class="n">ppc_class_lst</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">utl</span><span class="o">.</span><span class="n">save_traces</span><span class="p">(</span><span class="n">data_obj</span><span class="p">,</span> <span class="s1">&#39;./ppc_samples_nir_tablets.csv&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">ppc_class_lst</span><span class="p">)</span>
 </pre></div>
 
     </div>
