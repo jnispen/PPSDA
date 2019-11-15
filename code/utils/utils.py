@@ -98,13 +98,13 @@ def plot_real_vs_ppc(cdata,  ppc_class_lst, nrows=10):
         for z in range(len(df)):
             plt.plot(x_val, df[z].values[i,:cdata.non_data_columns], '--', color=get_color(z), linewidth=1)
 
-def display_predictions(trace, test_data, non_data_columns, class_labels):
+def display_predictions(cdata, trace, test_data):
     """ displays predicted labels next to the real labels """
     # check model predictions on test dataset
     a = trace['alpha'].mean()
     b = trace['beta'].mean(axis=0)
 
-    xt_n = test_data.columns[:non_data_columns]
+    xt_n = test_data.columns[:cdata.non_data_columns]
     xt_s = test_data[xt_n].values
     xt_s = (xt_s - xt_s.mean(axis=0)) / xt_s.std(axis=0)
 
@@ -113,6 +113,8 @@ def display_predictions(trace, test_data, non_data_columns, class_labels):
 
     pt_y = np.zeros(len(xt_s))
     lp_t = []
+
+    class_labels = cdata.get_class_labels()
 
     for i in range(len(xt_s)):
         if yt_p[i] < 0.5:
@@ -125,14 +127,14 @@ def display_predictions(trace, test_data, non_data_columns, class_labels):
     test_data = test_data.assign(pred=pd.Series(pt_y))
     test_data = test_data.assign(pred_label=pd.Series(lp_t))
 
-    print(test_data.iloc[:,(non_data_columns-2):])
+    print(test_data.iloc[:,(cdata.non_data_columns-2):])
 
-def logistic_score(data, label_column, predicted_labels):
+def logistic_score(cdata, data, predicted_labels):
     """ calculates and prints the logistic score """
-    yt = pd.Categorical(data[label_column]).codes
+    yt = pd.Categorical(data[cdata.label_column]).codes
     cor = 0; err = 0
     for i in range(len(yt)):
-        if data[label_column].iloc[i] == predicted_labels[i]:
+        if data[cdata.label_column].iloc[i] == predicted_labels[i]:
             cor += 1
         else:
             err += 1
@@ -142,9 +144,9 @@ def logistic_score(data, label_column, predicted_labels):
     print("error  : " + str(err))
     print("score  : " + f'{cor / len(yt) * 100:.1f}' + "%")
 
-def softmax_score(data, trace, label_column):
+def softmax_score(cdata, data, trace):
     """ calculates and prints the softmax score """
-    yt = pd.Categorical(data[label_column]).codes
+    yt = pd.Categorical(data[cdata.label_column]).codes
     data_pred = trace['mu'].mean(0)
     y_pred = [np.exp(point) / np.sum(np.exp(point), axis=0)
               for point in data_pred]
@@ -159,10 +161,6 @@ def softmax_score(data, trace, label_column):
     print("correct: " + str(cor))
     print("error  : " + str(err))
     print("score  : " + f'{cor / len(y_pred) * 100:.1f}' + "%")
-
-def standardize(x):
-    """ standardizes the data X, substracts the mean and normalizes the variance """
-    return (x - x.mean(axis=0)) / x.std(axis=0)
 
 def save_traces(cdata, filename, samples_per_class, ppc_class_lst):
     """ saves the trace to a .csv file """
@@ -186,3 +184,7 @@ def save_traces(cdata, filename, samples_per_class, ppc_class_lst):
                 row = np.array(ppc_class_lst[z][i, 0, :], dtype='str').tolist()
                 row.append(class_labels[z])
                 ppc_writer.writerow(row)
+
+def standardize(x):
+    """ standardizes the data X, substracts the mean and normalizes the variance """
+    return (x - x.mean(axis=0)) / x.std(axis=0)
