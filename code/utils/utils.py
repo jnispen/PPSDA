@@ -124,17 +124,65 @@ def display_predictions(cdata, trace, test_data):
             pt_y[i] = 1
             lp_t.append(class_labels[1])
 
-    test_data = test_data.assign(pred=pd.Series(pt_y))
-    test_data = test_data.assign(pred_label=pd.Series(lp_t))
+    #test_data = test_data.assign(pred=pd.Series(pt_y))
+    test_data = test_data.assign(p_label=pd.Series(lp_t))
 
-    print(test_data.iloc[:,(cdata.non_data_columns-2):])
+    print(test_data.iloc[:, (cdata.non_data_columns-1):])
 
-def logistic_score(cdata, data, predicted_labels):
+    return test_data
+
+def display_predictions_ppc(cdata, trace):
+    """ displays the predicted labels next to the real labels """
+    # check model predictions on test dataset
+    a = trace['alpha'].mean()
+    b = trace['beta'].mean(axis=0)
+
+    xt_n = cdata.data.columns[:cdata.non_data_columns]
+    xt_s = cdata.data[xt_n].values
+    xt_s = (xt_s - xt_s.mean(axis=0)) / xt_s.std(axis=0)
+
+    mu_t = a + (b * xt_s).sum(axis=1)
+    yt_p = 1 / (1 + np.exp(-mu_t))
+
+    pt_y = np.zeros(len(xt_s))
+    lp_t = []
+
+    class_labels = cdata.get_class_labels()
+
+    for i in range(len(xt_s)):
+        if yt_p[i] < 0.5:
+            pt_y[i] = 0
+            lp_t.append(class_labels[0])
+        else:
+            pt_y[i] = 1
+            lp_t.append(class_labels[1])
+
+    #cdata.data = cdata.data.assign(pred=pd.Series(pt_y))
+    cdata.data = cdata.data.assign(p_label=pd.Series(lp_t))
+
+    print (cdata.data.iloc[:,(cdata.non_data_columns-1):])
+
+def logistic_score(cdata, data, predicted_column):
     """ calculates and prints the logistic score """
     yt = pd.Categorical(data[cdata.label_column]).codes
     cor = 0; err = 0
     for i in range(len(yt)):
-        if data[cdata.label_column].iloc[i] == predicted_labels[i]:
+        if data[cdata.label_column][i] == data[predicted_column][i]:
+            cor += 1
+        else:
+            err += 1
+
+    print("total  : " + str(len(yt)))
+    print("correct: " + str(cor))
+    print("error  : " + str(err))
+    print("score  : " + f'{cor / len(yt) * 100:.1f}' + "%")
+
+def logistic_score_ppc(cdata, predicted_column):
+    """ calculates and prints the logistic regression score """
+    yt = pd.Categorical(cdata.data[cdata.label_column]).codes
+    cor = 0; err = 0
+    for i in range(len(yt)):
+        if cdata.data[cdata.label_column][i] == cdata.data[predicted_column][i]:
             cor += 1
         else:
             err += 1
