@@ -13288,8 +13288,8 @@ Robusta: red
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Arabica    100
-Robusta    100
+<pre>Robusta    100
+Arabica    100
 Name: label, dtype: int64
 </pre>
 </div>
@@ -13490,7 +13490,7 @@ y \sim Bernoulli(\theta)
 <text text-anchor="middle" x="66.9441" y="-208.3" font-family="Times,serif" font-size="14.00" fill="#000000">alpha ~ Normal</text>
 </g>
 <!-- theta -->
-<g id="node4" class="node">
+<g id="node3" class="node">
 <title>theta</title>
 <polygon fill="none" stroke="#000000" points="202.9441,-147 70.9441,-147 70.9441,-111 202.9441,-111 202.9441,-147"/>
 <text text-anchor="middle" x="136.9441" y="-125.3" font-family="Times,serif" font-size="14.00" fill="#000000">theta ~ Deterministic</text>
@@ -13514,7 +13514,7 @@ y \sim Bernoulli(\theta)
 <polygon fill="#000000" stroke="#000000" points="163.1496,-152.1013 153.7825,-147.1506 158.0178,-156.8621 163.1496,-152.1013"/>
 </g>
 <!-- y_pred -->
-<g id="node3" class="node">
+<g id="node4" class="node">
 <title>y_pred</title>
 <ellipse fill="#d3d3d3" stroke="#000000" cx="136.9441" cy="-57" rx="77.9862" ry="18"/>
 <text text-anchor="middle" x="136.9441" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">y_pred ~ Bernoulli</text>
@@ -13685,7 +13685,7 @@ score  : 47.0%
     <span class="n">pm</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">trace_filename</span><span class="p">,</span> <span class="n">trace_mlr</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="c1"># save prediction results</span>
-    <span class="n">sample_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">ppc_filename</span><span class="p">)</span>
+    <span class="n">sample_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">ppc_filename</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
