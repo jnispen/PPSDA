@@ -13529,7 +13529,7 @@ X_{a..d} \sim \mathcal{N}(\mu,\sigma^{2})
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (2 chains in 2 jobs)
 NUTS: [sigma, sigma_s, mu, sigma_mu, sigma_ab, mu_m]
-Sampling 2 chains: 100%|██████████| 5000/5000 [02:53&lt;00:00, 28.83draws/s]
+Sampling 2 chains: 100%|██████████| 5000/5000 [03:11&lt;00:00, 26.06draws/s] 
 </pre>
 </div>
 </div>
@@ -13587,23 +13587,11 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:53&lt;00:0
 <path fill="none" stroke="#000000" d="M190,-8C190,-8 658,-8 658,-8 664,-8 670,-14 670,-20 670,-20 670,-71 670,-71 670,-77 664,-83 658,-83 658,-83 190,-83 190,-83 184,-83 178,-77 178,-71 178,-71 178,-20 178,-20 178,-14 184,-8 190,-8"/>
 <text text-anchor="middle" x="637.5" y="-15.8" font-family="Times,serif" font-size="14.00" fill="#000000">80 x 404</text>
 </g>
-<!-- sigma_ab -->
-<g id="node1" class="node">
-<title>sigma_ab</title>
-<ellipse fill="none" stroke="#000000" cx="626" cy="-284" rx="83.3857" ry="18"/>
-<text text-anchor="middle" x="626" y="-280.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma_ab ~ Gamma</text>
-</g>
 <!-- sigma_mu -->
-<g id="node2" class="node">
+<g id="node1" class="node">
 <title>sigma_mu</title>
 <ellipse fill="none" stroke="#000000" cx="626" cy="-212" rx="100.9827" ry="18"/>
 <text text-anchor="middle" x="626" y="-208.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma_mu ~ HalfNormal</text>
-</g>
-<!-- sigma_ab&#45;&gt;sigma_mu -->
-<g id="edge1" class="edge">
-<title>sigma_ab&#45;&gt;sigma_mu</title>
-<path fill="none" stroke="#000000" d="M626,-265.8314C626,-258.131 626,-248.9743 626,-240.4166"/>
-<polygon fill="#000000" stroke="#000000" points="629.5001,-240.4132 626,-230.4133 622.5001,-240.4133 629.5001,-240.4132"/>
 </g>
 <!-- mu -->
 <g id="node6" class="node">
@@ -13617,8 +13605,86 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:53&lt;00:0
 <path fill="none" stroke="#000000" d="M580.6673,-195.8418C548.5154,-184.3817 505.4185,-169.0205 472.5645,-157.3101"/>
 <polygon fill="#000000" stroke="#000000" points="473.3154,-153.8621 462.7207,-153.8015 470.9651,-160.4558 473.3154,-153.8621"/>
 </g>
-<!-- mu_m -->
+<!-- sigma_s -->
+<g id="node2" class="node">
+<title>sigma_s</title>
+<ellipse fill="none" stroke="#000000" cx="244" cy="-212" rx="78.7863" ry="18"/>
+<text text-anchor="middle" x="244" y="-208.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma_s ~ Gamma</text>
+</g>
+<!-- sigma -->
+<g id="node4" class="node">
+<title>sigma</title>
+<ellipse fill="none" stroke="#000000" cx="259" cy="-140" rx="85.2851" ry="18"/>
+<text text-anchor="middle" x="259" y="-136.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma ~ HalfNormal</text>
+</g>
+<!-- sigma_s&#45;&gt;sigma -->
+<g id="edge4" class="edge">
+<title>sigma_s&#45;&gt;sigma</title>
+<path fill="none" stroke="#000000" d="M247.7851,-193.8314C249.3894,-186.131 251.297,-176.9743 253.0799,-168.4166"/>
+<polygon fill="#000000" stroke="#000000" points="256.5507,-168.9169 255.1639,-158.4133 249.6979,-167.4892 256.5507,-168.9169"/>
+</g>
+<!-- sigma_ab -->
 <g id="node3" class="node">
+<title>sigma_ab</title>
+<ellipse fill="none" stroke="#000000" cx="626" cy="-284" rx="83.3857" ry="18"/>
+<text text-anchor="middle" x="626" y="-280.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma_ab ~ Gamma</text>
+</g>
+<!-- sigma_ab&#45;&gt;sigma_mu -->
+<g id="edge1" class="edge">
+<title>sigma_ab&#45;&gt;sigma_mu</title>
+<path fill="none" stroke="#000000" d="M626,-265.8314C626,-258.131 626,-248.9743 626,-240.4166"/>
+<polygon fill="#000000" stroke="#000000" points="629.5001,-240.4132 626,-230.4133 622.5001,-240.4133 629.5001,-240.4132"/>
+</g>
+<!-- class_a -->
+<g id="node7" class="node">
+<title>class_a</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="89" cy="-57" rx="73.387" ry="18"/>
+<text text-anchor="middle" x="89" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_a ~ Normal</text>
+</g>
+<!-- sigma&#45;&gt;class_a -->
+<g id="edge6" class="edge">
+<title>sigma&#45;&gt;class_a</title>
+<path fill="none" stroke="#000000" d="M225.0065,-123.4032C197.9898,-110.2127 160.0637,-91.6958 131.1224,-77.5656"/>
+<polygon fill="#000000" stroke="#000000" points="132.5886,-74.3866 122.0668,-73.1444 129.5174,-80.677 132.5886,-74.3866"/>
+</g>
+<!-- class_b -->
+<g id="node8" class="node">
+<title>class_b</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="424" cy="-57" rx="73.387" ry="18"/>
+<text text-anchor="middle" x="424" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_b ~ Normal</text>
+</g>
+<!-- sigma&#45;&gt;class_b -->
+<g id="edge8" class="edge">
+<title>sigma&#45;&gt;class_b</title>
+<path fill="none" stroke="#000000" d="M290.2485,-123.0993C308.2133,-113.493 331.2634,-101.3528 352,-91 361.0904,-86.4616 370.896,-81.7265 380.2568,-77.2818"/>
+<polygon fill="#000000" stroke="#000000" points="381.8783,-80.3868 389.4264,-72.952 378.8893,-74.057 381.8783,-80.3868"/>
+</g>
+<!-- class_c -->
+<g id="node9" class="node">
+<title>class_c</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="259" cy="-57" rx="73.387" ry="18"/>
+<text text-anchor="middle" x="259" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_c ~ Normal</text>
+</g>
+<!-- sigma&#45;&gt;class_c -->
+<g id="edge10" class="edge">
+<title>sigma&#45;&gt;class_c</title>
+<path fill="none" stroke="#000000" d="M259,-121.9902C259,-111.2963 259,-97.4994 259,-85.3706"/>
+<polygon fill="#000000" stroke="#000000" points="262.5001,-85.2612 259,-75.2612 255.5001,-85.2613 262.5001,-85.2612"/>
+</g>
+<!-- class_d -->
+<g id="node10" class="node">
+<title>class_d</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="589" cy="-57" rx="73.387" ry="18"/>
+<text text-anchor="middle" x="589" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_d ~ Normal</text>
+</g>
+<!-- sigma&#45;&gt;class_d -->
+<g id="edge12" class="edge">
+<title>sigma&#45;&gt;class_d</title>
+<path fill="none" stroke="#000000" d="M284.5841,-122.6224C302.5894,-111.396 327.717,-97.679 352,-91 418.0827,-72.8241 438.543,-95.1174 506,-83 516.6962,-81.0786 527.9381,-78.1827 538.5736,-75.012"/>
+<polygon fill="#000000" stroke="#000000" points="539.6247,-78.3506 548.1373,-72.043 537.5492,-71.6653 539.6247,-78.3506"/>
+</g>
+<!-- mu_m -->
+<g id="node5" class="node">
 <title>mu_m</title>
 <ellipse fill="none" stroke="#000000" cx="424" cy="-212" rx="83.3857" ry="18"/>
 <text text-anchor="middle" x="424" y="-208.3" font-family="Times,serif" font-size="14.00" fill="#000000">mu_m ~ Lognormal</text>
@@ -13629,93 +13695,27 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:53&lt;00:0
 <path fill="none" stroke="#000000" d="M424,-193.8314C424,-186.131 424,-176.9743 424,-168.4166"/>
 <polygon fill="#000000" stroke="#000000" points="427.5001,-168.4132 424,-158.4133 420.5001,-168.4133 427.5001,-168.4132"/>
 </g>
-<!-- sigma -->
-<g id="node4" class="node">
-<title>sigma</title>
-<ellipse fill="none" stroke="#000000" cx="259" cy="-140" rx="85.2851" ry="18"/>
-<text text-anchor="middle" x="259" y="-136.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma ~ HalfNormal</text>
-</g>
-<!-- class_a -->
-<g id="node7" class="node">
-<title>class_a</title>
-<ellipse fill="#d3d3d3" stroke="#000000" cx="89" cy="-57" rx="73.387" ry="18"/>
-<text text-anchor="middle" x="89" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_a ~ Normal</text>
-</g>
-<!-- sigma&#45;&gt;class_a -->
-<g id="edge5" class="edge">
-<title>sigma&#45;&gt;class_a</title>
-<path fill="none" stroke="#000000" d="M225.0065,-123.4032C197.9898,-110.2127 160.0637,-91.6958 131.1224,-77.5656"/>
-<polygon fill="#000000" stroke="#000000" points="132.5886,-74.3866 122.0668,-73.1444 129.5174,-80.677 132.5886,-74.3866"/>
-</g>
-<!-- class_d -->
-<g id="node8" class="node">
-<title>class_d</title>
-<ellipse fill="#d3d3d3" stroke="#000000" cx="424" cy="-57" rx="73.387" ry="18"/>
-<text text-anchor="middle" x="424" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_d ~ Normal</text>
-</g>
-<!-- sigma&#45;&gt;class_d -->
-<g id="edge11" class="edge">
-<title>sigma&#45;&gt;class_d</title>
-<path fill="none" stroke="#000000" d="M290.2485,-123.0993C308.2133,-113.493 331.2634,-101.3528 352,-91 361.0904,-86.4616 370.896,-81.7265 380.2568,-77.2818"/>
-<polygon fill="#000000" stroke="#000000" points="381.8783,-80.3868 389.4264,-72.952 378.8893,-74.057 381.8783,-80.3868"/>
-</g>
-<!-- class_b -->
-<g id="node9" class="node">
-<title>class_b</title>
-<ellipse fill="#d3d3d3" stroke="#000000" cx="259" cy="-57" rx="73.387" ry="18"/>
-<text text-anchor="middle" x="259" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_b ~ Normal</text>
-</g>
-<!-- sigma&#45;&gt;class_b -->
-<g id="edge7" class="edge">
-<title>sigma&#45;&gt;class_b</title>
-<path fill="none" stroke="#000000" d="M259,-121.9902C259,-111.2963 259,-97.4994 259,-85.3706"/>
-<polygon fill="#000000" stroke="#000000" points="262.5001,-85.2612 259,-75.2612 255.5001,-85.2613 262.5001,-85.2612"/>
-</g>
-<!-- class_c -->
-<g id="node10" class="node">
-<title>class_c</title>
-<ellipse fill="#d3d3d3" stroke="#000000" cx="589" cy="-57" rx="73.387" ry="18"/>
-<text text-anchor="middle" x="589" y="-53.3" font-family="Times,serif" font-size="14.00" fill="#000000">class_c ~ Normal</text>
-</g>
-<!-- sigma&#45;&gt;class_c -->
-<g id="edge9" class="edge">
-<title>sigma&#45;&gt;class_c</title>
-<path fill="none" stroke="#000000" d="M284.5841,-122.6224C302.5894,-111.396 327.717,-97.679 352,-91 418.0827,-72.8241 438.543,-95.1174 506,-83 516.6962,-81.0786 527.9381,-78.1827 538.5736,-75.012"/>
-<polygon fill="#000000" stroke="#000000" points="539.6247,-78.3506 548.1373,-72.043 537.5492,-71.6653 539.6247,-78.3506"/>
-</g>
-<!-- sigma_s -->
-<g id="node5" class="node">
-<title>sigma_s</title>
-<ellipse fill="none" stroke="#000000" cx="244" cy="-212" rx="78.7863" ry="18"/>
-<text text-anchor="middle" x="244" y="-208.3" font-family="Times,serif" font-size="14.00" fill="#000000">sigma_s ~ Gamma</text>
-</g>
-<!-- sigma_s&#45;&gt;sigma -->
-<g id="edge4" class="edge">
-<title>sigma_s&#45;&gt;sigma</title>
-<path fill="none" stroke="#000000" d="M247.7851,-193.8314C249.3894,-186.131 251.297,-176.9743 253.0799,-168.4166"/>
-<polygon fill="#000000" stroke="#000000" points="256.5507,-168.9169 255.1639,-158.4133 249.6979,-167.4892 256.5507,-168.9169"/>
-</g>
 <!-- mu&#45;&gt;class_a -->
-<g id="edge6" class="edge">
+<g id="edge5" class="edge">
 <title>mu&#45;&gt;class_a</title>
 <path fill="none" stroke="#000000" d="M405.4298,-122.8081C391.9684,-111.5107 372.7323,-97.6349 353,-91 315.2589,-78.3097 213.2384,-89.766 174,-83 162.939,-81.0927 151.3017,-78.1704 140.3086,-74.9638"/>
 <polygon fill="#000000" stroke="#000000" points="141.0147,-71.5204 130.429,-71.96 138.9784,-78.2177 141.0147,-71.5204"/>
 </g>
-<!-- mu&#45;&gt;class_d -->
-<g id="edge12" class="edge">
-<title>mu&#45;&gt;class_d</title>
+<!-- mu&#45;&gt;class_b -->
+<g id="edge7" class="edge">
+<title>mu&#45;&gt;class_b</title>
 <path fill="none" stroke="#000000" d="M424,-121.9902C424,-111.2963 424,-97.4994 424,-85.3706"/>
 <polygon fill="#000000" stroke="#000000" points="427.5001,-85.2612 424,-75.2612 420.5001,-85.2613 427.5001,-85.2612"/>
 </g>
-<!-- mu&#45;&gt;class_b -->
-<g id="edge8" class="edge">
-<title>mu&#45;&gt;class_b</title>
+<!-- mu&#45;&gt;class_c -->
+<g id="edge9" class="edge">
+<title>mu&#45;&gt;class_c</title>
 <path fill="none" stroke="#000000" d="M402.5343,-123.0189C388.9032,-112.7961 370.5757,-100.0514 353,-91 341.0743,-84.8584 327.7805,-79.3258 315.032,-74.5945"/>
 <polygon fill="#000000" stroke="#000000" points="316.0156,-71.2288 305.4212,-71.1358 313.6452,-77.8152 316.0156,-71.2288"/>
 </g>
-<!-- mu&#45;&gt;class_c -->
-<g id="edge10" class="edge">
-<title>mu&#45;&gt;class_c</title>
+<!-- mu&#45;&gt;class_d -->
+<g id="edge11" class="edge">
+<title>mu&#45;&gt;class_d</title>
 <path fill="none" stroke="#000000" d="M455.0352,-124.3883C481.2326,-111.2102 518.9576,-92.2334 547.7034,-77.7734"/>
 <polygon fill="#000000" stroke="#000000" points="549.3343,-80.871 556.6949,-73.2504 546.1887,-74.6176 549.3343,-80.871"/>
 </g>
@@ -14008,7 +14008,7 @@ Sampling 2 chains: 100%|██████████| 5000/5000 [02:53&lt;00:0
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 250/250 [00:03&lt;00:00, 71.71it/s]
+<pre>100%|██████████| 250/250 [00:03&lt;00:00, 72.90it/s]
 </pre>
 </div>
 </div>
@@ -14345,7 +14345,7 @@ dtype: float64
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">utl</span><span class="o">.</span><span class="n">save_traces</span><span class="p">(</span><span class="n">data_obj</span><span class="p">,</span> <span class="s1">&#39;./ppc_samples_nir_tablets.csv&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">ppc_class_lst</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">utl</span><span class="o">.</span><span class="n">save_traces</span><span class="p">(</span><span class="n">data_obj</span><span class="p">,</span> <span class="s1">&#39;./ppc_samples_tablets_nir.csv&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">ppc_class_lst</span><span class="p">)</span>
 </pre></div>
 
     </div>
