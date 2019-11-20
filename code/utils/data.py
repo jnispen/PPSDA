@@ -10,6 +10,7 @@ class Data:
         self.non_data_columns=non_data_columns
         self.data = pd.read_csv(filename)
         self.data = self.data.sample(frac=1, random_state=42)
+        self.classes = len(self.get_class_labels())
 
     def get_class_labels(self):
         """ return list of class labels """
