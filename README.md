@@ -96,4 +96,7 @@ The olive oils dataset contains 120 FTIR samples originating from Spain (50), It
 The wines dataset contains 44 FTIR samples originating from wines produced from the same grape (100% Cabernet Sauvignon), but harvested in different geographical areas, Chile (15), Australia (12), South Africa (11) and Argentina (6). The dataset was obtained from: [http://www.models.life.ku.dk/Wine_GCMS_FTIR](http://www.models.life.ku.dk/Wine_GCMS_FTIR)
 
 ## Tablets
-The tablets dataset contains a collection of NIR and Raman spectra obtained from 4 different types of pharmaceutical tablets with a varying amount of active substance. NIR spectra: 310 samples of type A (70), B (80), C (80) and D (80). Raman spectra: 120 samples of type A (30), B (27), C (33) and D (30). The dataset was obtained from: [http://www.models.life.ku.dk/Tablets](http://www.models.life.ku.dk/Tablets)
+The tablets dataset contains a collection of Near-infrared (NIR) and Raman spectra obtained from 4 different types of pharmaceutical tablets with a varying amount of active substance. NIR spectra: 310 samples of type A (70), B (80), C (80) and D (80). Raman spectra: 120 samples of type A (30), B (27), C (33) and D (30). The dataset was obtained from: [http://www.models.life.ku.dk/Tablets](http://www.models.life.ku.dk/Tablets)
+
+## Beers
+The beers dataset contains NIR and Raman spectra of Rochefort 8 (class 1) and Rochefort 10 (class 2) beers. NIR spectra: 44 samples of class 1 (28) and class 2 (16). Raman spectra: 45 samples of class 1 (29) and class 2 (16).
