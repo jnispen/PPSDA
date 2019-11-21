@@ -1,3 +1,5 @@
 # ignore all jupyter checkpoint files
 **/.ipynb_checkpoints
 **/__pycache__
+code/logistic_regression/traces
+code/logistic_regression/ppc_samples_*
