@@ -182,15 +182,15 @@ def get_score(data, label_column, predicted_column):
 def logistic_score(data, label_column, predicted_column, kfold=False):
     """ calculates and prints the logistic score """
     if kfold:
-        print('    tot  cor  err  score')
+        print('n   tot  cor  err  score (%)')
         print('----------------------------')
         ttot = 0; tcor = 0; terr = 0
         for i in range(len(data)):
             tot, cor, err, score = get_score(data[i], label_column, predicted_column)
-            print(str(i) + "    " + str(tot) + "   " + str(cor) +  "   " + str(err) + "   " + score + "%")
+            print(str(i+1) + "    " + str(tot) + "   " + str(cor) +  "   " + str(err) + "   " + score)
             ttot += tot; tcor += cor; terr += err
         print('----------------------------')
-        print("     " + str(ttot) + "   " + str(tcor) + "   " + str(terr) + "   " + f'{tcor / ttot * 100:.1f}' + "%")
+        print("     " + str(ttot) + "   " + str(tcor) + "   " + str(terr) + "   " + f'{tcor / ttot * 100:.1f}')
     else:
         tot, cor, err, score = get_score(data, label_column, predicted_column)
         print("total  : " + str(tot))
