@@ -3,3 +3,4 @@
 **/__pycache__
 code/logistic_regression/traces
 code/logistic_regression/ppc_samples_*
+code/generative_models/ppc_samples_*
