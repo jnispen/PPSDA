@@ -98,8 +98,8 @@ def plot_real_vs_ppc(cdata,  ppc_class_lst, nrows=10):
         for z in range(len(df)):
             plt.plot(x_val, df[z].values[i,:cdata.non_data_columns], '--', color=get_color(z), linewidth=1)
 
-def display_predictions(cdata, trace, test_data):
-    """ displays predicted labels next to the real labels """
+def append_predictions(cdata, trace, test_data, display=True):
+    """ appends predicted labels to the test dataframe """
     # check model predictions on test dataset
     a = trace['alpha'].mean()
     b = trace['beta'].mean(axis=0)
@@ -127,12 +127,13 @@ def display_predictions(cdata, trace, test_data):
     #test_data = test_data.assign(pred=pd.Series(pt_y))
     test_data = test_data.assign(p_label=pd.Series(lp_t))
 
-    print(test_data.iloc[:, (cdata.non_data_columns-1):])
+    if display:
+        print(test_data.iloc[:, (cdata.non_data_columns-1):])
 
     return test_data
 
-def display_predictions_ppc(cdata, trace):
-    """ displays the predicted labels next to the real labels """
+def append_predictions_ppc(cdata, trace, display=True):
+    """ appends predicted labels to the dataframe """
     # check model predictions on test dataset
     a = trace['alpha'].mean()
     b = trace['beta'].mean(axis=0)
@@ -160,22 +161,42 @@ def display_predictions_ppc(cdata, trace):
     #cdata.data = cdata.data.assign(pred=pd.Series(pt_y))
     cdata.data = cdata.data.assign(p_label=pd.Series(lp_t))
 
-    print (cdata.data.iloc[:,(cdata.non_data_columns-1):])
+    if display:
+        print (cdata.data.iloc[:,(cdata.non_data_columns-1):])
 
-def logistic_score(cdata, data, predicted_column):
-    """ calculates and prints the logistic score """
-    yt = pd.Categorical(data[cdata.label_column]).codes
+def get_score(data, label_column, predicted_column):
+    """ calculates the logreg score for a single column """
+    yt = pd.Categorical(data[label_column]).codes
     cor = 0; err = 0
     for i in range(len(yt)):
-        if data[cdata.label_column][i] == data[predicted_column][i]:
+        if data[label_column][i] == data[predicted_column][i]:
             cor += 1
         else:
             err += 1
 
-    print("total  : " + str(len(yt)))
-    print("correct: " + str(cor))
-    print("error  : " + str(err))
-    print("score  : " + f'{cor / len(yt) * 100:.1f}' + "%")
+    tot = len(yt)
+    score = f'{cor / len(yt) * 100:.1f}'
+
+    return tot, cor, err, score
+
+def logistic_score(data, label_column, predicted_column, kfold=False):
+    """ calculates and prints the logistic score """
+    if kfold:
+        print('    tot  cor  err  score')
+        print('----------------------------')
+        ttot = 0; tcor = 0; terr = 0
+        for i in range(len(data)):
+            tot, cor, err, score = get_score(data[i], label_column, predicted_column)
+            print(str(i) + "    " + str(tot) + "   " + str(cor) +  "   " + str(err) + "   " + score + "%")
+            ttot += tot; tcor += cor; terr += err
+        print('----------------------------')
+        print("     " + str(ttot) + "   " + str(tcor) + "   " + str(terr) + "   " + f'{tcor / ttot * 100:.1f}' + "%")
+    else:
+        tot, cor, err, score = get_score(data, label_column, predicted_column)
+        print("total  : " + str(tot))
+        print("correct: " + str(cor))
+        print("error  : " + str(err))
+        print("score  : " + score + "%")
 
 def logistic_score_ppc(cdata, predicted_column):
     """ calculates and prints the logistic regression score """
@@ -236,3 +257,31 @@ def save_traces(cdata, filename, samples_per_class, ppc_class_lst):
 def standardize(x):
     """ standardizes the data X, substracts the mean and normalizes the variance """
     return (x - x.mean(axis=0)) / x.std(axis=0)
+
+def train_test_split_kfold(data, nfolds):
+    """ splits the dataframe into n-fold sets of training and test data """
+    from sklearn.model_selection import KFold
+
+    kf = KFold(n_splits=nfolds, random_state=42)
+    kf.get_n_splits(data)
+
+    # list of training and test dataframes
+    train_lst, test_lst = [], []
+
+    for train_index, test_index in kf.split(data):
+        # create empty dataframe
+        df_train = pd.DataFrame(columns=data.columns.to_list())
+        df_test = pd.DataFrame(columns=data.columns.to_list())
+
+        # add rows to training and test dataframes, re-index and append to list
+        for i, val in enumerate(train_index):
+            df_train.loc[data.index[val]] = data.iloc[val]
+        df_train.index = range(len(df_train))
+        train_lst.append(df_train)
+
+        for i, val in enumerate(test_index):
+            df_test.loc[data.index[val]] = data.iloc[val]
+        df_test.index = range(len(df_test))
+        test_lst.append(df_test)
+
+    return train_lst, test_lst
