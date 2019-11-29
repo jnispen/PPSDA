@@ -14,10 +14,10 @@ class Data:
 
     def get_class_labels(self):
         """ return list of class labels """
-        class_labels = list({lbl for lbl in self.data.iloc[:,
-                            self.data.columns.to_list().index(self.label_column)].tolist()})
-        class_labels.sort()
-        return class_labels
+        #class_labels = list({lbl for lbl in self.data.iloc[:,
+        #                    self.data.columns.to_list().index(self.label_column)].tolist()})
+        #class_labels.sort()
+        return np.unique(self.data.iloc[:,self.data.columns.to_list().index(self.label_column)].tolist())
 
     def get_x_val(self):
         """ return ndarray of x values """
