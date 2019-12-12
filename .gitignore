@@ -5,3 +5,4 @@ code/logistic_regression/traces
 code/mixture_models/traces
 code/logistic_regression/ppc_samples_*
 code/generative_models/ppc_samples_*
+code/test/dummy_data_*
