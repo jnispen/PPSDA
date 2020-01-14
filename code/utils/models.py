@@ -1,10 +1,11 @@
+import numpy as np
 import pymc3 as pm
 
 def generative_model(observations, nclasses, nfeatures, *args, **kwargs):
     """ basic generative model """
     nsamples = kwargs.get('nsamples', None)
 
-    with pm.Model() as model_gm:
+    with pm.Model() as model:
         # priors
         mu_m = pm.Lognormal('mu_m', mu=0, sigma=1)
         sigma_ab = pm.Gamma('sigma_ab', alpha=1., beta=1.)
@@ -22,4 +23,130 @@ def generative_model(observations, nclasses, nfeatures, *args, **kwargs):
             y_pred = [pm.Normal('class_%d' % i, mu=mu[i], sd=sigma,
                         observed=observations[i][:len(observations[i])]) for i in range(nclasses)]
 
-        return model_gm
+        return model
+
+def get_max(observations_lst):
+    max_val = float("-inf")
+    for i in range(len(observations_lst)):
+        row_max = observations_lst[i].max()
+        if row_max > max_val:
+            max_val = row_max
+    return max_val
+
+def model_gauss_constant(observations, nclasses, xvalues, npeaks, *args, **kwargs):
+    """ basic gaussian peak model + constant y-offset """
+    nsamples = kwargs.get('nsamples', None)
+    mu_peaks = kwargs.get('mu_peaks', None)
+
+    # maximum peak amplitude
+    max_amp = get_max(observations)
+
+    with pm.Model() as model:
+        # priors for Gaussian peak shape
+        amp = pm.Uniform('amp', 0, max_amp, shape=(nclasses, npeaks))
+
+        if mu_peaks != None:
+            mu = pm.Normal('mu', mu=mu_peaks, sd=50,
+                       shape=(nclasses, npeaks), transform=pm.distributions.transforms.ordered)
+        else:
+            mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
+                       shape=(nclasses, npeaks), transform=pm.distributions.transforms.ordered)
+
+        sigma = pm.HalfNormal('sigma', sd=100, shape=(nclasses, npeaks))
+
+        # priors for constant y-offset
+        sigma_aa = pm.Gamma('sigma_aa', alpha=1., beta=1.)
+        sigma_a = pm.HalfNormal('sigma_a', sd=sigma_aa)
+
+        if nsamples != None:
+            a_ = [pm.Normal('a_%d' % i, mu=0, sd=sigma_a, shape=(nsamples, 1)) for i in range(nclasses)]
+        else:
+            a_ = [pm.Normal('a_%d' % i, mu=0, sd=sigma_a, shape=(len(observations[i]), 1)) for i in range(nclasses)]
+
+        #print("amp  : ", amp.tag.test_value.shape)
+        #print("mu   : ", mu.tag.test_value.shape)
+        #print("sigma: ", sigma.tag.test_value.shape)
+        #for i in range(nclasses):
+        #    print("a_%d  : " % i, a_[i].tag.test_value.shape)
+        #print("xvalues: ", xvalues.shape)
+
+        # f(x) = gaussian peaks + constant baseline
+        y_ = [pm.Deterministic('y_%d' % i, (amp[i] * np.exp(-(xvalues - mu[i]) ** 2 / (2 * sigma[i] ** 2))).sum(axis=1)
+                               + a_[i]) for i in range(nclasses)]
+
+        #for i in range(nclasses):
+        #    print("y_%d  : " % i, y_[i].tag.test_value.shape)
+
+        # noise prior
+        sigma_e = pm.Gamma('sigma_e', alpha=1., beta=1.)
+        epsilon = pm.HalfNormal('epsilon', sd=sigma_e)
+
+        # likelihood
+        if nsamples != None:
+            y_pred = [pm.Normal('class_%d' % i, mu=y_[i], sd=epsilon, observed=observations[i][:nsamples])
+                      for i in range(nclasses)]
+        else:
+            y_pred = [pm.Normal('class_%d' % i, mu=y_[i], sd=epsilon, observed=observations[i][:len(observations[i])])
+                      for i in range(nclasses)]
+
+        return model
+
+def model_gauss_linear(observations, nclasses, xvalues, npeaks, *args, **kwargs):
+    """ basic gaussian peak model + constant y-offset """
+    nsamples = kwargs.get('nsamples', None)
+    mu_peaks = kwargs.get('mu_peaks', None)
+
+    # maximum peak amplitude
+    max_amp = get_max(observations)
+
+    with pm.Model() as model:
+        # priors for Gaussian peak shape
+        amp = pm.Uniform('amp', 0, max_amp, shape=(nclasses, npeaks))
+
+        if mu_peaks != None:
+            mu = pm.Normal('mu', mu=mu_peaks, sd=50,
+                       shape=(nclasses, npeaks), transform=pm.distributions.transforms.ordered)
+        else:
+            mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
+                       shape=(nclasses, npeaks), transform=pm.distributions.transforms.ordered)
+
+        sigma = pm.HalfNormal('sigma', sd=100, shape=(nclasses, npeaks))
+
+        # priors for constant y-offset
+        sigma_aa = pm.Gamma('sigma_aa', alpha=1., beta=1.)
+        sigma_a = pm.HalfNormal('sigma_a', sd=sigma_aa)
+
+        if nsamples != None:
+            a0_ = [pm.Normal('a0_%d' % i, mu=0, sd=sigma_a, shape=(nsamples, 1)) for i in range(nclasses)]
+            a1_ = [pm.Normal('a1_%d' % i, mu=0, sd=sigma_a, shape=(nsamples, 1)) for i in range(nclasses)]
+        else:
+            a0_ = [pm.Normal('a0_%d' % i, mu=0, sd=sigma_a, shape=(len(observations[i]), 1)) for i in range(nclasses)]
+            a1_ = [pm.Normal('a1_%d' % i, mu=0, sd=sigma_a, shape=(len(observations[i]), 1)) for i in range(nclasses)]
+
+        #print("amp  : ", amp.tag.test_value.shape)
+        #print("mu   : ", mu.tag.test_value.shape)
+        #print("sigma: ", sigma.tag.test_value.shape)
+        for i in range(nclasses):
+            print("a0_%d  : " % i, a0_[i].tag.test_value.shape)
+        print("xvalues: ", xvalues.shape)
+
+        # f(x) = gaussian peaks + linear baseline
+        y_ = [pm.Deterministic('y_%d' % i, (amp[i] * np.exp(-(xvalues - mu[i]) ** 2 / (2 * sigma[i] ** 2))).sum(axis=1)
+                               + a0_[i] + (a1_[i] * xvalues.T).sum(axis=0)) for i in range(nclasses)]
+
+        for i in range(nclasses):
+            print("y_%d  : " % i, y_[i].tag.test_value.shape)
+
+        # noise prior
+        sigma_e = pm.Gamma('sigma_e', alpha=1., beta=1.)
+        epsilon = pm.HalfNormal('epsilon', sd=sigma_e)
+
+        # likelihood
+        if nsamples != None:
+            y_pred = [pm.Normal('class_%d' % i, mu=y_[i], sd=epsilon, observed=observations[i][:nsamples])
+                      for i in range(nclasses)]
+        else:
+            y_pred = [pm.Normal('class_%d' % i, mu=y_[i], sd=epsilon, observed=observations[i][:len(observations[i])])
+                      for i in range(nclasses)]
+
+        return model

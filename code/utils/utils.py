@@ -37,6 +37,8 @@ def plot_data(cdata, nrows=50):
         y_val = cdata.data.values[i]
         plt.plot(x_val, y_val[:cdata.non_data_columns], '-', color=get_color(label_codes[i]))
 
+    plt.savefig('data_plot.png')
+
 def plot_mean_vs_ppc(cdata, ppc_class_lst):
     """ plot data mean vs. posterior samples """
     # header data = x-values
