@@ -60,8 +60,10 @@ def model_gauss_constant(observations, nclasses, xvalues, npeaks, *args, **kwarg
 
         if nsamples != None:
             a_ = [pm.Normal('a_%d' % i, mu=0, sd=sigma_a, shape=(nsamples, 1)) for i in range(nclasses)]
+            #a_ = [pm.Normal('a_%d' % i, mu=0, sd=sigma_a) for i in range(nclasses)]
         else:
             a_ = [pm.Normal('a_%d' % i, mu=0, sd=sigma_a, shape=(len(observations[i]), 1)) for i in range(nclasses)]
+            #a_ = [pm.Normal('a_%d' % i, mu=0, sd=sigma_a) for i in range(nclasses)]
 
         #print("amp  : ", amp.tag.test_value.shape)
         #print("mu   : ", mu.tag.test_value.shape)
