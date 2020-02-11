@@ -33,6 +33,38 @@ def get_max(observations_lst):
             max_val = row_max
     return max_val
 
+def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
+    """ model: gaussian peaks + noise """
+    mu_peaks = kwargs.get('mu_peaks', None)
+
+    # maximum peak amplitude
+    max_amp = get_max(observations)
+
+    with pm.Model() as model:
+        # priors for Gaussian peak shapes
+        amp = pm.Uniform('amp', 0, max_amp, shape=(1, npeaks))
+
+        if mu_peaks != None:
+            mu = pm.Normal('mu', mu=mu_peaks, sd=50,
+                       shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
+        else:
+            mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
+                       shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
+
+        sigma = pm.HalfNormal('sigma', sd=100, shape=(1, npeaks))
+
+        # f(x) = gaussian peaks
+        y_ = pm.Deterministic('y_', (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0))
+
+        # noise prior
+        sigma_e = pm.Gamma('sigma_e', alpha=1., beta=1.)
+        epsilon = pm.HalfNormal('epsilon', sd=sigma_e)
+
+        # likelihood
+        y_pred = pm.Normal('y_pred', mu=y_, sd=epsilon, observed=observations)
+
+        return model
+
 def model_gauss_constant(observations, nclasses, xvalues, npeaks, *args, **kwargs):
     """ basic gaussian peak model + constant y-offset """
     nsamples = kwargs.get('nsamples', None)
