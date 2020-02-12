@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.1, scatter='no', baseline_type='none'):
+def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.1, scatter='no', tbaseline='none'):
     """ dataset generator for pseudo-Voigt profiles """
     """ parameters:
         xvalues   = list of xvalues (wavelengths)
@@ -12,7 +12,8 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.1, scatt
         scatter   = light scatter constant
         baseline_type = type of baseline in the data (none/offset/linear/quadratic)
          
-        returns: pandas dataframe containing the simulated spectra  
+        returns: pandas dataframe containing the simulated spectra
+                 list containing the peak positions  
     """
 
     # number of features (wavelengths)
@@ -32,7 +33,6 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.1, scatt
     sigma = np.abs(np.random.normal(loc=0, scale=amp_max/3, size=npeaks))
 
     # noise level
-    #epsilon = (amp_max-amp_min)/100
     epsilon = noise
 
     # numpy array containing individual peaks
@@ -44,14 +44,14 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.1, scatt
     # numpy array containing individual baselines
     baselines = np.zeros((nsamples, xsize))
     for i in range(nsamples):
-        if baseline_type == 'offset':
+        if tbaseline == 'offset':
             a0 = np.random.uniform(low=amp_min, high=amp_max)
             baselines[i,:] = np.array(a0)
-        elif baseline_type == 'linear':
+        elif tbaseline == 'linear':
             a0 = np.random.uniform(low=amp_min, high=amp_max)
             a1 = np.random.uniform(low=0, high=amp_max/xdiff)
             baselines[i, :] = np.array(a0 + a1 * X)
-        elif baseline_type == 'quadratic':
+        elif tbaseline == 'quadratic':
             a0 = np.random.uniform(low=amp_min, high=amp_max)
             a1 = np.random.uniform(low=0, high=amp_max/xdiff)
             a2 = np.random.uniform(low=0, high=amp_max/(xdiff**2))
@@ -64,8 +64,8 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.1, scatt
     for i in range(nsamples):
         if scatter == 'yes':
             cscat = np.random.uniform(low=0.8, high=1.2)
-            Y[i, :] = cscat * profiles.sum(axis=0) + baselines[i] + np.random.randn(xsize) * epsilon
+            Y[i,:] = cscat * profiles.sum(axis=0) + baselines[i] + np.random.randn(xsize) * epsilon
         else:
             Y[i,:] = profiles.sum(axis=0) + baselines[i] + np.random.randn(xsize) * epsilon
 
-    return pd.DataFrame(data=Y, columns=X)
+    return (pd.DataFrame(data=Y, columns=X), mu)
