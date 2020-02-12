@@ -34,7 +34,7 @@ def get_max(observations_lst):
     return max_val
 
 def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
-    """ model: gaussian peaks + noise """
+    """ basic model: the spectrum is assumed as gaussian peaks + noise """
     mu_peaks = kwargs.get('mu_peaks', None)
 
     # maximum peak amplitude
@@ -44,7 +44,7 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
         # priors for Gaussian peak shapes
         amp = pm.Uniform('amp', 0, max_amp, shape=(1, npeaks))
 
-        if mu_peaks != None:
+        if mu_peaks:
             mu = pm.Normal('mu', mu=mu_peaks, sd=50,
                        shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
         else:
