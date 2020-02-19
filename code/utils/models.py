@@ -16,7 +16,7 @@ def generative_model(observations, nclasses, nfeatures, *args, **kwargs):
         sigma = pm.HalfNormal('sigma', sigma_s)
 
         # likelihood
-        if nsamples != None:
+        if nsamples is not None:
             y_pred = [pm.Normal('class_%d' % i, mu=mu[i], sd=sigma,
                         observed=observations[i][:nsamples]) for i in range(nclasses)]
         else:
@@ -44,24 +44,27 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
         # priors for Gaussian peak shapes
         amp = pm.Uniform('amp', 0, max_amp, shape=(1, npeaks))
 
-        if mu_peaks:
-            mu = pm.Normal('mu', mu=mu_peaks, sd=50,
-                       shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
+        if mu_peaks is not None:
+            #print("mu_peaks: ", mu_peaks)
+            mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
+                           shape=(1, npeaks), transform=pm.distributions.transforms.ordered, testval=mu_peaks)
         else:
             mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
-                       shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
+                           shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
 
+        #sigma_m = pm.Gamma('sigma_m', alpha=1., beta=1.)
+        #sigma = pm.HalfNormal('sigma', sd=sigma_m, shape=(1, npeaks))
         sigma = pm.HalfNormal('sigma', sd=100, shape=(1, npeaks))
 
         # f(x) = gaussian peaks
-        y_ = pm.Deterministic('y_', (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0))
+        y = pm.Deterministic('y', (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0))
 
         # noise prior
         sigma_e = pm.Gamma('sigma_e', alpha=1., beta=1.)
         epsilon = pm.HalfNormal('epsilon', sd=sigma_e)
 
         # likelihood
-        y_pred = pm.Normal('y_pred', mu=y_, sd=epsilon, observed=observations)
+        y_pred = pm.Normal('y_pred', mu=y, sd=epsilon, observed=observations)
 
         return model
 
@@ -77,7 +80,7 @@ def model_gauss_constant(observations, nclasses, xvalues, npeaks, *args, **kwarg
         # priors for Gaussian peak shape
         amp = pm.Uniform('amp', 0, max_amp, shape=(nclasses, npeaks))
 
-        if mu_peaks != None:
+        if mu_peaks is not None:
             mu = pm.Normal('mu', mu=mu_peaks, sd=50,
                        shape=(nclasses, npeaks), transform=pm.distributions.transforms.ordered)
         else:
@@ -90,7 +93,7 @@ def model_gauss_constant(observations, nclasses, xvalues, npeaks, *args, **kwarg
         sigma_aa = pm.Gamma('sigma_aa', alpha=1., beta=1.)
         sigma_a = pm.HalfNormal('sigma_a', sd=sigma_aa)
 
-        if nsamples != None:
+        if nsamples is not None:
             a_ = [pm.Normal('a_%d' % i, mu=0, sd=sigma_a, shape=(nsamples, 1)) for i in range(nclasses)]
             #a_ = [pm.Normal('a_%d' % i, mu=0, sd=sigma_a) for i in range(nclasses)]
         else:
@@ -116,7 +119,7 @@ def model_gauss_constant(observations, nclasses, xvalues, npeaks, *args, **kwarg
         epsilon = pm.HalfNormal('epsilon', sd=sigma_e)
 
         # likelihood
-        if nsamples != None:
+        if nsamples is not None:
             y_pred = [pm.Normal('class_%d' % i, mu=y_[i], sd=epsilon, observed=observations[i][:nsamples])
                       for i in range(nclasses)]
         else:
@@ -137,7 +140,7 @@ def model_gauss_linear(observations, nclasses, xvalues, npeaks, *args, **kwargs)
         # priors for Gaussian peak shape
         amp = pm.Uniform('amp', 0, max_amp, shape=(nclasses, npeaks))
 
-        if mu_peaks != None:
+        if mu_peaks is not None:
             mu = pm.Normal('mu', mu=mu_peaks, sd=50,
                        shape=(nclasses, npeaks), transform=pm.distributions.transforms.ordered)
         else:
@@ -150,7 +153,7 @@ def model_gauss_linear(observations, nclasses, xvalues, npeaks, *args, **kwargs)
         sigma_aa = pm.Gamma('sigma_aa', alpha=1., beta=1.)
         sigma_a = pm.HalfNormal('sigma_a', sd=sigma_aa)
 
-        if nsamples != None:
+        if nsamples is not None:
             a0_ = [pm.Normal('a0_%d' % i, mu=0, sd=sigma_a, shape=(nsamples, 1)) for i in range(nclasses)]
             a1_ = [pm.Normal('a1_%d' % i, mu=0, sd=sigma_a, shape=(nsamples, 1)) for i in range(nclasses)]
         else:
@@ -176,7 +179,7 @@ def model_gauss_linear(observations, nclasses, xvalues, npeaks, *args, **kwargs)
         epsilon = pm.HalfNormal('epsilon', sd=sigma_e)
 
         # likelihood
-        if nsamples != None:
+        if nsamples is not None:
             y_pred = [pm.Normal('class_%d' % i, mu=y_[i], sd=epsilon, observed=observations[i][:nsamples])
                       for i in range(nclasses)]
         else:

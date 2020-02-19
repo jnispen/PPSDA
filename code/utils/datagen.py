@@ -24,14 +24,16 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.1, scatt
 
     # graph scale parameters
     amp_min = 5
-    amp_max = 30
+    amp_max = 25
     xdiff = X.max()-X.min()
 
     # generate list of peak parameters
     amp   = np.random.uniform(low=amp_min, high=amp_max, size=npeaks)
     mu    = np.random.uniform(low=X.min(), high=X.max(), size=npeaks)
     #sigma = np.abs(np.random.normal(loc=0, scale=amp_max/3, size=npeaks))
-    sigma = np.random.uniform(low=amp_max/100, high=amp_max/2, size=npeaks)
+    #sigma = np.random.uniform(low=amp_max/100, high=amp_max/2, size=npeaks)
+    #sigma = np.random.lognormal(mean=0, sigma=1, size=npeaks)
+    sigma = np.random.gamma(shape=2, scale=2, size=npeaks)
 
     # noise level
     epsilon = noise
