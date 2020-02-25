@@ -52,9 +52,8 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
             mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
                            shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
 
-        #sigma_m = pm.Gamma('sigma_m', alpha=1., beta=1.)
-        #sigma = pm.HalfNormal('sigma', sd=sigma_m, shape=(1, npeaks))
         sigma = pm.HalfNormal('sigma', sd=100, shape=(1, npeaks))
+        #sigma = pm.Lognormal('sigma', mu=1.16, sigma=0.34, shape=(1, npeaks))
 
         # f(x) = gaussian peaks
         y = pm.Deterministic('y', (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0))

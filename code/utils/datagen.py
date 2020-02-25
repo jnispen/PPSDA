@@ -30,10 +30,7 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.1, scatt
     # generate list of peak parameters
     amp   = np.random.uniform(low=amp_min, high=amp_max, size=npeaks)
     mu    = np.random.uniform(low=X.min(), high=X.max(), size=npeaks)
-    #sigma = np.abs(np.random.normal(loc=0, scale=amp_max/3, size=npeaks))
-    #sigma = np.random.uniform(low=amp_max/100, high=amp_max/2, size=npeaks)
-    #sigma = np.random.lognormal(mean=0, sigma=1, size=npeaks)
-    sigma = np.random.gamma(shape=2, scale=2, size=npeaks)
+    sigma = np.random.lognormal(mean=1.16, sigma=0.34, size=npeaks)
 
     # noise level
     epsilon = noise
@@ -72,3 +69,21 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.1, scatt
             Y[i,:] = profiles.sum(axis=0) + baselines[i] + np.random.randn(xsize) * epsilon
 
     return (pd.DataFrame(data=Y, columns=X), mu)
+
+def data_load(count, path):
+    """ load generated datasets and peak information from disk """
+    """ parameters:
+        count = number of datasets to load (0-99)
+        path  = directory to load datasets from
+        
+        returns: list of pandas dataframes containing the simulated spectra
+                 list containing the peak positions 
+    """
+
+    ldata = []
+    for i in range(count):
+        df = pd.read_csv(path + '/dataset_%02d.csv' % (i+1))
+        ldata.append(df)
+    lpeaks = np.loadtxt(path + '/peakinfo.csv', delimiter=',')
+
+    return (ldata, lpeaks)

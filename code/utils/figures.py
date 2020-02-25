@@ -45,6 +45,11 @@ def plot_posterior(x_val, data_val, traces, ppc_traces, dims, figure_size=(12,16
         for i in range(10):
             ax[idx].plot(x_val, sp[-i, i, :], '-', color="black", alpha=.2)
 
+        # plot samples from the prior
+        #sp = ppc_prior['y_pred']
+        #for i in range(10):
+        #    ax[i].plot(x_val, sp[-i, i, :], '-', color="blue", alpha=.2)
+
         if showpeaks == 'yes':
             # plot mixture components
             A = traces[idx]['amp'].mean(axis=0).flatten()
@@ -63,5 +68,7 @@ def plot_posterior(x_val, data_val, traces, ppc_traces, dims, figure_size=(12,16
             ax[idx].plot(x_val, y_val, '-', color="red", alpha=.2, linewidth=1)
         ax[idx].set_title("#{}".format(idx + 1))
 
-    if savefig == 'yes':
+    if savefig == 'yes' and showpeaks == 'yes':
+        plt.savefig(fname + '_ppc_peaks.png', dpi=150)
+    elif savefig == 'yes': 
         plt.savefig(fname + '_ppc.png', dpi=150)
