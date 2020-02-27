@@ -46,20 +46,20 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
 
         if mu_peaks is not None:
             #print("mu_peaks: ", mu_peaks)
-            mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
-                           shape=(1, npeaks), transform=pm.distributions.transforms.ordered, testval=mu_peaks)
+            #mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
+            #               shape=(1, npeaks), transform=pm.distributions.transforms.ordered, testval=mu_peaks)
             # LogNormal model
-            #mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks), testval=mu_peaks)
+            mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks), testval=mu_peaks)
         else:
-            mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
-                           shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
+            #mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
+            #               shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
             # LogNormal model
-            #mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks))
+            mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks))
 
         # Normal model
-        sigma = pm.HalfNormal('sigma', sd=100, shape=(1, npeaks))
+        #sigma = pm.HalfNormal('sigma', sd=100, shape=(1, npeaks))
         # LogNormal model
-        #sigma = pm.Lognormal('sigma', mu=1.16, sigma=0.34, shape=(1, npeaks))
+        sigma = pm.Lognormal('sigma', mu=1.16, sigma=0.34, shape=(1, npeaks))
 
         # f(x) = gaussian peaks
         y = pm.Deterministic('y', (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0))
