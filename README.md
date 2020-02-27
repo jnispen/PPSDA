@@ -5,9 +5,16 @@ This repository contains Jupyter notebooks for probabilistic modeling of vibrati
 
 ## 1. Linux System Setup (Ubuntu 18.04)
 
+### General Requirements
+First make sure Python3, pip and graphviz are installed on the system:
+
+```
+>> sudo apt install python3 python3-dev python-pip graphviz
+```
+
 ### Install virtualenv
 
-To avoid messing up your existing Python installation, first install virtualenv [(https://virtualenv.pypa.io/en/stable)](https://virtualenv.pypa.io/en/stable/):
+To avoid messing up the Python installation, install virtualenv [(https://virtualenv.pypa.io/en/stable)](https://virtualenv.pypa.io/en/stable/):
 
 ```
 >> pip install virtualenv
