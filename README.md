@@ -16,7 +16,7 @@ To avoid messing up your existing Python installation, first install virtualenv 
 Once installed, create a new virtual enviroment by running the command:
 
 ```
->> virtualenv PPSDA
+>> virtualenv -p python3 PPSDA
 ```
 
 You can activate the virtual environment by running:
