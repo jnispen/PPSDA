@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>scenario_noise_evaluation</title>
+<title>scenario_noise_single</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13077,7 +13077,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Scenario-A---Noise-Level-Variation-(results-evaluation)">Scenario A - Noise Level Variation (results evaluation)<a class="anchor-link" href="#Scenario-A---Noise-Level-Variation-(results-evaluation)">&#182;</a></h1><p>This file is used to evaluate the inference (numerical) results.</p>
+<h1 id="Scenario-A---Noise-Level-Variation-(individual-dataset)">Scenario A - Noise Level Variation (individual dataset)<a class="anchor-link" href="#Scenario-A---Noise-Level-Variation-(individual-dataset)">&#182;</a></h1><p>This file is used to zoom in and experiment on on a previously generated dataset.</p>
 <p>The model used in the inference of the parameters is formulated as follows:</p>
 \begin{equation}
 \large y = f(x) = \sum\limits_{m=1}^M \big[A_m \cdot e^{-\frac{(x-\mu_m)^2}{2\cdot\sigma_m^2}}\big] + \epsilon
@@ -13087,7 +13087,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
@@ -13106,32 +13106,31 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>WARNING (theano.tensor.blas): Using NumPy C-API based implementation for BLAS functions.
-</pre>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Import-local-utility-functions">Import local utility functions<a class="anchor-link" href="#Import-local-utility-functions">&#182;</a></h2>
 </div>
 </div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Running on PyMC3 v3.8
-</pre>
 </div>
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../../utils&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">utils</span> <span class="k">as</span> <span class="nn">utl</span>
+<span class="kn">import</span> <span class="nn">datagen</span> <span class="k">as</span> <span class="nn">dg</span>
+<span class="kn">import</span> <span class="nn">models</span> <span class="k">as</span> <span class="nn">mdl</span>
+<span class="kn">import</span> <span class="nn">results</span> <span class="k">as</span> <span class="nn">res</span>
+<span class="kn">import</span> <span class="nn">figures</span> <span class="k">as</span> <span class="nn">fig</span>
+</pre></div>
 
+    </div>
 </div>
 </div>
 
@@ -13139,19 +13138,280 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Load-results-summary">Load results summary<a class="anchor-link" href="#Load-results-summary">&#182;</a></h2>
+<h2 id="Local-settings">Local settings<a class="anchor-link" href="#Local-settings">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># load results from disk</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./output_mruns_nopeak_auto/scenario_noise.csv&#39;</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="c1">#df.sort_values(by=[&#39;waic&#39;], ascending=False)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># dataset to load</span>
+<span class="n">ndata</span> <span class="o">=</span> <span class="s1">&#39;06&#39;</span>
+<span class="n">input_datafile</span> <span class="o">=</span> <span class="s1">&#39;./input_datasets/dataset_&#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ndata</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span> 
+<span class="n">input_peakfile</span> <span class="o">=</span> <span class="s1">&#39;./input_datasets/peakinfo.csv&#39;</span> 
+
+<span class="c1"># output for results and images</span>
+<span class="n">out_path</span> <span class="o">=</span> <span class="s1">&#39;./output_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ndata</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+<span class="n">fbase</span>    <span class="o">=</span> <span class="s1">&#39;scenario_noise&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ndata</span><span class="p">)</span>
+<span class="n">file_basename</span> <span class="o">=</span> <span class="n">out_path</span> <span class="o">+</span> <span class="n">fbase</span>
+
+<span class="c1"># if dir does not exist, create it</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">out_path</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">out_path</span><span class="p">)</span>
+
+<span class="c1"># initialization method for sampler (&#39;jitter+adapt_diag&#39;/&#39;advi+adapt_diag&#39;/&#39;adapt_diag&#39;)</span>
+<span class="n">init_mode</span> <span class="o">=</span> <span class="s1">&#39;adapt_diag&#39;</span>
+    
+<span class="c1"># provide peak positions to the model as testvalues (&#39;yes&#39;/&#39;no&#39;)</span>
+<span class="n">peak_info</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>
+
+<span class="c1"># model mode (&#39;train&#39;)</span>
+<span class="n">model_mode</span> <span class="o">=</span> <span class="s1">&#39;train&#39;</span>
+
+<span class="c1"># number of times to run inference engine on dataset</span>
+<span class="n">niter</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Save-configuration">Save configuration<a class="anchor-link" href="#Save-configuration">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_path</span> <span class="o">+</span> <span class="s1">&#39;settings.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A, </span><span class="si">%d</span><span class="s2">. %B %Y %I:%M%p&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;input file = &#39;</span> <span class="o">+</span> <span class="n">input_datafile</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;init_mode  = &#39;</span> <span class="o">+</span> <span class="n">init_mode</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;peak_info  = &#39;</span> <span class="o">+</span> <span class="n">peak_info</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Load-data-and-plot">Load data and plot<a class="anchor-link" href="#Load-data-and-plot">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ldata</span>  <span class="o">=</span> <span class="p">[]</span>
+<span class="n">lpeaks</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># load data from disk</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loading file </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">input_datafile</span><span class="p">))</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">input_datafile</span><span class="p">)</span>
+<span class="n">ldata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loading peakinfo </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">input_peakfile</span><span class="p">))</span>
+<span class="n">pks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">input_peakfile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="n">lpeaks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pks</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">ndata</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># plot datasets</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">plot_datasets</span><span class="p">(</span><span class="n">ldata</span><span class="p">,</span> <span class="n">lpeaks</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">figure_size</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">savefig</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="n">file_basename</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Initialize-models-and-run-inference">Initialize models and run inference<a class="anchor-link" href="#Initialize-models-and-run-inference">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># expand dataframe and peak list</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">niter</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">ldata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ldata</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">lpeaks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lpeaks</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    
+<span class="c1"># convert pandas data to numpy arrays</span>
+<span class="n">x_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ldata</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+
+<span class="c1"># store dataset y-values in list</span>
+<span class="n">cols</span> <span class="o">=</span> <span class="n">ldata</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">y_val</span> <span class="o">=</span> <span class="p">[</span><span class="n">ldata</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ldata</span><span class="p">))]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># initialize models and run inference</span>
+<span class="n">models</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">traces</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ldata</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">peak_info</span> <span class="o">==</span> <span class="s1">&#39;yes&#39;</span><span class="p">:</span>
+            <span class="n">plist</span> <span class="o">=</span> <span class="n">lpeaks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">plist</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+            <span class="n">model_g</span> <span class="o">=</span> <span class="n">mdl</span><span class="o">.</span><span class="n">model_gauss</span><span class="p">(</span><span class="n">xvalues</span><span class="o">=</span><span class="n">x_val</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">y_val</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">npeaks</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">mu_peaks</span><span class="o">=</span><span class="n">plist</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">model_g</span> <span class="o">=</span> <span class="n">mdl</span><span class="o">.</span><span class="n">model_gauss</span><span class="p">(</span><span class="n">xvalues</span><span class="o">=</span><span class="n">x_val</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">y_val</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">npeaks</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> 
+        <span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model_g</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">model_g</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">model_mode</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;running inference on dataset #</span><span class="si">{0}</span><span class="s2">/</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">ldata</span><span class="p">)))</span>
+                <span class="n">trace_g</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init_mode</span><span class="p">)</span>
+                <span class="n">traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trace_g</span><span class="p">)</span>
+                <span class="c1"># save inference results</span>
+                <span class="n">pm</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">out_path</span> <span class="o">+</span> <span class="s1">&#39;/traces_</span><span class="si">%02d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">trace_g</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Model-visualization">Model visualization<a class="anchor-link" href="#Model-visualization">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># save model figure as image</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">img</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">file_basename</span> <span class="o">+</span> <span class="s1">&#39;_model&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Collect-results-and-save">Collect results and save<a class="anchor-link" href="#Collect-results-and-save">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># posterior predictive traces</span>
+<span class="n">ppc</span> <span class="o">=</span> <span class="p">[</span><span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">traces</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">models</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">traces</span><span class="p">))]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># various plots to inspect the inference results</span>
+<span class="n">varnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;amp&#39;</span><span class="p">,</span> <span class="s1">&#39;mu&#39;</span><span class="p">,</span> <span class="s1">&#39;sigma&#39;</span><span class="p">,</span> <span class="s1">&#39;epsilon&#39;</span><span class="p">]</span>
+
+<span class="c1">#az.summary(traces[0], varnames)</span>
+<span class="c1">#az.plot_trace(traces[2], varnames, compact=True);</span>
+<span class="c1">#az.plot_trace(traces[2], varnames, divergences=&#39;top&#39;);</span>
+<span class="c1">#az.plot_autocorr(traces[0], varnames);</span>
+<span class="c1">#az.plot_posterior(traces[2], varnames);</span>
+
+<span class="c1">#for idx, trace in enumerate(traces):</span>
+<span class="c1">#    az.plot_forest(trace, var_names = varnames, r_hat=True, ess=True);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#az.plot_trace(traces[0], varnames, compact=True);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">model_mode</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
+    <span class="c1"># collect the results and display</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get_results_summary</span><span class="p">(</span><span class="n">varnames</span><span class="p">,</span> <span class="n">traces</span><span class="p">,</span> <span class="n">ppc</span><span class="p">,</span> <span class="n">y_val</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># load results from disk</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_basename</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">)</span>
 <span class="n">df</span>
 </pre></div>
 
@@ -13159,276 +13419,53 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[8]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>r_hat</th>
-      <th>mcse</th>
-      <th>ess</th>
-      <th>bfmi</th>
-      <th>r2</th>
-      <th>waic</th>
-      <th>epsilon</th>
-      <th>epsilon_real</th>
-      <th>run</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>1</th>
-      <td>1.781</td>
-      <td>15.1341</td>
-      <td>393.3</td>
-      <td>1.022062</td>
-      <td>0.819809</td>
-      <td>10923.142095</td>
-      <td>0.725382</td>
-      <td>0.05</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1.128</td>
-      <td>4.0626</td>
-      <td>940.8</td>
-      <td>0.865779</td>
-      <td>0.907261</td>
-      <td>5397.443973</td>
-      <td>1.449909</td>
-      <td>0.05</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1.779</td>
-      <td>2.2154</td>
-      <td>86.0</td>
-      <td>0.456527</td>
-      <td>0.999216</td>
-      <td>-3639.826562</td>
-      <td>0.054456</td>
-      <td>0.05</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1.000</td>
-      <td>0.0000</td>
-      <td>3832.2</td>
-      <td>0.990132</td>
-      <td>0.999782</td>
-      <td>-3282.086571</td>
-      <td>0.080536</td>
-      <td>0.05</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>2.231</td>
-      <td>0.0554</td>
-      <td>7.1</td>
-      <td>1.548249</td>
-      <td>0.981370</td>
-      <td>3391.999934</td>
-      <td>0.748876</td>
-      <td>0.05</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>86</th>
-      <td>2.018</td>
-      <td>7.5998</td>
-      <td>23.1</td>
-      <td>0.672519</td>
-      <td>0.866061</td>
-      <td>7420.091476</td>
-      <td>1.872743</td>
-      <td>0.25</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>87</th>
-      <td>1.519</td>
-      <td>9.4752</td>
-      <td>472.9</td>
-      <td>1.040019</td>
-      <td>0.511566</td>
-      <td>8502.824203</td>
-      <td>4.100400</td>
-      <td>0.25</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>88</th>
-      <td>1.827</td>
-      <td>9.6597</td>
-      <td>57.7</td>
-      <td>1.084901</td>
-      <td>0.984574</td>
-      <td>3433.745999</td>
-      <td>0.440995</td>
-      <td>0.25</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>89</th>
-      <td>1.956</td>
-      <td>1.8298</td>
-      <td>2.1</td>
-      <td>1.312961</td>
-      <td>0.994771</td>
-      <td>5883.845466</td>
-      <td>0.675870</td>
-      <td>0.25</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>90</th>
-      <td>1.000</td>
-      <td>0.0995</td>
-      <td>3376.6</td>
-      <td>0.954436</td>
-      <td>0.959969</td>
-      <td>3584.016729</td>
-      <td>0.793445</td>
-      <td>0.25</td>
-      <td>3</td>
-    </tr>
-  </tbody>
-</table>
-<p>90 rows × 9 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">suc</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;r_hat&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1.1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;r2&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">0.99</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;run&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;3&#39;</span><span class="p">)]</span>
-<span class="n">suc</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">model_mode</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
+    <span class="c1"># save results to .csv</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">file_basename</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Plot-posterior">Plot posterior<a class="anchor-link" href="#Plot-posterior">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">x_val</span><span class="p">,</span> <span class="n">ldata</span><span class="p">,</span> <span class="n">traces</span><span class="p">,</span> <span class="n">ppc</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">niter</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">),</span> <span class="n">figure_size</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> <span class="n">savefig</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> 
+                       <span class="n">fname</span><span class="o">=</span><span class="n">file_basename</span><span class="p">,</span> <span class="n">showpeaks</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+</pre></div>
 
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[11]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>r_hat</th>
-      <th>mcse</th>
-      <th>ess</th>
-      <th>bfmi</th>
-      <th>r2</th>
-      <th>waic</th>
-      <th>epsilon</th>
-      <th>epsilon_real</th>
-      <th>run</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>67</th>
-      <td>1.001</td>
-      <td>0.1319</td>
-      <td>1960.0</td>
-      <td>0.924363</td>
-      <td>0.995311</td>
-      <td>1020.233776</td>
-      <td>0.337916</td>
-      <td>0.05</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>73</th>
-      <td>1.032</td>
-      <td>0.9540</td>
-      <td>83.9</td>
-      <td>1.021461</td>
-      <td>0.998325</td>
-      <td>-230.330760</td>
-      <td>0.221101</td>
-      <td>0.10</td>
-      <td>3</td>
-    </tr>
-  </tbody>
-</table>
+    </div>
 </div>
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">x_val</span><span class="p">,</span> <span class="n">ldata</span><span class="p">,</span> <span class="n">traces</span><span class="p">,</span> <span class="n">ppc</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">niter</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">),</span> <span class="n">figure_size</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> <span class="n">savefig</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> 
+                       <span class="n">fname</span><span class="o">=</span><span class="n">file_basename</span><span class="p">,</span> <span class="n">showpeaks</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">)</span>
+</pre></div>
 
+    </div>
 </div>
 </div>
 
