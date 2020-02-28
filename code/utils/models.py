@@ -34,8 +34,9 @@ def get_max(observations_lst):
     return max_val
 
 def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
-    """ basic model: the spectrum is assumed as gaussian peaks + noise """
+    """ basic model: the spectrum is assumed as a summation of gaussian peaks + noise """
     mu_peaks = kwargs.get('mu_peaks', None)
+    pmodel = kwargs.get('pmodel', None)
 
     # maximum peak amplitude
     max_amp = get_max(observations)
@@ -46,22 +47,30 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
 
         if mu_peaks is not None:
             #print("mu_peaks: ", mu_peaks)
-            #mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
-            #               shape=(1, npeaks), transform=pm.distributions.transforms.ordered, testval=mu_peaks)
-            # LogNormal model
-            mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks), testval=mu_peaks)
+            if model == 'normal':
+                # use Normal model
+                mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
+                               shape=(1, npeaks), transform=pm.distributions.transforms.ordered, testval=mu_peaks)
+            else:
+                # use LogNormal model
+                mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks), testval=mu_peaks)
         else:
-            #mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
-            #               shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
-            # LogNormal model
-            mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks))
+            if model == 'normal':
+                # use Normal model
+                mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
+                               shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
+            else:
+                # use LogNormal model
+                mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks))
 
-        # Normal model
-        #sigma = pm.HalfNormal('sigma', sd=100, shape=(1, npeaks))
-        # LogNormal model
-        sigma = pm.Lognormal('sigma', mu=1.16, sigma=0.34, shape=(1, npeaks))
+        if model == 'normal':
+            # use Normal model
+            sigma = pm.HalfNormal('sigma', sd=100, shape=(1, npeaks))
+        else:
+            # use LogNormal model
+            sigma = pm.Lognormal('sigma', mu=1.16, sigma=0.34, shape=(1, npeaks))
 
-        # f(x) = gaussian peaks
+        # f(x) = sum of gaussian peaks
         y = pm.Deterministic('y', (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0))
 
         # noise prior
