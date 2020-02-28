@@ -47,7 +47,7 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
 
         if mu_peaks is not None:
             #print("mu_peaks: ", mu_peaks)
-            if model == 'normal':
+            if pmodel == 'normal':
                 # use Normal model
                 mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
                                shape=(1, npeaks), transform=pm.distributions.transforms.ordered, testval=mu_peaks)
@@ -55,7 +55,7 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
                 # use LogNormal model
                 mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks), testval=mu_peaks)
         else:
-            if model == 'normal':
+            if pmodel == 'normal':
                 # use Normal model
                 mu = pm.Normal('mu', mu=np.linspace(xvalues.min(), xvalues.max(), npeaks), sd=50,
                                shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
@@ -63,7 +63,7 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
                 # use LogNormal model
                 mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks))
 
-        if model == 'normal':
+        if pmodel == 'normal':
             # use Normal model
             sigma = pm.HalfNormal('sigma', sd=100, shape=(1, npeaks))
         else:
