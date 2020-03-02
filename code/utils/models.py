@@ -41,6 +41,10 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
     # maximum peak amplitude
     max_amp = get_max(observations)
 
+    # the min and max peak values in the lognormal model can be shifted by 10% of the minimum value
+    min_xval = xvalues.min() * 0.9
+    max_xval = xvalues.max() + (xvalues.min() * 0.1)
+
     with pm.Model() as model:
         # priors for Gaussian peak shapes
         amp = pm.Uniform('amp', 0, max_amp, shape=(1, npeaks))
@@ -53,7 +57,8 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
                                shape=(1, npeaks), transform=pm.distributions.transforms.ordered, testval=mu_peaks)
             else:
                 # use LogNormal model
-                mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks), testval=mu_peaks)
+                #mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks), testval=mu_peaks)
+                mu = pm.Uniform('mu', min_xval, max_xval, shape=(1, npeaks), testval=mu_peaks)
         else:
             if pmodel == 'normal':
                 # use Normal model
@@ -61,7 +66,8 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
                                shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
             else:
                 # use LogNormal model
-                mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks))
+                #mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks))
+                mu = pm.Uniform('mu', min_xval, max_xval, shape=(1, npeaks))
 
         if pmodel == 'normal':
             # use Normal model
