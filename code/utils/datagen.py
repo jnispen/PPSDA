@@ -70,7 +70,7 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.1, scatt
 
     return (pd.DataFrame(data=Y, columns=X), mu)
 
-def data_load(count, path, shift_factor=1.0):
+def data_load(count, path, shift_factor=0.0):
     """ load generated datasets and peak information from disk """
     """ parameters:
         count = number of datasets to load (0-99)
@@ -86,7 +86,7 @@ def data_load(count, path, shift_factor=1.0):
         ldata.append(df)
     lpeaks = np.loadtxt(path + '/peakinfo.csv', delimiter=',')
 
-    # shift peak information by factor
-    lpeaks = lpeaks * shift_factor
+    # add shift factor to peaks
+    lpeaks += shift_factor
 
     return (ldata, lpeaks)
