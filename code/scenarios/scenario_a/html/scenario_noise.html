@@ -13179,8 +13179,8 @@ the rest of the parameters in the dataset is kept constant.</p>
 <span class="c1"># provide peak positions to the model as testvalues (&#39;yes&#39;/&#39;no&#39;)</span>
 <span class="n">peak_info</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>
 
-<span class="c1"># peak shift factor (e.g. 5% or 10% = 1.05 or 1.1)</span>
-<span class="n">peak_shift</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="c1"># absolute peak shift (e.g. 2%(4), 5%(10) or 10%(20) of X-min.)</span>
+<span class="n">peak_shift</span> <span class="o">=</span> <span class="mi">10</span>
 
 <span class="c1"># model mode (&#39;train&#39;/eval&#39;)</span>
 <span class="n">model_mode</span> <span class="o">=</span> <span class="s1">&#39;train&#39;</span>
@@ -13271,8 +13271,8 @@ the rest of the parameters in the dataset is kept constant.</p>
     <span class="k">for</span> <span class="n">nl</span> <span class="ow">in</span> <span class="n">noise_levels</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsets</span><span class="p">):</span>
             <span class="n">df</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">data_generator</span><span class="p">(</span><span class="n">xvalues</span><span class="o">=</span><span class="n">xval</span><span class="p">,</span> <span class="n">nsamples</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="n">nl</span><span class="p">)</span>
-            <span class="c1"># shift peak information by shift factor</span>
-            <span class="n">peaks</span> <span class="o">=</span> <span class="n">peaks</span> <span class="o">*</span> <span class="n">peak_shift</span>
+            <span class="c1"># add shift factor to peaks</span>
+            <span class="n">peaks</span> <span class="o">+=</span> <span class="n">peak_shift</span>
             <span class="n">ldata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
             <span class="n">lpeaks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span>
     <span class="c1"># save data to disk</span>

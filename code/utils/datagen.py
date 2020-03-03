@@ -8,7 +8,7 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.1, scatt
         nsamples  = number of samples to generate (observations)
         npeaks    = number of peaks in simulated spectrum
         peakshape = peakshape parametr id pseudoVoigt formula (0 = Gauss, 1 = Lorentz)
-        epsilon   = instumental noise level 
+        noise     = instrumental noise level 
         scatter   = light scatter constant
         baseline_type = type of baseline in the data (none/offset/linear/quadratic)
          
