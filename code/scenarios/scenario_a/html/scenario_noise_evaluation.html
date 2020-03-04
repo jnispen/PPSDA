@@ -13100,7 +13100,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
@@ -13128,6 +13128,17 @@ div#notebook {
     <div class="prompt"></div>
 
 
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>WARNING (theano.tensor.blas): Using NumPy C-API based implementation for BLAS functions.
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Running on PyMC3 v3.8
 </pre>
@@ -13147,11 +13158,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># load results from disk</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./output_mruns_lognormal_5_auto/scenario_noise.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./scenario_noise.csv&#39;</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
 <span class="c1">#df.sort_values(by=[&#39;waic&#39;], ascending=False)</span>
 <span class="n">df</span>
@@ -13167,7 +13178,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[42]:</div>
+    <div class="prompt output_prompt">Out[2]:</div>
 
 
 
@@ -13204,139 +13215,366 @@ div#notebook {
   <tbody>
     <tr>
       <th>1</th>
-      <td>2.230</td>
-      <td>8.0718</td>
-      <td>2.0</td>
-      <td>1.486068</td>
-      <td>0.486909</td>
-      <td>14713.604149</td>
-      <td>1.235773</td>
+      <td>1.792</td>
+      <td>17.6343</td>
+      <td>2.7</td>
+      <td>0.983629</td>
+      <td>0.819621</td>
+      <td>5224.546374</td>
+      <td>1.363282</td>
       <td>0.05</td>
       <td>1</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>1.818</td>
-      <td>4.5551</td>
-      <td>40.4</td>
-      <td>0.948881</td>
-      <td>0.906390</td>
-      <td>10058.087259</td>
-      <td>0.782536</td>
+      <td>1.046</td>
+      <td>2.6305</td>
+      <td>6995.3</td>
+      <td>0.797742</td>
+      <td>0.906804</td>
+      <td>5396.323351</td>
+      <td>1.449872</td>
       <td>0.05</td>
       <td>1</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>1.574</td>
-      <td>5.9018</td>
-      <td>120.1</td>
-      <td>0.885622</td>
-      <td>0.999207</td>
-      <td>-1999.852807</td>
-      <td>0.065340</td>
+      <td>1.497</td>
+      <td>1.2642</td>
+      <td>101.8</td>
+      <td>1.264172</td>
+      <td>0.999211</td>
+      <td>-3299.410427</td>
+      <td>0.079342</td>
       <td>0.05</td>
       <td>1</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>1.747</td>
-      <td>9.4496</td>
-      <td>412.1</td>
-      <td>1.037033</td>
-      <td>0.999782</td>
-      <td>-3282.139989</td>
-      <td>0.080531</td>
+      <td>1.000</td>
+      <td>0.0000</td>
+      <td>35333.5</td>
+      <td>1.010989</td>
+      <td>0.999781</td>
+      <td>-3282.649651</td>
+      <td>0.080546</td>
       <td>0.05</td>
       <td>1</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>1.000</td>
-      <td>0.0002</td>
-      <td>2648.9</td>
-      <td>1.036501</td>
-      <td>0.999912</td>
-      <td>-4622.139704</td>
-      <td>0.051661</td>
+      <td>1.010</td>
+      <td>1.2969</td>
+      <td>2590.5</td>
+      <td>0.505033</td>
+      <td>0.720291</td>
+      <td>7475.069122</td>
+      <td>2.909367</td>
       <td>0.05</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
+      <th>6</th>
+      <td>1.375</td>
+      <td>0.5484</td>
+      <td>1384.7</td>
+      <td>1.251146</td>
+      <td>0.876761</td>
+      <td>5318.837708</td>
+      <td>1.421364</td>
+      <td>0.05</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>236</th>
-      <td>1.830</td>
-      <td>2.6823</td>
-      <td>2.0</td>
-      <td>1.062150</td>
-      <td>0.870781</td>
-      <td>5939.959796</td>
-      <td>0.923388</td>
-      <td>0.25</td>
-      <td>8</td>
+      <th>7</th>
+      <td>1.345</td>
+      <td>1.1971</td>
+      <td>291.5</td>
+      <td>1.154194</td>
+      <td>0.995257</td>
+      <td>1016.922391</td>
+      <td>0.338878</td>
+      <td>0.05</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>237</th>
+      <th>8</th>
+      <td>1.763</td>
+      <td>3.4459</td>
+      <td>10.2</td>
+      <td>0.497526</td>
+      <td>0.699698</td>
+      <td>7306.713303</td>
+      <td>1.415655</td>
+      <td>0.05</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1.168</td>
+      <td>3.6623</td>
+      <td>31.6</td>
+      <td>0.441019</td>
+      <td>0.934793</td>
+      <td>4777.161077</td>
+      <td>1.161842</td>
+      <td>0.05</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2.308</td>
+      <td>0.2235</td>
+      <td>34.0</td>
+      <td>0.003836</td>
+      <td>0.993789</td>
+      <td>1066.920371</td>
+      <td>0.361880</td>
+      <td>0.05</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1.735</td>
+      <td>14.4972</td>
+      <td>23.0</td>
+      <td>0.986735</td>
+      <td>0.977436</td>
+      <td>3291.500964</td>
+      <td>0.711856</td>
+      <td>0.10</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12</th>
       <td>1.000</td>
-      <td>0.0003</td>
-      <td>5215.1</td>
-      <td>1.027726</td>
-      <td>0.998186</td>
-      <td>149.888083</td>
-      <td>0.253693</td>
-      <td>0.25</td>
-      <td>8</td>
+      <td>0.0393</td>
+      <td>29583.1</td>
+      <td>1.008336</td>
+      <td>0.799142</td>
+      <td>6492.833368</td>
+      <td>2.099084</td>
+      <td>0.10</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>238</th>
-      <td>1.796</td>
-      <td>1.5612</td>
-      <td>5.8</td>
-      <td>0.554285</td>
-      <td>0.997829</td>
-      <td>3235.748030</td>
-      <td>0.443767</td>
-      <td>0.25</td>
-      <td>8</td>
+      <th>13</th>
+      <td>1.999</td>
+      <td>7.4211</td>
+      <td>2.7</td>
+      <td>1.393198</td>
+      <td>0.998259</td>
+      <td>171.074332</td>
+      <td>0.162321</td>
+      <td>0.10</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>239</th>
-      <td>1.498</td>
-      <td>1.8501</td>
-      <td>1915.1</td>
-      <td>1.058382</td>
-      <td>0.994779</td>
-      <td>310.085274</td>
-      <td>0.267494</td>
-      <td>0.25</td>
-      <td>8</td>
+      <th>14</th>
+      <td>2.739</td>
+      <td>0.7501</td>
+      <td>3.3</td>
+      <td>1.003822</td>
+      <td>0.999518</td>
+      <td>1309.262642</td>
+      <td>0.302636</td>
+      <td>0.10</td>
+      <td>1</td>
     </tr>
     <tr>
-      <th>240</th>
+      <th>15</th>
+      <td>2.015</td>
+      <td>8.2185</td>
+      <td>1218.0</td>
+      <td>0.001468</td>
+      <td>0.707638</td>
+      <td>7196.037268</td>
+      <td>1.450688</td>
+      <td>0.10</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>16</th>
       <td>1.000</td>
-      <td>0.0005</td>
-      <td>3719.5</td>
-      <td>1.031894</td>
-      <td>0.986135</td>
-      <td>2008.422761</td>
-      <td>0.466585</td>
+      <td>0.0353</td>
+      <td>41440.1</td>
+      <td>0.976178</td>
+      <td>0.636774</td>
+      <td>7525.263090</td>
+      <td>2.955174</td>
+      <td>0.10</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>1.833</td>
+      <td>9.2352</td>
+      <td>4.7</td>
+      <td>0.442542</td>
+      <td>0.757043</td>
+      <td>6118.781046</td>
+      <td>1.620072</td>
+      <td>0.10</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>1.060</td>
+      <td>3.0758</td>
+      <td>400.1</td>
+      <td>0.434032</td>
+      <td>0.757816</td>
+      <td>6632.806131</td>
+      <td>2.164517</td>
+      <td>0.10</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>1.980</td>
+      <td>11.4349</td>
+      <td>2.5</td>
+      <td>0.918732</td>
+      <td>0.986219</td>
+      <td>3106.783921</td>
+      <td>0.520355</td>
+      <td>0.10</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>2.131</td>
+      <td>9.1774</td>
+      <td>7.5</td>
+      <td>0.486471</td>
+      <td>0.265548</td>
+      <td>10582.633054</td>
+      <td>2.771358</td>
+      <td>0.10</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>1.827</td>
+      <td>1.6465</td>
+      <td>20.7</td>
+      <td>0.494267</td>
+      <td>0.096097</td>
+      <td>7580.319020</td>
+      <td>1.563907</td>
       <td>0.25</td>
-      <td>8</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>1.000</td>
+      <td>0.0983</td>
+      <td>11285.1</td>
+      <td>0.861854</td>
+      <td>0.779369</td>
+      <td>7063.682095</td>
+      <td>2.534114</td>
+      <td>0.25</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>1.015</td>
+      <td>1.6263</td>
+      <td>6300.3</td>
+      <td>0.001088</td>
+      <td>0.725909</td>
+      <td>5757.857579</td>
+      <td>1.571888</td>
+      <td>0.25</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>1.660</td>
+      <td>3.1826</td>
+      <td>4250.5</td>
+      <td>0.992823</td>
+      <td>0.932047</td>
+      <td>7226.362048</td>
+      <td>0.632385</td>
+      <td>0.25</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>2.199</td>
+      <td>3.5816</td>
+      <td>20.4</td>
+      <td>0.531355</td>
+      <td>0.964774</td>
+      <td>3814.780677</td>
+      <td>0.942123</td>
+      <td>0.25</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>1.455</td>
+      <td>5.5307</td>
+      <td>42.7</td>
+      <td>0.001519</td>
+      <td>0.757377</td>
+      <td>6417.173372</td>
+      <td>2.050267</td>
+      <td>0.25</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>1.938</td>
+      <td>3.8205</td>
+      <td>11.4</td>
+      <td>0.514028</td>
+      <td>0.513889</td>
+      <td>8918.640812</td>
+      <td>2.004500</td>
+      <td>0.25</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>2.002</td>
+      <td>0.1386</td>
+      <td>26.7</td>
+      <td>0.016020</td>
+      <td>0.989207</td>
+      <td>1289.054065</td>
+      <td>0.396308</td>
+      <td>0.25</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>1.000</td>
+      <td>0.0008</td>
+      <td>30679.2</td>
+      <td>0.996755</td>
+      <td>0.911607</td>
+      <td>4596.484693</td>
+      <td>1.114364</td>
+      <td>0.25</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>1.000</td>
+      <td>0.1927</td>
+      <td>14839.5</td>
+      <td>0.917105</td>
+      <td>0.960027</td>
+      <td>3584.065631</td>
+      <td>0.793608</td>
+      <td>0.25</td>
+      <td>1</td>
     </tr>
   </tbody>
 </table>
-<p>240 rows × 9 columns</p>
 </div>
 </div>
 
@@ -13348,11 +13586,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#suc = df.loc[(df[&#39;r_hat&#39;] &lt;= 1.1) &amp; (df[&#39;r2&#39;] &gt;= 0.99)]</span>
-<span class="n">suc</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;r_hat&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1.1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;r2&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">0.99</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;run&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;3&#39;</span><span class="p">)]</span>
+<span class="n">suc</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;r_hat&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1.1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;r2&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">0.99</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;run&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">)]</span>
 <span class="n">suc</span>
 </pre></div>
 
@@ -13366,7 +13604,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[43]:</div>
+    <div class="prompt output_prompt">Out[9]:</div>
 
 
 
@@ -13402,76 +13640,16 @@ div#notebook {
   </thead>
   <tbody>
     <tr>
-      <th>61</th>
-      <td>1.000</td>
-      <td>0.0000</td>
-      <td>3601.1</td>
-      <td>1.016405</td>
-      <td>0.999764</td>
-      <td>-4682.942082</td>
-      <td>0.050639</td>
+      <th>4</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>35333.5</td>
+      <td>1.010989</td>
+      <td>0.999781</td>
+      <td>-3282.649651</td>
+      <td>0.080546</td>
       <td>0.05</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>67</th>
-      <td>1.044</td>
-      <td>6.5868</td>
-      <td>1352.3</td>
-      <td>0.929860</td>
-      <td>0.995311</td>
-      <td>1020.655583</td>
-      <td>0.337735</td>
-      <td>0.05</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>72</th>
-      <td>1.000</td>
-      <td>0.0000</td>
-      <td>4446.4</td>
-      <td>1.043115</td>
-      <td>0.999554</td>
-      <td>-2678.579100</td>
-      <td>0.098799</td>
-      <td>0.10</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>75</th>
-      <td>1.000</td>
-      <td>0.0000</td>
-      <td>4453.4</td>
-      <td>1.046683</td>
-      <td>0.999455</td>
-      <td>-2405.790707</td>
-      <td>0.108264</td>
-      <td>0.10</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>77</th>
-      <td>1.000</td>
-      <td>0.0001</td>
-      <td>4097.6</td>
-      <td>1.032896</td>
-      <td>0.998587</td>
-      <td>-1364.560850</td>
-      <td>0.152794</td>
-      <td>0.10</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>82</th>
-      <td>1.000</td>
-      <td>0.0002</td>
-      <td>3463.1</td>
-      <td>1.003415</td>
-      <td>0.997810</td>
-      <td>160.844551</td>
-      <td>0.254761</td>
-      <td>0.25</td>
-      <td>3</td>
+      <td>1</td>
     </tr>
   </tbody>
 </table>
@@ -13486,10 +13664,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="s1">&#39;8&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
 <span class="n">suc_l</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;r_hat&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1.1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;r2&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">0.99</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;run&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">==</span> <span class="n">run</span><span class="p">)</span> 
                <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;epsilon_real&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;0.05&#39;</span><span class="p">)]</span>
 <span class="n">suc_m</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;r_hat&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1.1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;r2&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">0.99</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;run&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">==</span> <span class="n">run</span><span class="p">)</span> 
@@ -13517,10 +13695,10 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>1%:  2
-2%:  3
-5%:  2
-t :  7
+<pre>1%:  1
+2%:  0
+5%:  0
+t :  1
 </pre>
 </div>
 </div>
