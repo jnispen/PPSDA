@@ -69,7 +69,7 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.05, scat
         else:
             Y[i,:] = profiles.sum(axis=0) + baselines[i] + np.random.randn(xsize) * epsilon
 
-    return (pd.DataFrame(data=Y, columns=X), mu)
+    return (pd.DataFrame(data=Y, columns=X), mu, amp)
 
 def add_peakshift(peaklist, peak_shift=0.0):
     """ adds a shift to the supplied peaklist """
