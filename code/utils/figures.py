@@ -16,7 +16,8 @@ def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
         x_val = np.array(data.columns.to_list(), dtype='float32')
         X = data.columns
         Y = data[X].values
-        mu = lpeaks[idx]
+        #mu = lpeaks[idx]
+        mu = np.array(lpeaks[idx], dtype=float)
         for i in range(len(data)):
             #ax[idx].plot(X, Y[i], "-", alpha=.5)
             ax[idx].plot(x_val, Y[i], "-", alpha=.5)
