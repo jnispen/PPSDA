@@ -14,7 +14,8 @@ def save(filepath, configuration):
     fp.write('peak_info   = ' + configuration['peak_info'] + '\n')
     if 'peak_shift' in configuration:
         fp.write('peak_shift  = ' + str(configuration['peak_shift']) + '\n')
-    fp.write('model_mode  = ' + configuration['model_mode'] + '\n')
+    if 'model_mode' in configuration:
+        fp.write('model_mode  = ' + configuration['model_mode'] + '\n')
     if 'data_mode' in configuration:
         fp.write('data_mode   = ' + configuration['data_mode'] + '\n')
     if 'dataset_dir' in configuration:
