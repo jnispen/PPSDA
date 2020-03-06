@@ -31,6 +31,7 @@ def plot_posterior(x_val, data_val, traces, ppc_traces, dims, figure_size=(12,16
     savefig = kwargs.get('savefig', None)
     fname = kwargs.get('fname', None)
     showpeaks = kwargs.get('showpeaks', None)
+    tsets = kwargs.get('sets', None)
 
     # subplot dimensions
     nrows = dims[0]
@@ -63,7 +64,12 @@ def plot_posterior(x_val, data_val, traces, ppc_traces, dims, figure_size=(12,16
 
         # plot samples from the dataset
         for i in range(5):
-            y_val = data_val[idx].values[i]
+            # use modulo indexing for multiple model plotting
+            if tsets is not None:
+                index = idx % tsets
+            else:
+                index = idx
+            y_val = data_val[index].values[i]
             ax[idx].plot(x_val, y_val, '-', color="red", alpha=.2, linewidth=1)
         ax[idx].set_title("#{}".format(idx + 1))
 

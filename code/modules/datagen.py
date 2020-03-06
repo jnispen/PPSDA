@@ -14,7 +14,8 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.05, scat
         baseline_type = type of baseline in the data (none/offset/linear/quadratic, default no baseline)
          
         returns: pandas dataframe containing the simulated spectra
-                 list containing the peak positions  
+                 list containing the peak positions
+                 pandas dataframe containing peak information (peak position and peak amplitude)  
     """
 
     # number of features (wavelengths)
@@ -69,7 +70,7 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.05, scat
         else:
             Y[i,:] = profiles.sum(axis=0) + baselines[i] + np.random.randn(xsize) * epsilon
 
-    return (pd.DataFrame(data=Y, columns=X), mu, amp)
+    return (pd.DataFrame(data=Y, columns=X), mu, pd.DataFrame({'mu': mu, 'amp': amp}))
 
 def add_peakshift(peaklist, peak_shift=0.0):
     """ adds a shift to the supplied peaklist """
