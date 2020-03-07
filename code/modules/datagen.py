@@ -15,7 +15,8 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.05, scat
          
         returns: pandas dataframe containing the simulated spectra
                  list containing the peak positions
-                 pandas dataframe containing peak information (peak position and peak amplitude)  
+                 pandas dataframe containing peak information (peak position, peak amplitude, 
+                    peak std. deviation and noise level)  
     """
 
     # number of features (wavelengths)
@@ -70,7 +71,8 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.05, scat
         else:
             Y[i,:] = profiles.sum(axis=0) + baselines[i] + np.random.randn(xsize) * epsilon
 
-    return (pd.DataFrame(data=Y, columns=X), mu, pd.DataFrame({'mu': mu, 'amp': amp}))
+    return (pd.DataFrame(data=Y, columns=X), mu, 
+            pd.DataFrame({'mu': mu, 'amp': amp, 'sigma': sigma, 'epsilon': epsilon}))
 
 def add_peakshift(peaklist, peak_shift=0.0):
     """ adds a shift to the supplied peaklist """
@@ -87,19 +89,23 @@ def data_load(count, path):
         path  = directory to load datasets from
 
         returns: list of pandas dataframes containing the simulated spectra
-                 list containing the peak positions 
+                 list containing the peak positions (of all datasets combined)
+                 list of pandas dataframes containing extended peak information
     """
     # read datasets
     ldata = []
+    lpeakdata = []
     for i in range(count):
-        df = pd.read_csv(path + '/dataset_%02d.csv' % (i + 1))
-        ldata.append(df)
+        df1 = pd.read_csv(path + '/dataset_%02d.csv' % (i + 1))
+        df2 = pd.read_csv(path + '/peakdata_%02d.csv' % (i + 1))
+        ldata.append(df1)
+        lpeakdata.append(df2)
     # read peak information
     with open(path + '/peakinfo.csv', newline='') as fp:
         reader = csv.reader(fp)
         lpeaks = list(reader)
 
-    return (ldata, lpeaks)
+    return (ldata, lpeaks, lpeakdata)
 
 def data_save(filename, peaklist):
     """ save a list of peak maxima to .csv file """
