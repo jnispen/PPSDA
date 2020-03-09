@@ -1,5 +1,6 @@
 import pandas as pd
 import arviz as az
+import numpy as np
 
 def get_results_summary(varnames, traces, ppc_traces, y_values, *args, **kwargs):
     """ function to collect summary statistics from a list of traces and models """
@@ -64,3 +65,47 @@ def get_results_summary(varnames, traces, ppc_traces, y_values, *args, **kwargs)
     df.index += 1
 
     return df
+
+def get_model_summary(data, peaklist):
+    """ function to extract convergence information from a dataframe """
+    """ parameters:
+            data     = dataframe containing convergence results 
+                       (see get_results_summary) 
+            peaklist = list with peak numbers
+            
+            returns: dictionary containing NxN matrices with 
+                     convergence results
+    """
+    
+    npeaks = len(peaklist)
+    
+    waic_mat  = np.full((npeaks,npeaks),0.0)
+    rhat_mat  = np.full((npeaks,npeaks),0.0)
+    r2_mat    = np.full((npeaks,npeaks),0.0)
+    bfmi_mat  = np.full((npeaks,npeaks),0.0)
+    mcse_mat  = np.full((npeaks,npeaks),0.0)
+    noise_mat = np.full((npeaks,npeaks),0.0)
+    ess_mat   = np.full((npeaks,npeaks),0.0)
+
+    # loop over models and numebr of peaks and average the reults 
+    # per model/peaknumber
+    for i, val in enumerate(peaklist):
+        sel1 = data.loc[(data['model'] == val)]
+        for j, val in enumerate(peaklist):
+            sel2 = sel1.loc[(sel1['peaks'] == val)]
+            
+            waic_mat[i][j]  = sel2['waic'].mean()
+            rhat_mat[i][j]  = sel2['r_hat'].mean()
+            r2_mat[i][j]    = sel2['r2'].mean()
+            bfmi_mat[i][j]  = sel2['bfmi'].mean()
+            mcse_mat[i][j]  = sel2['mcse'].mean()
+            noise_mat[i][j] = sel2['epsilon'].mean()
+            ess_mat[i][j]   = sel2['ess'].mean()
+    
+    return {'waic' : waic_mat, 
+            'rhat' : rhat_mat,
+            'r2'   : r2_mat,
+            'bfmi' : bfmi_mat,
+            'mcse' : mcse_mat, 
+            'noise': noise_mat, 
+            'ess'  : ess_mat}
