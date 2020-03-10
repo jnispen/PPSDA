@@ -11,7 +11,7 @@ def get_results_summary(varnames, traces, ppc_traces, y_values, *args, **kwargs)
     run_number  = kwargs.get('runlist', None)
     # total number of datasets per series (used in scenario c)
     tsets = kwargs.get('sets', None)
-    # labels for inference run (used in scenario c)
+    # labels containing model/peak combination (used in scenario c)
     labels = kwargs.get('labels', None)
 
     #####
@@ -90,7 +90,7 @@ def get_model_summary(data, peaklist):
 
     # loop over all the dataframes in the datalist
     for idx, dat in enumerate(data):
-        print("processing dataframe: ", idx)
+        print("processing dataframe: ", idx+1)
         print("number of runs      : ", dat['run'].max())
         # loop over all runs in the dataframe
         # select the runs 1-by-1
