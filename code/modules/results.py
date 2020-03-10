@@ -78,7 +78,7 @@ def get_model_summary(data, peaklist):
     """
     
     npeaks = len(peaklist)
-    ndata  = len(data)
+    count = 0
     
     waic_mat  = np.full((npeaks,npeaks),0.0)
     rhat_mat  = np.full((npeaks,npeaks),0.0)
@@ -88,29 +88,35 @@ def get_model_summary(data, peaklist):
     noise_mat = np.full((npeaks,npeaks),0.0)
     ess_mat   = np.full((npeaks,npeaks),0.0)
 
-    # loop over models and number of peaks and average
-    # the results per model/peaknumber combination
+    # loop over all the dataframes in the datalist
     for idx, dat in enumerate(data):
-        df = dat.loc[(dat['run'] == (idx+1))]
-        # after selecting the results of run k, take 
-        # the average for all the nxn cells and add
-        for i, val in enumerate(peaklist):
-            sel1 = df.loc[(df['model'] == val)]
-            for j, val in enumerate(peaklist):
-                sel2 = sel1.loc[(sel1['peaks'] == val)]
-                
-                waic_mat[i][j]  += sel2['waic'].mean()
-                rhat_mat[i][j]  += sel2['r_hat'].mean()
-                r2_mat[i][j]    += sel2['r2'].mean()
-                bfmi_mat[i][j]  += sel2['bfmi'].mean()
-                mcse_mat[i][j]  += sel2['mcse'].mean()
-                noise_mat[i][j] += sel2['epsilon'].mean()
-                ess_mat[i][j]   += sel2['ess'].mean()
+        print("processing dataframe: ", idx)
+        print("number of runs      : ", dat['run'].max())
+        # loop over all runs in the dataframe
+        # select the runs 1-by-1
+        for k in range(dat['run'].max()):
+            df = dat.loc[(dat['run'] == (k+1))]
+            #print("select run          : ", k+1)
+            count += 1           
+            # loop over models and number of peaks and average
+            # the results per model/peaknumber combination
+            for i, val in enumerate(peaklist):
+                sel1 = df.loc[(df['model'] == val)]
+                for j, val in enumerate(peaklist):
+                    sel2 = sel1.loc[(sel1['peaks'] == val)]
+                    
+                    waic_mat[i][j]  += sel2['waic'].mean()
+                    rhat_mat[i][j]  += sel2['r_hat'].mean()
+                    r2_mat[i][j]    += sel2['r2'].mean()
+                    bfmi_mat[i][j]  += sel2['bfmi'].mean()
+                    mcse_mat[i][j]  += sel2['mcse'].mean()
+                    noise_mat[i][j] += sel2['epsilon'].mean()
+                    ess_mat[i][j]   += sel2['ess'].mean()
     
-    return {'waic' : waic_mat/ndata, 
-            'rhat' : rhat_mat/ndata,
-            'r2'   : r2_mat/ndata,
-            'bfmi' : bfmi_mat/ndata,
-            'mcse' : mcse_mat/ndata, 
-            'noise': noise_mat/ndata, 
-            'ess'  : ess_mat/ndata}
+    return {'waic' : waic_mat/count, 
+            'rhat' : rhat_mat/count,
+            'r2'   : r2_mat/count,
+            'bfmi' : bfmi_mat/count,
+            'mcse' : mcse_mat/count, 
+            'noise': noise_mat/count, 
+            'ess'  : ess_mat/count}
