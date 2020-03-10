@@ -7,7 +7,7 @@ def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
     # optional arguments
     savefig = kwargs.get('savefig', None)
     fname = kwargs.get('fname', None)
-    tpeaks = kwargs.get('tpeaks', None)
+    title = kwargs.get('title', None)
 
     # subplot dimensions
     nrows = dims[0]
@@ -24,7 +24,7 @@ def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
             ax[idx].plot(x_val, Y[i], "-", alpha=.5)
         for j in range(len(mu)):
             ax[idx].axvline(mu[j], linestyle='--', color='gray', alpha=.5)
-        if tpeaks == 'yes':
+        if title == 'yes':
             ax[idx].set_title("#{0} ({1}p)".format(idx+1,len(lpeaks[idx])))
         else:
             ax[idx].set_title("#{0}".format(idx+1))
@@ -86,7 +86,8 @@ def plot_posterior(x_val, data_val, traces, ppc_traces, dims, figure_size=(12,16
             y_val = data_val[index].values[i]
             ax[idx].plot(x_val, y_val, '-', color="red", alpha=.2, linewidth=1)
         if labels is not None:
-            ax[idx].set_title("#{0} (m_{1}p, d_{2}p)".format(idx+1,lmodel[idx],lpeak[idx]))
+            ax[idx].set_title("#{0} ({1}-peak model:{2}-peak spectrum)"
+              .format(idx+1,lmodel[idx],lpeak[idx]))
         else:
             ax[idx].set_title("#{0}".format(idx+1))
 
