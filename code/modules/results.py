@@ -66,7 +66,7 @@ def get_results_summary(varnames, traces, ppc_traces, y_values, *args, **kwargs)
 
     return df
 
-def get_model_summary(data, peaklist):
+def get_model_summary(data, peaklist, *args, **kwargs):
     """ function to extract convergence information from a dataframe """
     """ parameters:
             data     : list of dataframes containing convergence results 
@@ -76,7 +76,8 @@ def get_model_summary(data, peaklist):
             returns  : dictionary containing NxN matrices with the average 
                        convergence results (per model/data combination)
     """
-    
+    mruns = kwargs.get('mruns', None)
+
     npeaks = len(peaklist)
     count = 0
     
@@ -88,31 +89,48 @@ def get_model_summary(data, peaklist):
     noise_mat = np.full((npeaks,npeaks),0.0)
     ess_mat   = np.full((npeaks,npeaks),0.0)
 
-    # loop over all the dataframes in the datalist
-    for idx, dat in enumerate(data):
-        print("processing dataframe: ", idx+1)
-        print("number of runs      : ", dat['run'].max())
-        # loop over all runs in the dataframe
-        # select the runs 1-by-1
-        for k in range(dat['run'].max()):
-            df = dat.loc[(dat['run'] == (k+1))]
-            #print("select run          : ", k+1)
-            count += 1           
-            # loop over models and number of peaks and average
-            # the results per model/peaknumber combination
-            for i, val in enumerate(peaklist):
-                sel1 = df.loc[(df['model'] == val)]
-                for j, val in enumerate(peaklist):
-                    sel2 = sel1.loc[(sel1['peaks'] == val)]
-                    
-                    waic_mat[i][j]  += sel2['waic'].mean()
-                    rhat_mat[i][j]  += sel2['r_hat'].mean()
-                    r2_mat[i][j]    += sel2['r2'].mean()
-                    bfmi_mat[i][j]  += sel2['bfmi'].mean()
-                    mcse_mat[i][j]  += sel2['mcse'].mean()
-                    noise_mat[i][j] += sel2['epsilon'].mean()
-                    ess_mat[i][j]   += sel2['ess'].mean()
-    
+    if mruns == 'yes':
+        # loop over all the dataframes in the datalist
+        for idx, dat in enumerate(data):
+            print("processing dataframe: ", idx+1)
+            print("number of runs      : ", dat['run'].max())
+            # loop over all runs in the dataframe
+            # select the runs 1-by-1
+            for k in range(dat['run'].max()):
+                df = dat.loc[(dat['run'] == (k+1))]
+                #print("select run          : ", k+1)
+                count += 1
+                # loop over models and number of peaks and average
+                # the results per model/peaknumber combination
+                for i, val in enumerate(peaklist):
+                    sel1 = df.loc[(df['model'] == val)]
+                    for j, val in enumerate(peaklist):
+                        sel2 = sel1.loc[(sel1['peaks'] == val)]
+
+                        waic_mat[i][j]  += sel2['waic'].mean()
+                        rhat_mat[i][j]  += sel2['r_hat'].mean()
+                        r2_mat[i][j]    += sel2['r2'].mean()
+                        bfmi_mat[i][j]  += sel2['bfmi'].mean()
+                        mcse_mat[i][j]  += sel2['mcse'].mean()
+                        noise_mat[i][j] += sel2['epsilon'].mean()
+                        ess_mat[i][j]   += sel2['ess'].mean()
+    else:
+        count = 1
+        # loop over models and number of peaks and average
+        # the results per model/peaknumber combination
+        for i, val in enumerate(peaklist):
+            sel1 = data.loc[(data['model'] == val)]
+            for j, val in enumerate(peaklist):
+                sel2 = sel1.loc[(sel1['peaks'] == val)]
+
+                waic_mat[i][j] += sel2['waic'].mean()
+                rhat_mat[i][j] += sel2['r_hat'].mean()
+                r2_mat[i][j] += sel2['r2'].mean()
+                bfmi_mat[i][j] += sel2['bfmi'].mean()
+                mcse_mat[i][j] += sel2['mcse'].mean()
+                noise_mat[i][j] += sel2['epsilon'].mean()
+                ess_mat[i][j] += sel2['ess'].mean()
+
     return {'waic' : waic_mat/count, 
             'rhat' : rhat_mat/count,
             'r2'   : r2_mat/count,
