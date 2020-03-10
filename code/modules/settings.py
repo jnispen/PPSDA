@@ -3,8 +3,8 @@ import datetime
 def save(filepath, configuration):
     """ save the local configuration """
     """ parameters:
-            filepath      = pathname to output file
-            configuration = dictionary containing the local configuration
+            filepath      : pathname to output file
+            configuration : dictionary containing the local configuration
     """
     fp = open(filepath + '/settings.txt', 'w')
     fp.write('start       = ' + datetime.datetime.now().strftime("%A, %d. %B %Y %I:%M%p") + '\n')

@@ -5,18 +5,18 @@ import csv
 def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.05, scatter='no', tbaseline='none'):
     """ dataset generator for pseudo-Voigt profiles """
     """ parameters:
-        xvalues   = list of xvalues (wavelengths)
-        nsamples  = number of samples to generate (observations, default 15 samples)
-        npeaks    = number of peaks in simulated spectrum (3 default)
-        peakshape = peakshape parametr id pseudoVoigt formula (0 = Gauss, 1 = Lorentz)
-        noise     = instrumental noise level (% of the minimal signal amplitude, 1% default)
-        scatter   = light scatter constant (0.8x to 1.2x of peak amplitude, default no)
-        baseline_type = type of baseline in the data (none/offset/linear/quadratic, default no baseline)
+        xvalues   : list of xvalues (wavelengths)
+        nsamples  : number of samples to generate (observations, default 15 samples)
+        npeaks    : number of peaks in simulated spectrum (3 default)
+        peakshape : peakshape parametr id pseudoVoigt formula (0 = Gauss, 1 = Lorentz)
+        noise     : instrumental noise level (% of the minimal signal amplitude, 1% default)
+        scatter   : light scatter constant (0.8x to 1.2x of peak amplitude, default no)
+        baseline_type : type of baseline in the data (none/offset/linear/quadratic, default no baseline)
          
-        returns: pandas dataframe containing the simulated spectra
-                 list containing the peak positions
-                 pandas dataframe containing peak information (peak position, peak amplitude, 
-                    peak std. deviation and noise level)  
+        returns   : pandas dataframe containing the simulated spectra
+                    list containing the peak positions
+                    pandas dataframe containing peak information (peak position, 
+                    peak amplitude, peak std. deviation and noise level)  
     """
 
     # number of features (wavelengths)
@@ -85,12 +85,12 @@ def add_peakshift(peaklist, peak_shift=0.0):
 def data_load(count, path):
     """ load generated datasets and peak information from disk """
     """ parameters:
-        count = number of datasets to load (0-99)
-        path  = directory to load datasets from
+        count   : number of datasets to load (0-99)
+        path    : directory to load datasets from
 
-        returns: list of pandas dataframes containing the simulated spectra
-                 list containing the peak positions (of all datasets combined)
-                 list of pandas dataframes containing extended peak information
+        returns : list of pandas dataframes containing the simulated spectra
+                  list containing the peak positions (of all datasets combined)
+                  list of pandas dataframes containing extended peak information
     """
     # read datasets
     ldata = []
@@ -110,8 +110,8 @@ def data_load(count, path):
 def data_save(filename, peaklist):
     """ save a list of peak maxima to .csv file """
     """ parameters
-        filename = file to save
-        peaklist = list containing peak maxima
+        filename : file to save
+        peaklist : list containing peak maxima
     """
     with open(filename, mode='w') as fp:
         fwr = csv.writer(fp, delimiter=',')

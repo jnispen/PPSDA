@@ -69,15 +69,16 @@ def get_results_summary(varnames, traces, ppc_traces, y_values, *args, **kwargs)
 def get_model_summary(data, peaklist):
     """ function to extract convergence information from a dataframe """
     """ parameters:
-            data     = dataframe containing convergence results 
+            data     : list of dataframes containing convergence results 
                        (see get_results_summary) 
-            peaklist = list with peak numbers
+            peaklist : list with peak numbers
             
-            returns: dictionary containing NxN matrices with 
-                     convergence results
+            returns  : dictionary containing NxN matrices with the average 
+                       convergence results (per model/data combination)
     """
     
     npeaks = len(peaklist)
+    ndata  = len(data)
     
     waic_mat  = np.full((npeaks,npeaks),0.0)
     rhat_mat  = np.full((npeaks,npeaks),0.0)
@@ -87,25 +88,29 @@ def get_model_summary(data, peaklist):
     noise_mat = np.full((npeaks,npeaks),0.0)
     ess_mat   = np.full((npeaks,npeaks),0.0)
 
-    # loop over models and numebr of peaks and average the reults 
-    # per model/peaknumber
-    for i, val in enumerate(peaklist):
-        sel1 = data.loc[(data['model'] == val)]
-        for j, val in enumerate(peaklist):
-            sel2 = sel1.loc[(sel1['peaks'] == val)]
-            
-            waic_mat[i][j]  = sel2['waic'].mean()
-            rhat_mat[i][j]  = sel2['r_hat'].mean()
-            r2_mat[i][j]    = sel2['r2'].mean()
-            bfmi_mat[i][j]  = sel2['bfmi'].mean()
-            mcse_mat[i][j]  = sel2['mcse'].mean()
-            noise_mat[i][j] = sel2['epsilon'].mean()
-            ess_mat[i][j]   = sel2['ess'].mean()
+    # loop over models and number of peaks and average
+    # the results per model/peaknumber combination
+    for idx, dat in enumerate(data):
+        df = dat.loc[(dat['run'] == (idx+1))]
+        # after selecting the results of run k, take 
+        # the average for all the nxn cells and add
+        for i, val in enumerate(peaklist):
+            sel1 = df.loc[(df['model'] == val)]
+            for j, val in enumerate(peaklist):
+                sel2 = sel1.loc[(sel1['peaks'] == val)]
+                
+                waic_mat[i][j]  += sel2['waic'].mean()
+                rhat_mat[i][j]  += sel2['r_hat'].mean()
+                r2_mat[i][j]    += sel2['r2'].mean()
+                bfmi_mat[i][j]  += sel2['bfmi'].mean()
+                mcse_mat[i][j]  += sel2['mcse'].mean()
+                noise_mat[i][j] += sel2['epsilon'].mean()
+                ess_mat[i][j]   += sel2['ess'].mean()
     
-    return {'waic' : waic_mat, 
-            'rhat' : rhat_mat,
-            'r2'   : r2_mat,
-            'bfmi' : bfmi_mat,
-            'mcse' : mcse_mat, 
-            'noise': noise_mat, 
-            'ess'  : ess_mat}
+    return {'waic' : waic_mat/ndata, 
+            'rhat' : rhat_mat/ndata,
+            'r2'   : r2_mat/ndata,
+            'bfmi' : bfmi_mat/ndata,
+            'mcse' : mcse_mat/ndata, 
+            'noise': noise_mat/ndata, 
+            'ess'  : ess_mat/ndata}
