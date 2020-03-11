@@ -66,6 +66,31 @@ def get_results_summary(varnames, traces, ppc_traces, y_values, *args, **kwargs)
 
     return df
 
+def add_means(ddict, sel_data, pklist):
+    """ add means of selected items in the dictionary """
+    """ parameters:
+           ddict    : dictionary containing NxN data matrices
+           sel_data : dataframe containing values to add to dictionary values
+           pklist   : list containing peak values
+    """
+    
+    # loop over models and number of peaks and average
+    # the results per model/peaknumber combination
+    for i, val in enumerate(pklist):
+        sel1 = sel_data.loc[(sel_data['model'] == val)]
+        for j, val in enumerate(pklist):
+            sel2 = sel1.loc[(sel1['peaks'] == val)]
+
+            ddict['waic'][i][j]  += sel2['waic'].mean()
+            ddict['rhat'][i][j]  += sel2['r_hat'].mean()
+            ddict['r2'][i][j]    += sel2['r2'].mean()
+            ddict['bfmi'][i][j]  += sel2['bfmi'].mean()
+            ddict['mcse'][i][j]  += sel2['mcse'].mean()
+            ddict['noise'][i][j] += sel2['epsilon'].mean()
+            ddict['ess'][i][j]   += sel2['ess'].mean()
+                
+    return ddict
+                
 def get_model_summary(data, peaklist, *args, **kwargs):
     """ function to extract convergence information from a dataframe """
     """ parameters:
@@ -89,6 +114,15 @@ def get_model_summary(data, peaklist, *args, **kwargs):
     noise_mat = np.full((npeaks,npeaks),0.0)
     ess_mat   = np.full((npeaks,npeaks),0.0)
 
+    # dictionary containing convergence information
+    cdict = {'waic' : waic_mat, 
+             'rhat' : rhat_mat,
+             'r2'   : r2_mat,
+             'bfmi' : bfmi_mat,
+             'mcse' : mcse_mat, 
+             'noise': noise_mat, 
+             'ess'  : ess_mat}
+
     if mruns == 'yes':
         # loop over all the dataframes in the datalist
         for idx, dat in enumerate(data):
@@ -100,41 +134,13 @@ def get_model_summary(data, peaklist, *args, **kwargs):
                 df = dat.loc[(dat['run'] == (k+1))]
                 #print("select run          : ", k+1)
                 count += 1
-                # loop over models and number of peaks and average
-                # the results per model/peaknumber combination
-                for i, val in enumerate(peaklist):
-                    sel1 = df.loc[(df['model'] == val)]
-                    for j, val in enumerate(peaklist):
-                        sel2 = sel1.loc[(sel1['peaks'] == val)]
-
-                        waic_mat[i][j]  += sel2['waic'].mean()
-                        rhat_mat[i][j]  += sel2['r_hat'].mean()
-                        r2_mat[i][j]    += sel2['r2'].mean()
-                        bfmi_mat[i][j]  += sel2['bfmi'].mean()
-                        mcse_mat[i][j]  += sel2['mcse'].mean()
-                        noise_mat[i][j] += sel2['epsilon'].mean()
-                        ess_mat[i][j]   += sel2['ess'].mean()
+                cdict = add_means(cdict, df, peaklist)
     else:
         count = 1
-        # loop over models and number of peaks and average
-        # the results per model/peaknumber combination
-        for i, val in enumerate(peaklist):
-            sel1 = data.loc[(data['model'] == val)]
-            for j, val in enumerate(peaklist):
-                sel2 = sel1.loc[(sel1['peaks'] == val)]
+        cdict = add_means(cdict, data, peaklist)
+        
+    # calculate the average
+    for key in cdict:
+        cdict[key] /= count 
 
-                waic_mat[i][j] += sel2['waic'].mean()
-                rhat_mat[i][j] += sel2['r_hat'].mean()
-                r2_mat[i][j] += sel2['r2'].mean()
-                bfmi_mat[i][j] += sel2['bfmi'].mean()
-                mcse_mat[i][j] += sel2['mcse'].mean()
-                noise_mat[i][j] += sel2['epsilon'].mean()
-                ess_mat[i][j] += sel2['ess'].mean()
-
-    return {'waic' : waic_mat/count, 
-            'rhat' : rhat_mat/count,
-            'r2'   : r2_mat/count,
-            'bfmi' : bfmi_mat/count,
-            'mcse' : mcse_mat/count, 
-            'noise': noise_mat/count, 
-            'ess'  : ess_mat/count}
+    return cdict
