@@ -95,3 +95,68 @@ def plot_posterior(x_val, data_val, traces, ppc_traces, dims, figure_size=(12,16
         plt.savefig(fname + '_ppc_peaks.png', dpi=150)
     elif savefig == 'yes': 
         plt.savefig(fname + '_ppc.png', dpi=150)
+
+def plot_posterior_single(x_val, data_val, traces, figure_size=(12,16), *args, **kwargs):
+    """ plots the posterior of a single trace and optionally saves the figure """
+    
+    # optional arguments
+    savefig = kwargs.get('savefig', None)
+    fname = kwargs.get('fname', None)
+    showpeaks = kwargs.get('showpeaks', None)
+    posteriors = kwargs.get('posteriors', None)
+    priors = kwargs.get('priors', None)
+    idx = kwargs.get('peakidx', None)
+    samples = kwargs.get('samples', None)
+    
+    # labels containing model/peak combination (used in scenario c)
+    label = kwargs.get('labels', None)
+
+    plt.figure(figsize=figure_size)
+    
+    if posteriors is not None:
+        # plot samples from the posterior
+        sp = posteriors['y_pred']
+        for i in range(15):
+            plt.plot(x_val, sp[-i, i, :], '-', color="black", alpha=.2)
+
+    if priors is not None:
+        # plot samples from the prior
+        sp = priors['y_pred']
+        for i in range(15):
+            plt.plot(x_val, sp[-i, i, :], '--', color="blue", alpha=.2)
+
+    # plot samples from Y (peak number = idx)
+    for i in range(len(traces)):
+        A = traces['amp'][i].flatten()
+        M = traces['mu'][i].flatten()
+        S = traces['sigma'][i].flatten()
+        Y = A[idx] * np.exp(-(x_val - M[idx]) ** 2 / (2 * S[idx] ** 2))
+        plt.plot(x_val, Y, '-', linewidth=1, color="green", alpha=.5)
+
+    if showpeaks == 'yes':
+        # plot mixture components
+        A = traces['amp'].mean(axis=0).flatten()
+        M = traces['mu'].mean(axis=0).flatten()
+        S = traces['sigma'].mean(axis=0).flatten()
+        for j in range(len(A)):
+            Y = A[j] * np.exp(-(x_val - M[j]) ** 2 / (2 * S[j] ** 2))
+            plt.plot(x_val, Y, '--', linewidth=1)
+            plt.axvline(M[j], linestyle='--', linewidth=1, color='g')
+            plt.errorbar(x=M[j], y=.5 * A[j], xerr=S[j], fmt='o',
+                               ecolor='r', elinewidth=1, capsize=5, capthick=1)
+
+    if samples == 'yes':
+        # plot samples from the dataset
+        for i in range(10):
+            y_val = data_val.values[i]
+            plt.plot(x_val, y_val, '-', color="red", alpha=.2, linewidth=1)
+    if label is not None:
+        plt.title("({0}-peak model:{1}-peak spectrum)"
+              .format(label[0],label[1]))
+            
+    if savefig == 'yes' and showpeaks == 'yes':
+        plt.savefig(fname + '_ppc_peaks.png', dpi=150)
+    elif savefig == 'yes': 
+        plt.savefig(fname + '_ppc.png', dpi=150)
+
+    
