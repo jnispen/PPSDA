@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import arviz as az
 
 def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
     """ plots a list of datasets and optionally saves the figure """
@@ -121,13 +122,16 @@ def plot_posterior_single(x_val, data_val, traces, figure_size=(12,16), *args, *
         sp = posteriors['y_pred']
         for i in range(15):
             plt.plot(x_val, sp[-i, i, :], '-', color="black", alpha=.2)
+            
+        # plot 94% HPD interval
+        az.plot_hpd(x_val, posteriors['y_pred'], smooth=False, color= 'C1')
 
     if priors is not None:
         # plot samples from the prior
         sp = priors['y_pred']
         for i in range(15):
-            plt.plot(x_val, sp[-i, i, :], '--', color="blue", alpha=.2)
-
+            plt.plot(x_val, sp[-i, i, :], '--', color="blue", alpha=.2)   
+    
     # plot samples from Y (peak number = idx)
     for i in range(len(traces)):
         A = traces['amp'][i].flatten()

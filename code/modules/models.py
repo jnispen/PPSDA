@@ -37,7 +37,8 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
     """ basic model: the spectrum is assumed as a summation of gaussian peaks + noise """
     mu_peaks = kwargs.get('mu_peaks', None)
     pmodel = kwargs.get('pmodel', None)
-
+    baseline = kwargs.get('baseline', None)
+    
     # maximum peak amplitude
     max_amp = get_max(observations)
 
@@ -76,8 +77,14 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
             # use LogNormal model
             sigma = pm.Lognormal('sigma', mu=1.16, sigma=0.34, shape=(1, npeaks))
 
-        # f(x) = sum of gaussian peaks
-        y = pm.Deterministic('y', (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0))
+        if baseline == 'offset':
+            a0 = pm.Uniform('a0', 0, max_amp, shape=(len(observations), 1))
+            
+            # f(x) = sum of gaussian peaks + offset
+            y = pm.Deterministic('y', (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0) + a0)
+        else:
+            # f(x) = sum of gaussian peaks
+            y = pm.Deterministic('y', (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0))
 
         # noise prior
         sigma_e = pm.Gamma('sigma_e', alpha=1., beta=1.)
