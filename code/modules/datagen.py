@@ -11,7 +11,7 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.05, scat
         peakshape : peakshape parametr id pseudoVoigt formula (0 = Gauss, 1 = Lorentz)
         noise     : instrumental noise level (% of the minimal signal amplitude, 1% default)
         scatter   : light scatter constant (0.8x to 1.2x of peak amplitude, default no)
-        baseline_type : type of baseline in the data (none/offset/linear/quadratic, default no baseline)
+        tbaseline : type of baseline in the data (none/offset/linear/quadratic, default no baseline)
          
         returns   : pandas dataframe containing the simulated spectra
                     list containing the peak positions
@@ -52,7 +52,9 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.05, scat
             baselines[i,:] = np.array(a0)
         elif tbaseline == 'linear':
             a0 = np.random.uniform(low=amp_min, high=amp_max)
-            a1 = np.random.uniform(low=0, high=amp_max/xdiff)
+            # sample only a single angle for the baseline linear
+            if i == 0:
+                a1 = np.random.uniform(low=0, high=amp_max/xdiff)
             baselines[i, :] = np.array(a0 + a1 * X)
         elif tbaseline == 'quadratic':
             a0 = np.random.uniform(low=amp_min, high=amp_max)

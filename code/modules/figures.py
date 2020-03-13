@@ -8,6 +8,7 @@ def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
     savefig = kwargs.get('savefig', None)
     fname = kwargs.get('fname', None)
     title = kwargs.get('title', None)
+    bline = kwargs.get('baselines', None)
 
     # subplot dimensions
     nrows = dims[0]
@@ -24,8 +25,10 @@ def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
             ax[idx].plot(x_val, Y[i], "-", alpha=.5)
         for j in range(len(mu)):
             ax[idx].axvline(mu[j], linestyle='--', color='gray', alpha=.5)
-        if title == 'yes':
+        if title == 'peaks':
             ax[idx].set_title("#{0} ({1}p)".format(idx+1,len(lpeaks[idx])))
+        if title == 'baseline':
+            ax[idx].set_title("#{0} (baseline = {1})".format(idx+1,bline[idx]))
         else:
             ax[idx].set_title("#{0}".format(idx+1))
 
