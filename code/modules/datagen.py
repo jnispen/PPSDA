@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import csv
+import os
 
 def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.05, scatter='no', tbaseline='none'):
     """ dataset generator for pseudo-Voigt profiles """
@@ -99,9 +100,12 @@ def data_load(count, path):
     lpeakdata = []
     for i in range(count):
         df1 = pd.read_csv(path + '/dataset_%02d.csv' % (i + 1))
-        df2 = pd.read_csv(path + '/peakdata_%02d.csv' % (i + 1))
+        fname = path + '/peakdata_%02d.csv' % (i + 1)
+        if os.path.isfile(fname):
+            df2 = pd.read_csv(fname)
+            lpeakdata.append(df2)
         ldata.append(df1)
-        lpeakdata.append(df2)
+        
     # read peak information
     with open(path + '/peakinfo.csv', newline='') as fp:
         reader = csv.reader(fp)
