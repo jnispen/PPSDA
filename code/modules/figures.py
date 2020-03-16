@@ -8,7 +8,7 @@ def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
     # optional arguments
     savefig = kwargs.get('savefig', None)
     fname = kwargs.get('fname', None)
-    title = kwargs.get('title', None)
+    scenario = kwargs.get('scenario', None)
     bline = kwargs.get('baselines', None)
 
     # subplot dimensions
@@ -26,9 +26,9 @@ def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
             ax[idx].plot(x_val, Y[i], "-", alpha=.5)
         for j in range(len(mu)):
             ax[idx].axvline(mu[j], linestyle='--', color='gray', alpha=.5)
-        if title == 'peaks':
+        if scenario == 'peaks':
             ax[idx].set_title("#{0} ({1}p)".format(idx+1,len(lpeaks[idx])))
-        if title == 'baseline':
+        elif scenario == 'baseline':
             ax[idx].set_title("#{0} (baseline = {1})".format(idx+1,bline[idx]))
         else:
             ax[idx].set_title("#{0}".format(idx+1))
@@ -44,12 +44,13 @@ def plot_posterior(x_val, data_val, traces, ppc_traces, dims, figure_size=(12,16
     fname = kwargs.get('fname', None)
     showpeaks = kwargs.get('showpeaks', None)
     tsets = kwargs.get('sets', None)
+    scenario = kwargs.get('scenario', None)
     # labels containing model/peak combination (used in scenario c)
     labels = kwargs.get('labels', None)
     
     if labels is not None:
-        lmodel = [i[0] for i in labels]
-        lpeak  = [i[1] for i in labels]
+        lcola = [i[0] for i in labels]
+        lcolb = [i[1] for i in labels]
         
     # subplot dimensions
     nrows = dims[0]
@@ -90,8 +91,12 @@ def plot_posterior(x_val, data_val, traces, ppc_traces, dims, figure_size=(12,16
             y_val = data_val[index].values[i]
             ax[idx].plot(x_val, y_val, '-', color="red", alpha=.2, linewidth=1)
         if labels is not None:
-            ax[idx].set_title("#{0} ({1}-peak model:{2}-peak spectrum)"
-              .format(idx+1,lmodel[idx],lpeak[idx]))
+            if scenario == 'peaks':
+                ax[idx].set_title("#{0} ({1}-peak model:{2}-peak spectrum)"
+                  .format(idx+1,lcola[idx],lcolb[idx]))
+            if scenario == 'baseline':
+                ax[idx].set_title("#{0} (baseline-{1} model:baseline-{2} spectrum)"
+                  .format(idx+1,lcola[idx],lcolb[idx]))
         else:
             ax[idx].set_title("#{0}".format(idx+1))
 
@@ -111,6 +116,7 @@ def plot_posterior_single(x_val, data_val, traces, figure_size=(12,16), *args, *
     priors = kwargs.get('priors', None)
     idx = kwargs.get('peakidx', None)
     samples = kwargs.get('samples', None)
+    scenario = kwargs.get('scenario', None)
     
     # labels containing model/peak combination (used in scenario c)
     label = kwargs.get('labels', None)
@@ -120,8 +126,9 @@ def plot_posterior_single(x_val, data_val, traces, figure_size=(12,16), *args, *
     if posteriors is not None:
         # plot samples from the posterior
         sp = posteriors['y_pred']
-        for i in range(15):
-            plt.plot(x_val, sp[-i, i, :], '-', color="black", alpha=.2)
+        a = np.arange(0,len(sp),len(sp)/10, dtype=int)
+        for i in a:
+            plt.plot(x_val, sp[i, 0, :], '-', color="black", alpha=.2)
             
         # plot 94% HPD interval
         az.plot_hpd(x_val, posteriors['y_pred'], smooth=False, color= 'C1')
@@ -133,10 +140,15 @@ def plot_posterior_single(x_val, data_val, traces, figure_size=(12,16), *args, *
             plt.plot(x_val, sp[-i, i, :], '--', color="blue", alpha=.2)   
     
     # plot samples from Y (peak number = idx)
-    for i in range(len(traces)):
+    l = len(traces['mu'])
+    print("len trace:", l)
+    a = np.arange(0,l,l/50, dtype=int)
+    print("len subsample:", len(a))
+    for i in a:
         A = traces['amp'][i].flatten()
         M = traces['mu'][i].flatten()
         S = traces['sigma'][i].flatten()
+        #print("M[{0}]: {1}".format(i,M[idx]))
         Y = A[idx] * np.exp(-(x_val - M[idx]) ** 2 / (2 * S[idx] ** 2))
         plt.plot(x_val, Y, '-', linewidth=1, color="green", alpha=.5)
 
@@ -157,7 +169,7 @@ def plot_posterior_single(x_val, data_val, traces, figure_size=(12,16), *args, *
         for i in range(10):
             y_val = data_val.values[i]
             plt.plot(x_val, y_val, '-', color="red", alpha=.2, linewidth=1)
-    if label is not None:
+    if scenario == 'peaks':
         plt.title("({0}-peak model:{1}-peak spectrum)"
               .format(label[0],label[1]))
             

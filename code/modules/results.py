@@ -2,18 +2,25 @@ import pandas as pd
 import arviz as az
 import numpy as np
 
-def get_results_summary(varnames, traces, ppc_traces, y_values, *args, **kwargs):
+# local module imports
+import models as mdl
+
+def get_results_summary(traces, ppc_traces, y_values, varnames=[], *args, **kwargs):
     """ function to collect summary statistics from a list of traces and models """
 
     # noise level (used in scenario a)
     noise_level = kwargs.get('epsilon_real', None)
     # run number (used in multiple runs scenario)
     run_number  = kwargs.get('runlist', None)
-    # total number of datasets per series (used in scenario c)
+    # total number of datasets per series (used in scenario b,c)
     tsets = kwargs.get('sets', None)
-    # labels containing model/peak combination (used in scenario c)
+    # labels containing model/peak (used in scenario c)
     labels = kwargs.get('labels', None)
-
+    # with multiple models, each model might have different variables (yes/no)
+    multi_models = kwargs.get('multimodels', None)
+    # current scenario (noise/baseline/peaks)
+    scenario = kwargs.get('scenario', None)
+    
     #####
     # statistics on the sampling
     ####
@@ -22,6 +29,8 @@ def get_results_summary(varnames, traces, ppc_traces, y_values, *args, **kwargs)
     mc_err = []
     epsilon = []
     for idx, trace in enumerate(traces):
+        if multi_models == 'yes':
+            varnames = mdl.get_varnames(trace)
         coef = az.summary(trace, varnames)
         r_hat.append(coef['r_hat'].mean())
         ess.append(coef['ess_mean'].mean())
@@ -60,8 +69,18 @@ def get_results_summary(varnames, traces, ppc_traces, y_values, *args, **kwargs)
     if run_number is not None:
         df['run'] = run_number
     if labels is not None:
-        df['model'] = [i[0] for i in labels]
-        df['peaks'] = [i[1] for i in labels]
+        if scenario is not None:
+            if scenario == 'peaks':
+                cola = 'model'
+                colb = 'peaks'
+            elif scenario == 'baseline':
+                cola = 'model'
+                colb = 'data'
+        else: # default
+            cola = 'model'
+            colb = 'peaks'
+        df[cola] = [i[0] for i in labels]
+        df[colb] = [i[1] for i in labels]
     df.index += 1
 
     return df
