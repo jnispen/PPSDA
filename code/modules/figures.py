@@ -10,7 +10,7 @@ def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
     savefig = kwargs.get('savefig', None)
     fname = kwargs.get('fname', None)
     scenario = kwargs.get('scenario', None)
-    bline = kwargs.get('baselines', None)
+    labels = kwargs.get('labels', None)
 
     # subplot dimensions
     nrows = dims[0]
@@ -30,7 +30,9 @@ def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
         if scenario == 'peaks':
             ax[idx].set_title("#{0} ({1}p)".format(idx+1,len(lpeaks[idx])))
         elif scenario == 'baseline':
-            ax[idx].set_title("#{0} (baseline = {1})".format(idx+1,bline[idx]))
+            ax[idx].set_title("#{0} (baseline = {1})".format(idx+1,labels[idx]))
+        elif scenario == 'peakshape':
+            ax[idx].set_title("#{0} (n = {1})".format(idx+1,labels[idx]))
         else:
             ax[idx].set_title("#{0}".format(idx+1))
 

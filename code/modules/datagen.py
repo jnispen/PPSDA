@@ -9,7 +9,7 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.05, scat
         xvalues   : list of xvalues (wavelengths)
         nsamples  : number of samples to generate (observations, default 15 samples)
         npeaks    : number of peaks in simulated spectrum (3 default)
-        peakshape : peakshape parametr id pseudoVoigt formula (0 = Gauss, 1 = Lorentz)
+        peakshape : peakshape parameter in pseudoVoigt formula (0 = Gauss, 1 = Lorentz)
         noise     : instrumental noise level (% of the minimal signal amplitude, 1% default)
         scatter   : light scatter constant (0.8x to 1.2x of peak amplitude, default no)
         tbaseline : type of baseline in the data (none/offset/linear/quadratic, default no baseline)

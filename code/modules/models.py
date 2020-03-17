@@ -12,7 +12,16 @@ def get_varnames(trace):
     varn.remove('y')
     return list(varn)
 
-def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
+def get_model_peakvalues(peakmodel, xvalues, amp, mu, sigma):
+    """ peakmodel """
+    if peakmodel == 'Gauss':
+        pval = (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0)
+    elif peakmodel == 'pVoigt':
+        pval = (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0)
+        
+    return pval
+
+def model_gauss(observations, xvalues, npeaks, peakmodel='Gauss', *args, **kwargs):
     """ basic probabilistic model: the data is assumed to consist of three components
                                    1. an addition of M Gaussian shaped peaks
                                    2. a baseline which can be of shape: 
@@ -25,11 +34,12 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
                           observations, with each row containg a single observation
             xvalues     : numpy array containing the x-values of the data (features)
             npeaks      : number of peaks presumed present in the data
+            peakmodel   : peakmodel used (pVoigt/Gauss) (default: Gauss)
             
         optional parameters:
             mu_peaks    : list of testvalues to use for the peak location 
                           (default: linearly spaced)
-            pmodel      : the distribution uses for the peak locations 
+            pmodel      : the distribution used for the peak locations 
                           (default: uniform)
             baseline    : baseline assumed present in the data (default: none)
                 
@@ -90,7 +100,8 @@ def model_gauss(observations, xvalues, npeaks, *args, **kwargs):
                 + a0 + a1 * xvalues)
         else:
             # f(x) = sum of gaussian peaks
-            y = pm.Deterministic('y', (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0))
+            #y = pm.Deterministic('y', (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0))
+            y = pm.Deterministic('y', get_model_peakvalues(peakmodel, xvalues, amp, mu, sigma))
 
         # noise prior
         sigma_e = pm.Gamma('sigma_e', alpha=1., beta=1.)
