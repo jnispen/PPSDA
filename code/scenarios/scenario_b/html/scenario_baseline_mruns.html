@@ -13197,7 +13197,7 @@ div#notebook {
 <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;data_mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;generate&#39;</span>
 
 <span class="c1"># number of runs</span>
-<span class="n">conf</span><span class="p">[</span><span class="s1">&#39;nruns&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">conf</span><span class="p">[</span><span class="s1">&#39;nruns&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
 
 <span class="c1"># number of cores to run sampling chains on</span>
 <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;ncores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
@@ -13264,7 +13264,7 @@ div#notebook {
 <span class="n">xval</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
 
 <span class="c1"># number of spectra per peak number</span>
-<span class="n">nsets</span>  <span class="o">=</span> <span class="mi">2</span>
+<span class="n">nsets</span>  <span class="o">=</span> <span class="mi">4</span>
 
 <span class="c1"># baseline variation</span>
 <span class="n">baselines</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="s1">&#39;offset&#39;</span><span class="p">,</span> <span class="s1">&#39;linear&#39;</span><span class="p">]</span>
@@ -13387,8 +13387,8 @@ div#notebook {
             <span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model_g</span><span class="p">)</span>
 
             <span class="k">with</span> <span class="n">model_g</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(</span><span class="si">{2}</span><span class="s2">/</span><span class="si">{3}</span><span class="s2">) running inference on dataset #</span><span class="si">{0}</span><span class="s2">/</span><span class="si">{1}</span><span class="s2"> [</span><span class="si">{4}</span><span class="s2"> model: </span><span class="si">{5}</span><span class="s2"> data]&quot;</span>
-                      <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">ldata</span><span class="p">),</span><span class="n">inf_run</span><span class="p">,</span><span class="n">truns</span><span class="p">,</span><span class="n">bl</span><span class="p">,</span><span class="n">lbline</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(</span><span class="si">{6}</span><span class="s2">:</span><span class="si">{2}</span><span class="s2">/</span><span class="si">{3}</span><span class="s2">) running inference on dataset #</span><span class="si">{0}</span><span class="s2">/</span><span class="si">{1}</span><span class="s2"> [</span><span class="si">{4}</span><span class="s2"> model: </span><span class="si">{5}</span><span class="s2"> data]&quot;</span>
+                      <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">ldata</span><span class="p">),</span><span class="n">inf_run</span><span class="p">,</span><span class="n">truns</span><span class="p">,</span><span class="n">bl</span><span class="p">,</span><span class="n">lbline</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
                 <span class="n">trace_g</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s1">&#39;nsamples&#39;</span><span class="p">],</span> <span class="n">init</span><span class="o">=</span><span class="n">conf</span><span class="p">[</span><span class="s1">&#39;init_mode&#39;</span><span class="p">],</span> <span class="n">cores</span><span class="o">=</span><span class="n">conf</span><span class="p">[</span><span class="s1">&#39;ncores&#39;</span><span class="p">])</span>
                 <span class="n">lmodbase</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">bl</span><span class="p">,</span><span class="n">lbline</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span>
                 <span class="n">traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trace_g</span><span class="p">)</span>

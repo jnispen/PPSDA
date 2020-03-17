@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import arviz as az
+import seaborn as sns
 
 def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
     """ plots a list of datasets and optionally saves the figure """
@@ -45,7 +46,7 @@ def plot_posterior(x_val, data_val, traces, ppc_traces, dims, figure_size=(12,16
     showpeaks = kwargs.get('showpeaks', None)
     tsets = kwargs.get('sets', None)
     scenario = kwargs.get('scenario', None)
-    # labels containing model/peak combination (used in scenario c)
+    # labels containing model/data combination (used in scenario b/c)
     labels = kwargs.get('labels', None)
     
     if labels is not None:
@@ -105,6 +106,28 @@ def plot_posterior(x_val, data_val, traces, ppc_traces, dims, figure_size=(12,16
     elif savefig == 'yes': 
         plt.savefig(fname + '_ppc.png', dpi=150)
 
+def plot_heatmap(data, labellist, title, color, fsize, fname="./heatmap", precision=".3f"):
+    ''' plots a heatmap from numerical data provided in a NxN matrix '''
+    
+    sns.set(font_scale=1.3)
+    
+    
+    plt.figure(figsize=fsize, tight_layout=True)
+    plt.title(title)
+
+    yticks = ["m_{0}".format(str(val)) for _, val in enumerate(labellist)]
+    xticks = ["d_{0}".format(str(val)) for _, val in enumerate(labellist)]
+    
+    #sns.heatmap(data, annot=True, fmt=precision, linewidths=1, linecolor="#efefef", square=True,
+    #                cmap=color, cbar=False, xticklabels=xticks, yticklabels=yticks)
+    sns.heatmap(data, annot=True, fmt=precision, linewidths=1, square=True,
+                    cmap=color, cbar=False, xticklabels=xticks, yticklabels=yticks)
+    
+    plt.yticks(rotation=0)
+    plt.xticks(rotation=0)
+    
+    plt.savefig(fname + '.png', dpi=150)
+    
 def plot_posterior_single(x_val, data_val, traces, figure_size=(12,16), *args, **kwargs):
     """ plots the posterior of a single trace and optionally saves the figure """
     
@@ -118,7 +141,7 @@ def plot_posterior_single(x_val, data_val, traces, figure_size=(12,16), *args, *
     samples = kwargs.get('samples', None)
     scenario = kwargs.get('scenario', None)
     
-    # labels containing model/peak combination (used in scenario c)
+    # labels containing model/data combination (used in scenario b/c)
     label = kwargs.get('labels', None)
 
     plt.figure(figsize=figure_size)
@@ -177,5 +200,3 @@ def plot_posterior_single(x_val, data_val, traces, figure_size=(12,16), *args, *
         plt.savefig(fname + '_ppc_peaks.png', dpi=150)
     elif savefig == 'yes': 
         plt.savefig(fname + '_ppc.png', dpi=150)
-
-    

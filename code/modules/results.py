@@ -18,8 +18,6 @@ def get_results_summary(traces, ppc_traces, y_values, varnames=[], *args, **kwar
     labels = kwargs.get('labels', None)
     # with multiple models, each model might have different variables (yes/no)
     multi_models = kwargs.get('multimodels', None)
-    # current scenario (noise/baseline/peaks)
-    scenario = kwargs.get('scenario', None)
     
     #####
     # statistics on the sampling
@@ -69,36 +67,42 @@ def get_results_summary(traces, ppc_traces, y_values, varnames=[], *args, **kwar
     if run_number is not None:
         df['run'] = run_number
     if labels is not None:
-        if scenario is not None:
-            if scenario == 'peaks':
-                cola = 'model'
-                colb = 'peaks'
-            elif scenario == 'baseline':
-                cola = 'model'
-                colb = 'data'
-        else: # default
-            cola = 'model'
-            colb = 'peaks'
-        df[cola] = [i[0] for i in labels]
-        df[colb] = [i[1] for i in labels]
+        df['model'] = [i[0] for i in labels]
+        df['data'] = [i[1] for i in labels]
     df.index += 1
 
     return df
 
-def add_means(ddict, sel_data, pklist):
+def load_results(filelist):
+    """ loads results from a list of .csv files """
+    """ parameters:
+           filelist : list of files to load
+    
+           returns  : list of dataframes containing the results
+    """
+    ldf = []
+    for idx, val in enumerate(filelist):
+        print("reading file: {0}".format(val))
+        df = pd.read_csv(val)
+        df.index += 1
+        ldf += [df]
+        
+    return ldf
+
+def add_means(ddict, sel_data, lblist):
     """ add means of selected items in the dictionary """
     """ parameters:
            ddict    : dictionary containing NxN data matrices
            sel_data : dataframe containing values to add to dictionary values
-           pklist   : list containing peak values
+           lblist   : list containing labels with peak values, baselines, etc.
     """
     
     # loop over models and number of peaks and average
     # the results per model/peaknumber combination
-    for i, val in enumerate(pklist):
+    for i, val in enumerate(lblist):
         sel1 = sel_data.loc[(sel_data['model'] == val)]
-        for j, val in enumerate(pklist):
-            sel2 = sel1.loc[(sel1['peaks'] == val)]
+        for j, val in enumerate(lblist):
+            sel2 = sel1.loc[(sel1['data'] == val)]
 
             ddict['waic'][i][j]  += sel2['waic'].mean()
             ddict['rhat'][i][j]  += sel2['r_hat'].mean()
@@ -110,28 +114,27 @@ def add_means(ddict, sel_data, pklist):
                 
     return ddict
                 
-def get_model_summary(data, peaklist, *args, **kwargs):
+def get_model_summary(data, labellist, *args, **kwargs):
     """ function to extract convergence information from a dataframe """
     """ parameters:
-            data     : list of dataframes containing convergence results 
-                       (see get_results_summary) 
-            peaklist : list with peak numbers
+            data      : list of dataframes containing convergence results 
+                        (see get_results_summary) 
+            labellist : list containing labels with peak values, baselines, etc.
             
-            returns  : dictionary containing NxN matrices with the average 
-                       convergence results (per model/data combination)
+            returns   : dictionary containing NxN matrices with the average 
+                        convergence results (per model/data combination)
     """
-    mruns = kwargs.get('mruns', None)
-
-    npeaks = len(peaklist)
+    
+    len_labels = len(labellist)
     count = 0
     
-    waic_mat  = np.full((npeaks,npeaks),0.0)
-    rhat_mat  = np.full((npeaks,npeaks),0.0)
-    r2_mat    = np.full((npeaks,npeaks),0.0)
-    bfmi_mat  = np.full((npeaks,npeaks),0.0)
-    mcse_mat  = np.full((npeaks,npeaks),0.0)
-    noise_mat = np.full((npeaks,npeaks),0.0)
-    ess_mat   = np.full((npeaks,npeaks),0.0)
+    waic_mat  = np.full((len_labels,len_labels),0.0)
+    rhat_mat  = np.full((len_labels,len_labels),0.0)
+    r2_mat    = np.full((len_labels,len_labels),0.0)
+    bfmi_mat  = np.full((len_labels,len_labels),0.0)
+    mcse_mat  = np.full((len_labels,len_labels),0.0)
+    noise_mat = np.full((len_labels,len_labels),0.0)
+    ess_mat   = np.full((len_labels,len_labels),0.0)
 
     # dictionary containing convergence information
     cdict = {'waic' : waic_mat, 
@@ -142,7 +145,7 @@ def get_model_summary(data, peaklist, *args, **kwargs):
              'noise': noise_mat, 
              'ess'  : ess_mat}
 
-    if mruns == 'yes':
+    if len(data) > 1:
         # loop over all the dataframes in the datalist
         for idx, dat in enumerate(data):
             print("processing dataframe: ", idx+1)
@@ -153,10 +156,10 @@ def get_model_summary(data, peaklist, *args, **kwargs):
                 df = dat.loc[(dat['run'] == (k+1))]
                 #print("select run          : ", k+1)
                 count += 1
-                cdict = add_means(cdict, df, peaklist)
+                cdict = add_means(cdict, df, labellist)
     else:
         count = 1
-        cdict = add_means(cdict, data, peaklist)
+        cdict = add_means(cdict, data[0], labellist)
         
     # calculate the average
     for key in cdict:
