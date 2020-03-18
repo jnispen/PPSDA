@@ -95,10 +95,13 @@ def plot_posterior(x_val, data_val, traces, ppc_traces, dims, figure_size=(12,16
             ax[idx].plot(x_val, y_val, '-', color="red", alpha=.2, linewidth=1)
         if labels is not None:
             if scenario == 'peaks':
-                ax[idx].set_title("#{0} ({1}-peak model:{2}-peak spectrum)"
+                ax[idx].set_title("#{0} ({1}-peak model:{2}-peak data)"
                   .format(idx+1,lcola[idx],lcolb[idx]))
             if scenario == 'baseline':
-                ax[idx].set_title("#{0} ({1} model:{2} spectrum)"
+                ax[idx].set_title("#{0} ({1} model:{2} data)"
+                  .format(idx+1,lcola[idx],lcolb[idx]))
+            if scenario == 'peakshape':
+                ax[idx].set_title("#{0} (n={1} model:n={2} data)"
                   .format(idx+1,lcola[idx],lcolb[idx]))
         else:
             ax[idx].set_title("#{0}".format(idx+1))
@@ -195,7 +198,7 @@ def plot_posterior_single(x_val, data_val, traces, figure_size=(12,16), *args, *
             y_val = data_val.values[i]
             plt.plot(x_val, y_val, '-', color="red", alpha=.2, linewidth=1)
     if scenario == 'peaks':
-        plt.title("({0}-peak model:{1}-peak spectrum)"
+        plt.title("({0}-peak model:{1}-peak data)"
               .format(label[0],label[1]))
             
     if savefig == 'yes' and showpeaks == 'yes':
