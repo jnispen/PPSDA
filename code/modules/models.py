@@ -12,29 +12,27 @@ def get_varnames(trace):
     varn.remove('y')
     return list(varn)
 
-def get_model_peakvalues(peakmodel, xvalues, amp, mu, sigma):
-    """ peakmodel """
-    if peakmodel == 'Gauss':
-        pval = (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0)
-    elif peakmodel == 'pVoigt':
-        pval = (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0)
-        
+def get_peakvalues(xvalues, amp, mu, sigma, eta):
+    """ returns the summed peakvalues for the vector xvalues (pVoigt formula) """
+    pval = (amp.T * (eta * (sigma.T / ((xvalues - mu.T) ** 2 + sigma.T ** 2)) + 
+        (1 - eta) * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2)))).sum(axis=0)
     return pval
 
-def model_gauss(observations, xvalues, npeaks, peakmodel='Gauss', *args, **kwargs):
-    """ basic probabilistic model: the data is assumed to consist of three components
-                                   1. an addition of M Gaussian shaped peaks
-                                   2. a baseline which can be of shape: 
-                                      none, y-offset or linear
-                                   3. a residu consisting of zero centered, 
-                                      normally distributed noise
+def model_pvoigt(observations, xvalues, npeaks, peakshape=0.0, *args, **kwargs):
+    """ probabilistic model: the data is assumed to be composed of three components
+                             1. an addition of M pVoigt shaped peaks
+                             2. a baseline which can be of shape: 
+                                none, y-offset or linear
+                             3. a residu consisting of zero centered, 
+                                normally distributed noise
     """
     """ parameters:
             observations: numpy array containing the y-values of the 
                           observations, with each row containg a single observation
             xvalues     : numpy array containing the x-values of the data (features)
             npeaks      : number of peaks presumed present in the data
-            peakmodel   : peakmodel used (pVoigt/Gauss) (default: Gauss)
+            peakshape   : peakshape parameter eta in the pseudo-Voigt profile
+                          (0 = Gauss, 1 = Lorentz)
             
         optional parameters:
             mu_peaks    : list of testvalues to use for the peak location 
@@ -58,7 +56,7 @@ def model_gauss(observations, xvalues, npeaks, peakmodel='Gauss', *args, **kwarg
     max_xval = xvalues.max() + (xvalues.min() * 0.1)
 
     with pm.Model() as model:
-        # priors for Gaussian peak shapes
+        # priors for peak shapes
         amp = pm.Uniform('amp', 0, max_amp, shape=(1, npeaks))
 
         if mu_peaks is not None:
@@ -69,7 +67,6 @@ def model_gauss(observations, xvalues, npeaks, peakmodel='Gauss', *args, **kwarg
                                shape=(1, npeaks), transform=pm.distributions.transforms.ordered, testval=mu_peaks)
             else:
                 # use LogNormal model
-                #mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks), testval=mu_peaks)
                 mu = pm.Uniform('mu', min_xval, max_xval, shape=(1, npeaks), testval=mu_peaks)
         else:
             if pmodel == 'normal':
@@ -78,7 +75,6 @@ def model_gauss(observations, xvalues, npeaks, peakmodel='Gauss', *args, **kwarg
                                shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
             else:
                 # use LogNormal model
-                #mu = pm.Uniform('mu', xvalues.min(), xvalues.max(), shape=(1, npeaks))
                 mu = pm.Uniform('mu', min_xval, max_xval, shape=(1, npeaks))
 
         if pmodel == 'normal':
@@ -87,21 +83,17 @@ def model_gauss(observations, xvalues, npeaks, peakmodel='Gauss', *args, **kwarg
         else:
             # use LogNormal model
             sigma = pm.Lognormal('sigma', mu=1.16, sigma=0.34, shape=(1, npeaks))
-
+        
+        # y = f(x) without noise component
         if baseline == 'offset':
             a0 = pm.Uniform('a0', 0, max_amp, shape=(len(observations), 1))
-            # f(x) = sum of gaussian peaks + offset
-            y = pm.Deterministic('y', (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0) + a0)
+            y = pm.Deterministic('y', get_peakvalues(xvalues, amp, mu, sigma, peakshape) + a0)
         elif baseline == 'linear':
             a0 = pm.Uniform('a0', 0, max_amp, shape=(len(observations), 1))
             a1 = pm.Uniform('a1', 0, max_amp/(xvalues.max()-xvalues.min()))
-            # f(x) = sum of gaussian peaks + offset
-            y = pm.Deterministic('y', (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0) 
-                + a0 + a1 * xvalues)
+            y = pm.Deterministic('y', get_peakvalues(xvalues, amp, mu, sigma, peakshape) + a0 + a1 * xvalues)
         else:
-            # f(x) = sum of gaussian peaks
-            #y = pm.Deterministic('y', (amp.T * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2))).sum(axis=0))
-            y = pm.Deterministic('y', get_model_peakvalues(peakmodel, xvalues, amp, mu, sigma))
+            y = pm.Deterministic('y', get_peakvalues(xvalues, amp, mu, sigma, peakshape))
 
         # noise prior
         sigma_e = pm.Gamma('sigma_e', alpha=1., beta=1.)

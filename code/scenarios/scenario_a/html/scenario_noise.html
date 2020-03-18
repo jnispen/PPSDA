@@ -13017,6 +13017,19 @@ ul.typeahead-list  > li > a.pull-right {
 .highlight .vm { color: #19177C } /* Name.Variable.Magic */
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
     </style>
+<style type="text/css">
+    /*This file contains any manual css for this page that needs to override the global styles.
+This is only required when different pages style the same element differently. This is just
+a hack to deal with our current css styles and no new styling should be added in this file.*/
+
+#ipython-main-app {
+    position: relative;
+}
+#jupyter-main-app {
+    position: relative;
+}
+
+    </style>
 
 
 <style type="text/css">
@@ -13332,14 +13345,14 @@ the rest of the parameters in the dataset is kept constant.</p>
         
 <span class="k">elif</span> <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;model_mode&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span> <span class="ow">and</span> <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;data_mode&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;preload&#39;</span><span class="p">:</span>           
     <span class="c1"># load pre-generated datasets from disk</span>
-    <span class="n">ldata</span><span class="p">,</span> <span class="n">lpeaks</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">data_load</span><span class="p">(</span><span class="n">tsets</span><span class="p">,</span> <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;dataset_dir&#39;</span><span class="p">])</span>
+    <span class="n">ldata</span><span class="p">,</span> <span class="n">lpeaks</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">data_load</span><span class="p">(</span><span class="n">tsets</span><span class="p">,</span> <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;dataset_dir&#39;</span><span class="p">])</span>
     
 <span class="k">else</span><span class="p">:</span>        
     <span class="c1"># load data from disk</span>
     <span class="k">if</span> <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;data_mode&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;preload&#39;</span><span class="p">:</span>
-        <span class="n">ldata</span><span class="p">,</span> <span class="n">lpeaks</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">data_load</span><span class="p">(</span><span class="n">tsets</span><span class="p">,</span> <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;dataset_dir&#39;</span><span class="p">])</span>
+        <span class="n">ldata</span><span class="p">,</span> <span class="n">lpeaks</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">data_load</span><span class="p">(</span><span class="n">tsets</span><span class="p">,</span> <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;dataset_dir&#39;</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">ldata</span><span class="p">,</span> <span class="n">lpeaks</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">data_load</span><span class="p">(</span><span class="n">tsets</span><span class="p">,</span> <span class="n">out_path</span><span class="p">)</span>
+        <span class="n">ldata</span><span class="p">,</span> <span class="n">lpeaks</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">data_load</span><span class="p">(</span><span class="n">tsets</span><span class="p">,</span> <span class="n">out_path</span><span class="p">)</span>
         
 <span class="c1"># add peakshift</span>
 <span class="n">lpeaks</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">add_peakshift</span><span class="p">(</span><span class="n">lpeaks</span><span class="p">,</span> <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;peak_shift&#39;</span><span class="p">])</span>
@@ -13425,10 +13438,10 @@ the rest of the parameters in the dataset is kept constant.</p>
     <span class="k">if</span> <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;peak_info&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;yes&#39;</span><span class="p">:</span>
         <span class="n">plist</span> <span class="o">=</span> <span class="n">lpeaks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
         <span class="n">plist</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-        <span class="n">model_g</span> <span class="o">=</span> <span class="n">mdl</span><span class="o">.</span><span class="n">model_gauss</span><span class="p">(</span><span class="n">xvalues</span><span class="o">=</span><span class="n">x_val</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">y_val</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">npeaks</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> 
+        <span class="n">model_g</span> <span class="o">=</span> <span class="n">mdl</span><span class="o">.</span><span class="n">model_pvoigt</span><span class="p">(</span><span class="n">xvalues</span><span class="o">=</span><span class="n">x_val</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">y_val</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">npeaks</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> 
                                   <span class="n">mu_peaks</span><span class="o">=</span><span class="n">plist</span><span class="p">,</span> <span class="n">pmodel</span><span class="o">=</span><span class="n">conf</span><span class="p">[</span><span class="s1">&#39;prior_model&#39;</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">model_g</span> <span class="o">=</span> <span class="n">mdl</span><span class="o">.</span><span class="n">model_gauss</span><span class="p">(</span><span class="n">xvalues</span><span class="o">=</span><span class="n">x_val</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">y_val</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">npeaks</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">model_g</span> <span class="o">=</span> <span class="n">mdl</span><span class="o">.</span><span class="n">model_pvoigt</span><span class="p">(</span><span class="n">xvalues</span><span class="o">=</span><span class="n">x_val</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">y_val</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">npeaks</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                                   <span class="n">pmodel</span><span class="o">=</span><span class="n">conf</span><span class="p">[</span><span class="s1">&#39;prior_model&#39;</span><span class="p">])</span>      
     <span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model_g</span><span class="p">)</span>
     
