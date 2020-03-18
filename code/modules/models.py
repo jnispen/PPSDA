@@ -14,7 +14,7 @@ def get_varnames(trace):
 
 def get_peakvalues(xvalues, amp, mu, sigma, eta):
     """ returns the summed peakvalues for the vector xvalues (pVoigt formula) """
-    pval = (amp.T * (eta * (sigma.T / ((xvalues - mu.T) ** 2 + sigma.T ** 2)) + 
+    pval = (amp.T * (eta * (sigma.T ** 2 / ((xvalues - mu.T) ** 2 + sigma.T ** 2)) + 
         (1 - eta) * np.exp(-(xvalues - mu.T) ** 2 / (2 * sigma.T ** 2)))).sum(axis=0)
     return pval
 

@@ -98,7 +98,7 @@ def plot_posterior(x_val, data_val, traces, ppc_traces, dims, figure_size=(12,16
                 ax[idx].set_title("#{0} ({1}-peak model:{2}-peak spectrum)"
                   .format(idx+1,lcola[idx],lcolb[idx]))
             if scenario == 'baseline':
-                ax[idx].set_title("#{0} (baseline-{1} model:baseline-{2} spectrum)"
+                ax[idx].set_title("#{0} ({1} model:{2} spectrum)"
                   .format(idx+1,lcola[idx],lcolb[idx]))
         else:
             ax[idx].set_title("#{0}".format(idx+1))
