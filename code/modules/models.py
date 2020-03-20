@@ -9,7 +9,8 @@ def get_varnames(trace):
     # remove duplicate names after split
     varn = set(dl)
     # remove deterministic variable y
-    varn.remove('y')
+    if {'y'}.issubset(varn):
+        varn.remove('y')
     return list(varn)
 
 def get_peakvalues(xvalues, amp, mu, sigma, eta):
