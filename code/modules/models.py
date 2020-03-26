@@ -34,12 +34,16 @@ def model_pvoigt(observations, xvalues, npeaks, peakshape=0.0, *args, **kwargs):
             npeaks      : number of peaks presumed present in the data
             peakshape   : peakshape parameter eta in the pseudo-Voigt profile
                           (0 = Gauss, 1 = Lorentz)
+                          note: ignored if pmodel = eta_rv is used
             
         optional parameters:
             mu_peaks    : list of testvalues to use for the peak location 
                           (default: linearly spaced)
             pmodel      : the distribution used for the peak locations 
-                          (default: uniform)
+                          (default: uniform)              
+                          note: if pmodel = eta_rv then the peakshape eta is
+                          considered as a uniform random variable 
+                          
             baseline    : baseline assumed present in the data (default: none)
                 
             returns     : initialized pymc3 model object
@@ -58,7 +62,7 @@ def model_pvoigt(observations, xvalues, npeaks, peakshape=0.0, *args, **kwargs):
 
     with pm.Model() as model:
         # priors for peak shapes
-        amp = pm.Uniform('amp', 0, max_amp, shape=(1, npeaks))
+        amp = pm.Uniform('amp', lower=0.0, upper=max_amp, shape=(1, npeaks))
 
         if mu_peaks is not None:
             #print("mu_peaks: ", mu_peaks)
@@ -68,7 +72,7 @@ def model_pvoigt(observations, xvalues, npeaks, peakshape=0.0, *args, **kwargs):
                                shape=(1, npeaks), transform=pm.distributions.transforms.ordered, testval=mu_peaks)
             else:
                 # use LogNormal model
-                mu = pm.Uniform('mu', min_xval, max_xval, shape=(1, npeaks), testval=mu_peaks)
+                mu = pm.Uniform('mu', lower=min_xval, upper=max_xval, shape=(1, npeaks), testval=mu_peaks)
         else:
             if pmodel == 'normal':
                 # use Normal model
@@ -76,7 +80,7 @@ def model_pvoigt(observations, xvalues, npeaks, peakshape=0.0, *args, **kwargs):
                                shape=(1, npeaks), transform=pm.distributions.transforms.ordered)
             else:
                 # use LogNormal model
-                mu = pm.Uniform('mu', min_xval, max_xval, shape=(1, npeaks))
+                mu = pm.Uniform('mu', lower=min_xval, upper=max_xval, shape=(1, npeaks))
 
         if pmodel == 'normal':
             # use Normal model
@@ -85,16 +89,22 @@ def model_pvoigt(observations, xvalues, npeaks, peakshape=0.0, *args, **kwargs):
             # use LogNormal model
             sigma = pm.Lognormal('sigma', mu=1.16, sigma=0.34, shape=(1, npeaks))
         
-        # y = f(x) without noise component
+        # for pvoigt model use random variable eta for peakshape factor
+        if pmodel == 'eta_rv':
+            eta = pm.Uniform('eta', lower=0.0, upper=1.0)
+        else:
+            eta = peakshape
+        
+        # y = f(x) = deterministic variable with none, y-offset or linear baseline (no noise)
         if baseline == 'offset':
             a0 = pm.Uniform('a0', 0, max_amp, shape=(len(observations), 1))
-            y = pm.Deterministic('y', get_peakvalues(xvalues, amp, mu, sigma, peakshape) + a0)
+            y = pm.Deterministic('y', get_peakvalues(xvalues, amp, mu, sigma, eta) + a0)
         elif baseline == 'linear':
             a0 = pm.Uniform('a0', 0, max_amp, shape=(len(observations), 1))
             a1 = pm.Uniform('a1', 0, max_amp/(xvalues.max()-xvalues.min()))
-            y = pm.Deterministic('y', get_peakvalues(xvalues, amp, mu, sigma, peakshape) + a0 + a1 * xvalues)
+            y = pm.Deterministic('y', get_peakvalues(xvalues, amp, mu, sigma, eta) + a0 + a1 * xvalues)
         else:
-            y = pm.Deterministic('y', get_peakvalues(xvalues, amp, mu, sigma, peakshape))
+            y = pm.Deterministic('y', get_peakvalues(xvalues, amp, mu, sigma, eta))
 
         # noise prior
         sigma_e = pm.Gamma('sigma_e', alpha=1., beta=1.)

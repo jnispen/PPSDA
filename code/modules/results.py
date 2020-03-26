@@ -10,6 +10,8 @@ def get_results_summary(traces, ppc_traces, y_values, varnames=[], *args, **kwar
 
     # noise level (used in scenario a)
     noise_level = kwargs.get('epsilon_real', None)
+    # peakshape eta (used in scenario e)
+    peakshape = kwargs.get('eta_real', None)
     # run number (used in multiple runs scenario)
     run_number  = kwargs.get('runlist', None)
     # total number of datasets per series (used in scenario b,c)
@@ -26,6 +28,8 @@ def get_results_summary(traces, ppc_traces, y_values, varnames=[], *args, **kwar
     ess = []
     mc_err = []
     epsilon = []
+    if peakshape is not None:
+        eta = []
     for idx, trace in enumerate(traces):
         if multi_models == 'yes':
             varnames = mdl.get_varnames(trace)
@@ -34,6 +38,8 @@ def get_results_summary(traces, ppc_traces, y_values, varnames=[], *args, **kwar
         ess.append(coef['ess_mean'].mean())
         mc_err.append(coef['mcse_mean'].mean())
         epsilon.append(trace['epsilon'].mean())
+        if peakshape is not None:
+            eta.append(trace['eta'].mean())
     # BFMI sampling data
     bfmi = [az.bfmi(traces[i]).mean() for i in range(len(traces))]
 
@@ -64,6 +70,9 @@ def get_results_summary(traces, ppc_traces, y_values, varnames=[], *args, **kwar
     df['epsilon'] = epsilon
     if noise_level is not None:
         df['epsilon_real'] = noise_level
+    if peakshape is not None:
+        df['eta'] = eta
+        df['eta_real'] = peakshape
     if run_number is not None:
         df['run'] = run_number
     if labels is not None:
