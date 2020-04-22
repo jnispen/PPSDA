@@ -69,7 +69,7 @@ def data_generator(xvalues, nsamples=15, npeaks=3, peakshape=0, noise=0.05, scat
     Y = np.zeros((nsamples, xsize))
     for i in range(nsamples):
         if scatter == 'yes':
-            cscat = np.random.uniform(low=0.8, high=1.2)
+            cscat = np.random.uniform(low=0.9, high=1.1)
             Y[i,:] = cscat * profiles.sum(axis=0) + baselines[i] + np.random.randn(xsize) * epsilon
         else:
             Y[i,:] = profiles.sum(axis=0) + baselines[i] + np.random.randn(xsize) * epsilon
