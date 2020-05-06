@@ -11,7 +11,8 @@ def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
     fname = kwargs.get('fname', None)
     scenario = kwargs.get('scenario', None)
     labels = kwargs.get('labels', None)
-
+    title = kwargs.get('title', None)
+    
     # subplot dimensions
     nrows = dims[0]
     ncols = dims[1]
@@ -33,6 +34,8 @@ def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
             ax[idx].set_title("#{0} (baseline = {1})".format(idx+1,labels[idx]))
         elif scenario == 'peakshape':
             ax[idx].set_title("#{0} (n = {1})".format(idx+1,labels[idx]))
+        elif scenario == 'single':
+            ax[idx].set_title(title)
         else:
             ax[idx].set_title("#{0}".format(idx+1))
 
@@ -132,6 +135,39 @@ def plot_heatmap(data, labellist, title, color, fsize, fname="./heatmap", precis
     plt.xticks(rotation=0)
     
     plt.savefig(fname + '.png', dpi=150)
+
+def plot_posterior_n(x_val, data_val, lpeaks, traces, ppc_traces, figure_size=(12,16), *args, **kwargs):
+    """ plots the posterior of a single trace and optionally saves the figure """
+    
+    # optional arguments
+    savefig = kwargs.get('savefig', None)
+    fname = kwargs.get('fname', None)
+    title = kwargs.get('title', None)
+    
+    plt.figure(figsize=figure_size, constrained_layout=True)
+
+    for idx, ppc_x in enumerate(ppc_traces):
+        # plot samples from the posterior
+        sp = ppc_x['y_pred']
+        for i in range(10):
+            plt.plot(x_val, sp[-i, i, :], '-', color="black", alpha=.2)
+
+        # plot 94% HPD interval
+        az.plot_hpd(x_val, ppc_x['y_pred'], smooth=False, credible_interval=0.95, color='#FFFF00')
+
+        # plot samples from the dataset
+        #for i in range(5):
+            # use modulo indexing for multiple model plotting
+        #    index = idx
+        #    y_val = data_val[index].values[i]
+        #    plt.plot(x_val, y_val, '-', color="red", alpha=.2, linewidth=1)
+        mu = np.array(lpeaks[idx], dtype=float)
+        for j in range(len(mu)):
+            plt.axvline(mu[j], linestyle='--', color='gray', alpha=.5)
+        plt.title(title)
+
+    if savefig == 'yes': 
+        plt.savefig(fname + '_ppc.png', dpi=150)
     
 def plot_posterior_single(x_val, data_val, traces, figure_size=(12,16), *args, **kwargs):
     """ plots the posterior of a single trace and optionally saves the figure """
