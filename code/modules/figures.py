@@ -117,13 +117,13 @@ def plot_posterior(x_val, data_val, traces, ppc_traces, dims, figure_size=(12,16
 def plot_heatmap(data, labellist, title, color, fsize, fname="./heatmap", precision=".3f"):
     ''' plots a heatmap from numerical data provided in a NxN matrix '''
     
-    sns.set(font_scale=1.3)
+    sns.set(font_scale=1.5)
     
-    
-    plt.figure(figsize=fsize, tight_layout=True)
+    #plt.figure(figsize=fsize, tight_layout=True)
+    plt.figure(figsize=fsize, constrained_layout=True)
     plt.title(title)
 
-    yticks = ["m_{0}".format(str(val)) for _, val in enumerate(labellist)]
+    yticks = ["m_{0}".format(str(val)[:1]) for _, val in enumerate(labellist)]
     xticks = ["d_{0}".format(str(val)) for _, val in enumerate(labellist)]
     
     #sns.heatmap(data, annot=True, fmt=precision, linewidths=1, linecolor="#efefef", square=True,
