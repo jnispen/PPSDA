@@ -119,8 +119,8 @@ def plot_heatmap(data, labellist, title, color, fsize, fname="./heatmap", precis
     
     sns.set(font_scale=1.8)
     
-    #plt.figure(figsize=fsize, tight_layout=True)
-    plt.figure(figsize=fsize, constrained_layout=True)
+    plt.figure(figsize=fsize, tight_layout=True)
+    #plt.figure(figsize=fsize, constrained_layout=True)
     plt.title(title)
 
     #yticks = ["m_{0}".format(str(val)[:1]) for _, val in enumerate(labellist)]
