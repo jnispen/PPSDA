@@ -13388,7 +13388,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># number of succesfull convergences</span>
@@ -13406,7 +13406,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[3]:</div>
+    <div class="prompt output_prompt">Out[10]:</div>
 
 
 
@@ -13855,6 +13855,103 @@ Name: eta, dtype: float64</pre>
 >
 </div>
 
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Statistics-per-peak-shape-factor">Statistics per peak shape factor<a class="anchor-link" href="#Statistics-per-peak-shape-factor">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="n">cat</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">)]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cat: </span><span class="si">{0}</span><span class="s1"> r-hat: </span><span class="si">{1:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;r_hat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cat: </span><span class="si">{0}</span><span class="s1"> r2   : </span><span class="si">{1:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;r2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cat: </span><span class="si">{0}</span><span class="s1"> waic : </span><span class="si">{1:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;waic&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cat: </span><span class="si">{0}</span><span class="s1"> mcse : </span><span class="si">{1:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;mcse&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cat: </span><span class="si">{0}</span><span class="s1"> ess  : </span><span class="si">{1:.1f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;ess&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cat: </span><span class="si">{0}</span><span class="s1"> bfmi : </span><span class="si">{1:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;bfmi&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cat: </span><span class="si">{0}</span><span class="s1"> epsi : </span><span class="si">{1:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;epsilon&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cat: </span><span class="si">{0}</span><span class="s1"> eta  : </span><span class="si">{1:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>cat: 1 r-hat: 1.08
+cat: 1 r2   : 0.9997
+cat: 1 waic : -4342.65
+cat: 1 mcse : 0.0823
+cat: 1 ess  : 3298.4
+cat: 1 bfmi : 1.0416
+cat: 1 epsi : 0.0585
+cat: 1 eta  : 0.0014
+
+
+cat: 2 r-hat: 1.01
+cat: 2 r2   : 0.9995
+cat: 2 waic : -3972.92
+cat: 2 mcse : 0.0267
+cat: 2 ess  : 3879.6
+cat: 2 bfmi : 1.0516
+cat: 2 epsi : 0.0762
+cat: 2 eta  : 0.2313
+
+
+cat: 3 r-hat: 1.01
+cat: 3 r2   : 0.9995
+cat: 3 waic : -4069.55
+cat: 3 mcse : 0.0199
+cat: 3 ess  : 3676.4
+cat: 3 bfmi : 1.0493
+cat: 3 epsi : 0.0713
+cat: 3 eta  : 0.4816
+
+
+cat: 4 r-hat: 1.00
+cat: 4 r2   : 0.9988
+cat: 4 waic : -3637.68
+cat: 4 mcse : 0.0039
+cat: 4 ess  : 3647.7
+cat: 4 bfmi : 1.0568
+cat: 4 epsi : 0.0971
+cat: 4 eta  : 0.7067
+
+
+cat: 5 r-hat: 1.02
+cat: 5 r2   : 0.9996
+cat: 5 waic : -4145.78
+cat: 5 mcse : 0.0217
+cat: 5 ess  : 3287.5
+cat: 5 bfmi : 1.0257
+cat: 5 epsi : 0.0649
+cat: 5 eta  : 0.9747
+
+
+</pre>
+</div>
 </div>
 
 </div>
