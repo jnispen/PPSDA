@@ -158,9 +158,31 @@ def plot_heatmap(data, labellist, title, color, fsize, fname="./heatmap", precis
     
     plt.savefig(fname + '.png', dpi=150)
 
+def plot_posterior_single(x_val, data, trace, nsamples_ppc, file_basename, hpd_color='lightgray'):
+    """ plot the posterior of a single trace and saves the figure """
+    """ used for creation of thesis figures                       """
+    
+    plt.figure(figsize=(8,6), constrained_layout=True)
+    
+    # plot datavalues
+    for i in range(15):
+        y_val = data.values[i]
+        plt.plot(x_val, y_val, '-', color="red", alpha=.5, linewidth=1)
+    
+    # HPD plot
+    az.plot_hpd(x_val, trace['y_pred'], credible_interval=0.95, smooth=False, color=hpd_color);
+    
+    # plot posterior samples
+    sp = trace['y_pred']
+    for i in range(nsamples_ppc):
+        plt.plot(x_val, sp[-i, i, :], '-', color="black", alpha=.4)
+    
+    plt.savefig(file_basename + '_single_ppc.png', dpi=150)
+
 def plot_posterior_n(x_val, data_val, lpeaks, traces, ppc_traces, figure_size=(12,16), *args, **kwargs):
     """ plots the posterior of a single trace and optionally saves the figure """
-    
+    """ used in figure creation of scenario a                                 """
+     
     # optional arguments
     savefig = kwargs.get('savefig', None)
     fname = kwargs.get('fname', None)
