@@ -42,7 +42,7 @@ def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
     if savefig == 'yes':
         plt.savefig(fname + '.png', dpi=150)
 
-def plot_datasets_real(data, nrows=50, figure_size=(8,6), *args, **kwargs):
+def plot_datasets_real(data, peaks, nrows=15, figure_size=(8,6), *args, **kwargs):
     """ plots the real dataset and saves the figure """
     
     # optional arguments
@@ -59,6 +59,11 @@ def plot_datasets_real(data, nrows=50, figure_size=(8,6), *args, **kwargs):
         X = data.columns
         Y = data[X].values
         plt.plot(x_val, Y[i], "-", alpha=.5, linewidth=1)
+        
+    # plot peaks for spectrum
+    mu = np.array(peaks, dtype=float)
+    for j in range(len(mu)):
+        plt.axvline(mu[j], linestyle='--', color='gray', alpha=.5)
 
     if savefig == 'yes':
         plt.savefig(fname + '.png', dpi=150)
@@ -158,9 +163,12 @@ def plot_heatmap(data, labellist, title, color, fsize, fname="./heatmap", precis
     
     plt.savefig(fname + '.png', dpi=150)
 
-def plot_posterior_single(x_val, data, trace, nsamples_ppc, file_basename, hpd_color='lightgray'):
+def plot_posterior_single(x_val, data, trace, nsamples_ppc, file_basename, hpd_color='lightgray', *args, **kwargs):
     """ plot the posterior of a single trace and saves the figure """
     """ used for creation of thesis figures                       """
+    
+    # optional arguments
+    peaks = kwargs.get('peak_pos', None)
     
     plt.figure(figsize=(8,6), constrained_layout=True)
     
@@ -168,6 +176,12 @@ def plot_posterior_single(x_val, data, trace, nsamples_ppc, file_basename, hpd_c
     for i in range(15):
         y_val = data.values[i]
         plt.plot(x_val, y_val, '-', color="red", alpha=.5, linewidth=1)
+    
+    if peaks is not None:
+        # plot peaks for spectrum
+        mu = np.array(peaks, dtype=float)
+        for j in range(len(mu)):
+            plt.axvline(mu[j], linestyle='--', color='gray', alpha=.5)
     
     # HPD plot
     az.plot_hpd(x_val, trace['y_pred'], credible_interval=0.95, smooth=False, color=hpd_color);
