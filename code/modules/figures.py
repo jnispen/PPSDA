@@ -171,6 +171,8 @@ def plot_posterior_single(x_val, data, trace, nsamples_ppc, file_basename, hpd_c
     peaks = kwargs.get('peak_pos', None)
     
     plt.figure(figsize=(8,6), constrained_layout=True)
+    plt.xlabel('Wavelength ($cm^{-1}$)')
+    plt.ylabel('Intensity (a.u.)')
     
     # plot datavalues
     for i in range(15):
@@ -189,7 +191,7 @@ def plot_posterior_single(x_val, data, trace, nsamples_ppc, file_basename, hpd_c
     # plot posterior samples
     sp = trace['y_pred']
     for i in range(nsamples_ppc):
-        plt.plot(x_val, sp[-i, i, :], '-', color="black", alpha=.4)
+        plt.plot(x_val, sp[-i, i, :], '-', color="black", alpha=.3)
     
     plt.savefig(file_basename + '_single_ppc.png', dpi=150)
 
