@@ -12,6 +12,7 @@ def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
     scenario = kwargs.get('scenario', None)
     labels = kwargs.get('labels', None)
     title = kwargs.get('title', None)
+    axis = kwargs.get('axis', None)
     
     # subplot dimensions
     nrows = dims[0]
@@ -28,6 +29,8 @@ def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
             ax[idx].plot(x_val, Y[i], "-", alpha=.5)
         for j in range(len(mu)):
             ax[idx].axvline(mu[j], linestyle='--', color='gray', alpha=.5)
+        if axis == 'yes':
+            ax[idx].set(xlabel='Wavelength ($cm^{-1}$)', ylabel='Intensity (a.u.)')
         if scenario == 'peaks':
             ax[idx].set_title("#{0} ({1}p)".format(idx+1,len(lpeaks[idx])))
         elif scenario == 'baseline':
@@ -205,7 +208,9 @@ def plot_posterior_n(x_val, data_val, lpeaks, traces, ppc_traces, figure_size=(1
     title = kwargs.get('title', None)
     
     plt.figure(figsize=figure_size, constrained_layout=True)
-
+    plt.xlabel('Wavelength ($cm^{-1}$)')
+    plt.ylabel('Intensity (a.u.)')
+    
     for idx, ppc_x in enumerate(ppc_traces):
         # plot samples from the posterior
         sp = ppc_x['y_pred']

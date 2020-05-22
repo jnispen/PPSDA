@@ -13337,12 +13337,39 @@ div#notebook {
 <span class="n">init_mean_sum</span> <span class="o">=</span> <span class="p">[</span><span class="n">auto_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">advi_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">adapt_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()]</span>
 <span class="n">init_mean_sum_np</span> <span class="o">=</span> <span class="p">[</span><span class="n">auto_raw_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">advi_raw_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">adapt_raw_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()]</span>
 
+<span class="nb">print</span><span class="p">(</span><span class="n">init_mean_sum</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">init_mean_sum_np</span><span class="p">)</span>
+
 <span class="c1"># init method standard deviations sum</span>
 <span class="n">init_std_sum</span> <span class="o">=</span> <span class="p">[</span><span class="n">auto_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="n">advi_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="n">adapt_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()]</span>
 <span class="n">init_std_sum_np</span> <span class="o">=</span> <span class="p">[</span><span class="n">auto_raw_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="n">advi_raw_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="n">adapt_raw_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">init_std_sum</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">init_std_sum_np</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[11.125, 14.125, 14.375]
+[2.25, 3.625, 2.5]
+[2.521780125229002, 1.165922381636102, 1.1110243021644486]
+[1.3919410907075054, 1.1110243021644486, 1.224744871391589]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -13622,12 +13649,39 @@ div#notebook {
 <span class="n">init_mean_sum</span> <span class="o">=</span> <span class="p">[</span><span class="n">auto_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">advi_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">adapt_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()]</span>
 <span class="n">init_mean_sum_np</span> <span class="o">=</span> <span class="p">[</span><span class="n">auto_raw_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">advi_raw_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">adapt_raw_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()]</span>
 
+<span class="nb">print</span><span class="p">(</span><span class="n">init_mean_sum</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">init_mean_sum_np</span><span class="p">)</span>
+
 <span class="c1"># init method standard deviations sum</span>
 <span class="n">init_std_sum</span> <span class="o">=</span> <span class="p">[</span><span class="n">auto_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="n">advi_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="n">adapt_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()]</span>
 <span class="n">init_std_sum_np</span> <span class="o">=</span> <span class="p">[</span><span class="n">auto_raw_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="n">advi_raw_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="n">adapt_raw_np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">init_std_sum</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">init_std_sum_np</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[10.0, 26.875, 28.375]
+[1.5, 3.75, 2.5]
+[1.5811388300841898, 1.0532687216470449, 0.4841229182759271]
+[1.5, 1.299038105676658, 1.3228756555322954]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -13891,11 +13945,34 @@ div#notebook {
 <span class="c1"># init method means sum</span>
 <span class="n">init_mean_sum</span> <span class="o">=</span> <span class="p">[</span><span class="n">auto_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">advi_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">adapt_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()]</span>
 
+<span class="nb">print</span><span class="p">(</span><span class="n">init_mean_sum</span><span class="p">)</span>
+
 <span class="c1"># init method standard deviations sum</span>
 <span class="n">init_std_sum</span> <span class="o">=</span> <span class="p">[</span><span class="n">auto_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="n">advi_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="n">adapt_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">init_std_sum</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[5.125, 24.5, 28.25]
+[1.4523687548277813, 1.118033988749895, 0.6614378277661477]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -14053,11 +14130,34 @@ div#notebook {
 <span class="c1"># init method means sum</span>
 <span class="n">init_mean_sum</span> <span class="o">=</span> <span class="p">[</span><span class="n">auto_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">advi_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">adapt_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()]</span>
 
+<span class="nb">print</span><span class="p">(</span><span class="n">init_mean_sum</span><span class="p">)</span>
+
 <span class="c1"># init method standard deviations sum</span>
 <span class="n">init_std_sum</span> <span class="o">=</span> <span class="p">[</span><span class="n">auto_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="n">advi_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="n">adapt_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">init_std_sum</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[4.875, 20.875, 23.125]
+[1.6909686573085854, 1.165922381636102, 1.899835519196333]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -14215,11 +14315,34 @@ div#notebook {
 <span class="c1"># init method means sum</span>
 <span class="n">init_mean_sum</span> <span class="o">=</span> <span class="p">[</span><span class="n">auto_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">advi_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">adapt_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()]</span>
 
+<span class="nb">print</span><span class="p">(</span><span class="n">init_mean_sum</span><span class="p">)</span>
+
 <span class="c1"># init method standard deviations sum</span>
 <span class="n">init_std_sum</span> <span class="o">=</span> <span class="p">[</span><span class="n">auto_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="n">advi_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="n">adapt_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">init_std_sum</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[4.125, 8.875, 10.0]
+[1.3635890143294642, 1.3635890143294642, 2.449489742783178]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
