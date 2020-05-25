@@ -57,17 +57,19 @@ def plot_datasets_real(data, peaks, nrows=15, figure_size=(8,6), *args, **kwargs
 
     # plot rows (== observations) in a single figure
     plt.figure(figsize=figure_size, constrained_layout=True)
+    plt.xlabel('Wavelength ($cm^{-1}$)')
+    plt.ylabel('Intensity (a.u.)')
     
     for i in range(nrows):
         X = data.columns
         Y = data[X].values
         plt.plot(x_val, Y[i], "-", alpha=.5, linewidth=1)
-        
+    
     # plot peaks for spectrum
     mu = np.array(peaks, dtype=float)
     for j in range(len(mu)):
         plt.axvline(mu[j], linestyle='--', color='gray', alpha=.5)
-
+            
     if savefig == 'yes':
         plt.savefig(fname + '.png', dpi=150)
 
@@ -172,15 +174,17 @@ def plot_posterior_single(x_val, data, trace, nsamples_ppc, file_basename, hpd_c
     
     # optional arguments
     peaks = kwargs.get('peak_pos', None)
+    ndata = kwargs.get('no_data', None)
     
     plt.figure(figsize=(8,6), constrained_layout=True)
     plt.xlabel('Wavelength ($cm^{-1}$)')
     plt.ylabel('Intensity (a.u.)')
     
     # plot datavalues
-    for i in range(15):
-        y_val = data.values[i]
-        plt.plot(x_val, y_val, '-', color="red", alpha=.5, linewidth=1)
+    if ndata != 'yes':
+        for i in range(15):
+            y_val = data.values[i]
+            plt.plot(x_val, y_val, '-', color="red", alpha=.5, linewidth=1)
     
     if peaks is not None:
         # plot peaks for spectrum
@@ -198,7 +202,7 @@ def plot_posterior_single(x_val, data, trace, nsamples_ppc, file_basename, hpd_c
     
     plt.savefig(file_basename + '_single_ppc.png', dpi=150)
 
-def plot_posterior_n(x_val, data_val, lpeaks, traces, ppc_traces, figure_size=(12,16), *args, **kwargs):
+def plot_posterior_n(x_val, data_val, lpeaks, ppc_traces, figure_size=(12,16), *args, **kwargs):
     """ plots the posterior of a single trace and optionally saves the figure """
     """ used in figure creation of scenario a                                 """
      
