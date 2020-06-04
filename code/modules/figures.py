@@ -3,6 +3,11 @@ import numpy as np
 import arviz as az
 import seaborn as sns
 
+def get_color(key):
+    """ return color for class key"""
+    color_dict = {0: "black", 1: "blue", 2: "red", 3: "green"}
+    return color_dict[key]
+
 def plot_datasets(ldata, lpeaks, dims, figure_size=(12,16), *args, **kwargs):
     """ plots a list of datasets and optionally saves the figure """
     
@@ -69,6 +74,35 @@ def plot_datasets_real(data, peaks, nrows=15, figure_size=(8,6), *args, **kwargs
     mu = np.array(peaks, dtype=float)
     for j in range(len(mu)):
         plt.axvline(mu[j], linestyle='--', color='gray', alpha=.5)
+            
+    if savefig == 'yes':
+        plt.savefig(fname + '.png', dpi=150)
+
+def plot_datasets_real_compare(ldata, nrows=15, figure_size=(8,6), *args, **kwargs):
+    """ plots the real dataset and saves the figure """
+    
+    # optional arguments
+    savefig = kwargs.get('savefig', None)
+    fname = kwargs.get('fname', None)
+    
+    # header data = x-values
+    x_val = np.array(ldata[0].columns.to_list(), dtype='float32')
+
+    # plot rows (== observations) in a single figure
+    plt.figure(figsize=figure_size, constrained_layout=True)
+    plt.xlabel('Wavelength ($cm^{-1}$)')
+    plt.ylabel('Intensity (a.u.)')
+    
+    for idx, data in enumerate(ldata):
+        for i in range(nrows):
+            X = data.columns
+            Y = data[X].values
+            plt.plot(x_val, Y[i], "-", alpha=.3, linewidth=1, color=get_color(idx))
+    
+    # plot peaks for spectrum
+    #mu = np.array(peaks, dtype=float)
+    #for j in range(len(mu)):
+    #    plt.axvline(mu[j], linestyle='--', color='gray', alpha=.5)
             
     if savefig == 'yes':
         plt.savefig(fname + '.png', dpi=150)
